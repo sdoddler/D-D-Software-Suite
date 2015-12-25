@@ -1,4 +1,4 @@
-## Doddler's D&D Software Suite
+# Doddler's D&D Software Suite
 ----
 The following programs were designed to Enhance the Gameplay for Players and DMs of D&D \by creating quick reference\sort\lookup tools. Designed for ease of use and compact\resizeable (for smaller tabletop devices).
 
@@ -7,7 +7,7 @@ Downloads:
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
 -  [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
 
-# Magic Item Sort
+## Magic Item Sort
 
 This handy tool allows you to view the Rules for the various Magic Items found in D&D (5e) -- [Example Pic](http://imgur.com/uVQnh3J)
 
@@ -19,7 +19,7 @@ This handy tool allows you to view the Rules for the various Magic Items found i
   - Or press enter to search when search fields have focus
   - Smart Width (Should bring the width of the window out for Tables\Headings)
 
-# D&D Loot Generator
+## D&D Loot Generator
 D&D Loot Generator is a small & easy to use tool to help generate Treasure and Loot for your party. With the following Loot\Treasure Generators
  
  - Treasure Generator
@@ -31,7 +31,7 @@ Pictures:
 - [Normal Window](http://imgur.com/19TBar0) 
 - [Small Form Factor](http://imgur.com/hWPWBC5)
 
-# SpellSort
+## SpellSort
 
 Spell Sort is a desktop app to sort through the various spells available in Dungeons and Dragons.
 
