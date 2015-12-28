@@ -19,6 +19,14 @@
 #include <GuiButton.au3>
  #include <GuiListView.au3>
 
+ ;; TO DO
+ ; Complete Gems to Coin Conversion Func (GUI Done)
+ ;
+ ; Create Custom Treasure Table - -
+ ;		- Add option of dice rolls (results)
+ ;		- Be able to search from Items & Magic Items (& Custom)
+ ;;;---------------------
+
 
 AutoItSetOption("GUIResizeMode", 802)
 
@@ -48,6 +56,7 @@ Global $viewDiceRolls = BoolCheck(IniRead($prefIni, "Settings", "View Dice Rolls
 Global $treasureChallengeLevel = IniRead($prefIni, "Settings", "Challenge Level", "Challenge 0-4")
 Global $treasureType = IniRead($prefIni, "Settings", "Treasure Type", "Individual")
 Global $treasureTakeDefault = BoolCheck(IniRead($prefIni, "Settings", "Take Default Dice Rolls", False))
+Global $treasureConvertGems = BoolCheck(IniRead($prefIni, "Settings", "Convert Gems\Art to Coins", False))
 
 Global $miscWeapons = BoolCheck(IniRead($prefIni, "Settings", "Include Weapons", True))
 Global $miscAdvGear = BoolCheck(IniRead($prefIni, "Settings", "Include Adv Gear", True))
@@ -74,13 +83,13 @@ Global $bSmallFormFactor
 Global $vCoTreasureHeaders, $vListview, $vTreasureHoards, $vTreasureIndiv
 
 Global $gFile, $gDebug, $gReadOnly, $gViewRolls, $gViewTreasureTables
-Global $coChallenge, $coTreasureType, $gTreasureTitle, $gTakeDefault, $bTreasureGenerate
+Global $coChallenge, $coTreasureType, $gTreasureTitle, $gTakeDefault, $bTreasureGenerate, $gConvertGems
 Global $cbWeapons, $cbAdvGear, $cbArmour, $cbMounts, $cbTools, $gMiscTitle, $gMiscMaxValue, $bMiscGenerate
 Global $gMagicTitle, $cbMinorProps, $cbQuirks, $cbCreator, $cbHistory, $bHistoryGenerate
 Global $gDiceTitle, $coDice, $gRolls, $bRoll
 Global $gSteamIcon, $gTwitterIcon, $gYoutubeIcon, $gGithubIcon
 
-Global $mTreasure, $mCL04, $mCL510, $mCL1116, $mCL17, $mHoard, $mIndividual, $mTakeDefault
+Global $mTreasure, $mCL04, $mCL510, $mCL1116, $mCL17, $mHoard, $mIndividual, $mTakeDefault, $mConvertGems
 Global $mMiscMenu, $mMiscWeapons, $mMiscAdv, $mMiscArmour, $mMiscMounts, $mMiscTools, $gMiscAmount, $coMiscDice
 Global $mMagicItem, $mCreator, $mHistory, $mMinorProperty, $mQuirks
 #EndRegion Global Gui Variables -- Due to the Small Form Factor Option I need to declare empty Variables (Globally) So Autoit Doesn't Error\Warn
@@ -260,6 +269,10 @@ While 1
 					EndIf
 					;;--Show Art Gained from Loot
 					If IsArray($Art) Then
+						if $treasureConvertGems Then
+							$treasureData &= ("---Converting " & $Art[0][0] & " x " & $Art[0][1] & " Art Objects to Coins:"& @CRLF)
+							$treasureData &= (($Art[0][0]*StringReplace($Art[0][1],"GP","")) & " GP"& @CRLF)
+						Else
 						$treasureData &= ("---" & $Art[0][0] & " x " & $Art[0][1] & " Art Objects Gained from Loot: " & @CRLF)
 						If $viewDiceRolls Then
 							$treasureData &= ("--Dice Rolled: " & $Art[0][2] & @CRLF _
@@ -272,10 +285,16 @@ While 1
 							If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Art[$i][2] & ")")
 							$treasureData &= (@CRLF)
 						Next
+						EndIf
 					EndIf
 					;;--Show Gems Gained from Loot
 					If IsArray($Gems) Then
-						$treasureData &= ("---" & $Gems[0][0] & " x " & $Gems[0][1] & " Gems Gained from Loot: " & @CRLF)
+
+						if $treasureConvertGems Then
+							$treasureData &= ("---Converting " & $Gems[0][0] & " x " & $Gems[0][1] & " Gems to Coins:"& @CRLF)
+							$treasureData &= (($Gems[0][0]*StringReplace($Gems[0][1],"GP","")) & " GP"& @CRLF)
+						Else
+							$treasureData &= ("---" & $Gems[0][0] & " x " & $Gems[0][1] & " Gems Gained from Loot: " & @CRLF)
 						If $viewDiceRolls Then
 							$treasureData &= ("--Dice Rolled: " & $Gems[0][2] & @CRLF _
 									 & "--Dice Result: " & $Gems[0][0])
@@ -287,6 +306,7 @@ While 1
 							If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Gems[$i][2] & ")")
 							$treasureData &= (@CRLF)
 						Next
+						EndIf
 					EndIf
 					;;--Show First set of Magic Items Gained from loot
 					If IsArray($MagicItems) Then
@@ -524,6 +544,14 @@ While 1
 							$treasureTakeDefault = True
 							GUICtrlSetState($mTakeDefault, $GUI_CHECKED)
 						EndIf
+					Case $mConvertGems
+						If $treasureConvertGems Then
+							$treasureConvertGems = False
+							GUICtrlSetState($mConvertGems, $GUI_UNCHECKED)
+						Else
+							$treasureConvertGems = True
+							GUICtrlSetState($mConvertGems, $GUI_CHECKED)
+						EndIf
 					Case $mMiscWeapons
 						If $miscWeapons Then
 							$miscWeapons = False
@@ -619,6 +647,12 @@ While 1
 							$treasureTakeDefault = False
 						Else
 							$treasureTakeDefault = True
+						EndIf
+					Case $gConvertGems
+						If $treasureConvertGems Then
+							$treasureConvertGems = False
+						Else
+							$treasureConvertGems = True
 						EndIf
 					Case $cbWeapons
 						$miscWeapons = Not ($miscWeapons)
@@ -785,6 +819,8 @@ Func SmallFormGui()
 	GUICtrlCreateMenuItem("", $mTreasure)
 	$mTakeDefault = GUICtrlCreateMenuItem("Take Default Dice Rolls", $mTreasure)
 	If $treasureTakeDefault Then GUICtrlSetState(-1, $GUI_CHECKED)
+	$mConvertGems = GUICtrlCreateMenuItem("Convert Gems\Art to Coins", $mTreasure)
+	If $treasureConvertGems Then GUICtrlSetState(-1, $GUI_CHECKED)
 	#EndRegion Small Form Factor Treasure Gen Menu
 
 	#Region Misc Item Gen Menu (Small Form Factor)
@@ -912,10 +948,13 @@ Func FullSizeGui()
 	GUICtrlSetData(-1, "Individual|Hoards", $treasureType)
 
 	GUICtrlCreateLabel("Title (Optional):", 20, 70)
-	$gTreasureTitle = GUICtrlCreateInput("", 100, 68, 70)
+	$gTreasureTitle = GUICtrlCreateInput("", 95, 68, 70)
 
-	$gTakeDefault = GUICtrlCreateCheckbox("Take Default Dice Rolls", 180, 68)
+	$gTakeDefault = GUICtrlCreateCheckbox("Take Default Dice Rolls", 170, 60)
 	If $treasureTakeDefault Then GUICtrlSetState(-1, $GUI_CHECKED)
+
+	$gConvertGems = GUICtrlCreateCheckbox("Convert Gems\Art to Coins", 170, 80)
+	If $treasureConvertGems Then GUICtrlSetState(-1, $GUI_CHECKED)
 
 	GUISetFont(14)
 	$bTreasureGenerate = GUICtrlCreateButton("Generate Treasure", 315, 60)
@@ -1040,6 +1079,7 @@ Func SavePreferences() ;; Saves Global Vars to Preferences.ini in AppData
 	IniWrite($prefIni, "Settings", "Challenge Level", $treasureChallengeLevel)
 	IniWrite($prefIni, "Settings", "Treasure Type", $treasureType)
 	IniWrite($prefIni, "Settings", "Take Default Dice Rolls", $treasureTakeDefault)
+	IniWrite($prefIni, "Settings", "Convert Gems\Art to Coins", $treasureConvertGems)
 
 	IniWrite($prefIni, "Settings", "Include Weapons", $miscWeapons)
 	IniWrite($prefIni, "Settings", "Include Adv Gear", $miscAdvGear)
