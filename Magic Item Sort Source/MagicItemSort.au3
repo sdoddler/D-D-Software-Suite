@@ -90,7 +90,7 @@ GUICtrlCreateLabel("Attunement", 365, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 $cAttune = GUICtrlCreateCombo("", 370, 15, 140) ; Yes/no
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-GUICtrlSetData(-1, "Any|Yes|No", "Any")
+GUICtrlSetData(-1, "Any|Yes|-", "Any")
 
 GUICtrlCreateGroup("", 5, 40, 345, 39)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -209,7 +209,7 @@ While 1
 					;GUICtrlSetData($cSpeed, $castTimes, "Any")
 					GUICtrlSetData($cRarity, "Any|Common|Uncommon|Rare|Very Rare|Legendary", "Any")
 					GUICtrlSetData($cType, "Any|Armor|Potion|Ring|Rod|Scroll|Staff|Wand|Weapon|Wondrous Item", "Any")
-					GUICtrlSetData($cAttune, "Any|Yes|No", "Any")
+					GUICtrlSetData($cAttune, "Any|Yes|-", "Any")
 					GUICtrlSetData($iNotes, "")
 					GUICtrlSetData($ihSearch, "")
 				Case $gSteamIcon
