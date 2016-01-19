@@ -227,7 +227,7 @@ While 1
 				Case $idListview
 					_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
 				Case $dummy_proc1
-					_DescGui(_GUICtrlListView_GetItemText($idListview, $iItem));,_GUICtrlListView_GetItemText($idListview, $iItem,6),_GUICtrlListView_GetItemText($idListview, $iItem,8))
+					CreateSubWindow(_GUICtrlListView_GetItemText($idListview, $iItem));,_GUICtrlListView_GetItemText($idListview, $iItem,6),_GUICtrlListView_GetItemText($idListview, $iItem,8))
 					;MsgBox(64,_GUICtrlListView_GetItemText($idListview, $iItem),"Components: " &_GUICtrlListView_GetItemText($idListview, $iItem,6) & @LF & @LF & "Description: " & _GUICtrlListView_GetItemText($idListview, $iItem,8))
 				Case $bUpdate
 					Update()
@@ -296,33 +296,7 @@ While 1
 	EndIf
 WEnd
 
-Func _DescGui($itemName = "", $iComp = "", $iDesc = "")
-	GUISetState(@SW_DISABLE, $hGUI)
 
-	$descWindows += 1
-
-
-	ReDim $hDescripts[$descWindows + 1]
-	;$dGUI
-	$hDescripts[$descWindows] = GUICreate($itemName, 250, 400, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
-	ConsoleWrite("Windows = " & $descWindows & @LF & "Current Handle = " & $hDescripts[$descWindows] & @LF)
-	$iComp = IniRead($rIni, $itemName, "Components", "")
-	$iDesc = IniRead($rIni, $itemName, "Description", "")
-
-	$iComp = StringReplace($iComp, ".@CRLF", "." & @CRLF)
-	$iComp = StringReplace($iComp, "@CRLF", " ")
-
-	$iDesc = StringReplace($iDesc, ".@CRLF", "." & @CRLF)
-	$iDesc = StringReplace($iDesc, "@CRLF", " ")
-
-	GUICtrlCreateEdit("Components: " & $iComp & @CRLF & @CRLF & "Description: " & $iDesc, 5, 5, 240, 365, BitOR($ES_READONLY, $ES_MULTILINE, $WS_VSCROLL))
-	;GUICtrlSetState(-1,$GUI_DISABLE) ;Shouldn't need this as READONLY does the same..
-	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
-
-	GUISetState()
-
-	GUISetState(@SW_ENABLE, $hGUI)
-EndFunc   ;==>_DescGui
 
 Func CreateSubWindow($iTitle, $iData = "", $iWidth = 250, $iReadOnly = True)
 	;; For additional windows have an Array structured as per below
@@ -658,6 +632,34 @@ EndFunc   ;==>Update
 ;~ 		IniWrite("SearchOptions.ini",$iSection,$i,$iArray[$i])
 ;~ 	Next
 ;~ EndFunc
+
+;~ Func _DescGui($itemName = "", $iComp = "", $iDesc = "")
+;~ 	GUISetState(@SW_DISABLE, $hGUI)
+
+;~ 	$descWindows += 1
+
+
+;~ 	ReDim $hDescripts[$descWindows + 1]
+;~ 	;$dGUI
+;~ 	$hDescripts[$descWindows] = GUICreate($itemName, 250, 400, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
+;~ 	ConsoleWrite("Windows = " & $descWindows & @LF & "Current Handle = " & $hDescripts[$descWindows] & @LF)
+;~ 	$iComp = IniRead($rIni, $itemName, "Components", "")
+;~ 	$iDesc = IniRead($rIni, $itemName, "Description", "")
+
+;~ 	$iComp = StringReplace($iComp, ".@CRLF", "." & @CRLF)
+;~ 	$iComp = StringReplace($iComp, "@CRLF", " ")
+
+;~ 	$iDesc = StringReplace($iDesc, ".@CRLF", "." & @CRLF)
+;~ 	$iDesc = StringReplace($iDesc, "@CRLF", " ")
+
+;~ 	GUICtrlCreateEdit("Components: " & $iComp & @CRLF & @CRLF & "Description: " & $iDesc, 5, 5, 240, 365, BitOR($ES_READONLY, $ES_MULTILINE, $WS_VSCROLL))
+;~ 	;GUICtrlSetState(-1,$GUI_DISABLE) ;Shouldn't need this as READONLY does the same..
+;~ 	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
+
+;~ 	GUISetState()
+
+;~ 	GUISetState(@SW_ENABLE, $hGUI)
+;~ EndFunc   ;==>_DescGui
 #EndRegion OLD FUNCS FOR SEARCH OPTION GENERATION
 
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
