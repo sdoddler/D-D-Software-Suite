@@ -54,6 +54,8 @@ $Ranges = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Ranges"), "|", 0, 
 $Components = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Components"), "|", 0, 0, "|", 1)
 $Durations = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Durations"), "|", 0, 0, "|", 1)
 $Classes = "Any|" & _ArrayToString(IniReadSectionNames($classesTxt), "|", 1, 0, "|", 1)
+$levelArray = IniReadSection($sParamsIni, "Levels")
+$levelArray[0][1] = "Any"
 
 GUICtrlCreateGroup("", 5, 1, 590, 39)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -65,7 +67,11 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 GUICtrlCreateLabel("Level", 125, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-$cLevel = GUICtrlCreateCombo("", 130, 15, 100)
+$cLevel = GUICtrlCreateCombo("", 130, 15, 50)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetData(-1, $Levels, "Any")
+
+$cLevel2 = GUICtrlCreateCombo("", 190, 15, 50)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, $Levels, "Any")
 
@@ -244,11 +250,14 @@ While 1
 					GUICtrlSetData($cComp, $Components, "Any")
 					GUICtrlSetData($cDur, $Durations, "Any")
 					GUICtrlSetData($cLevel, $Levels, "Any")
+					GUICtrlSetData($cLevel2, $Levels, "Any")
 					GUICtrlSetData($cRange, $Ranges, "Any")
 					GUICtrlSetData($cRit, $Rituals, "Any")
 					GUICtrlSetData($cSch, $Schools, "Any")
 					GUICtrlSetData($cClass, $Classes, "Any")
 					GUICtrlSetData($ihSearch, "")
+				Case $cLevel
+					GUICtrlSetData($cLevel2,GUICtrlRead($cLevel))
 
 				Case $gSteamIcon
 						ShellExecute('https://steamcommunity.com/id/sdoddler')
@@ -440,10 +449,34 @@ Func _SearchSpells($iSearch = 0)
 							ExitLoop
 						EndIf
 					Case "Level"
-						If Not (StringInStr($SpellArray[1][$i], $iSearch[$j][0])) Then
-							$include = False
-							ExitLoop
+						Local $levelCheck = False
+						$levelSplit = StringSplit($iSearch[$j][0],"\\",1)
+						if $levelSplit[1] = $levelSplit[2] Then
+							if not ($levelSplit[1] = $SpellArray[1][$i]) Then
+								$include = False
+								ExitLoop
+							EndIf
+							Else
+							For $lev = 0 to UBound($LevelArray)-1
+								if $levelSplit[1] = $levelArray[$lev][1] Then $levelCheck = NOT($levelCheck)
+
+								if $levelCheck = False AND $SpellArray[1][$i] = $levelArray[$lev][1] Then
+									ConsoleWrite("ExitHittest" &@LF)
+									$include = False
+									ExitLoop
+
+								EndIf
+
+									if $levelSplit[2] = $levelArray[$lev][1] Then $levelCheck = NOT($levelCheck)
+							Next
+							if $include = False Then
+								ExitLoop
+							Endif
 						EndIf
+;~ 						If Not (StringInStr($SpellArray[1][$i], $iSearch[$j][0])) Then
+;~ 							$include = False
+;~ 							ExitLoop
+;~ 						EndIf
 					Case "School"
 						If Not (StringInStr($SpellArray[2][$i], $iSearch[$j][0])) Then
 							$include = False
@@ -514,6 +547,7 @@ Func _GUICtrlSetState($state)
 	GUICtrlSetState($cComp, $state)
 	GUICtrlSetState($cDur, $state)
 	GUICtrlSetState($cLevel, $state)
+	GUICtrlSetState($cLevel2, $state)
 	GUICtrlSetState($cRange, $state)
 	GUICtrlSetState($cRit, $state)
 	GUICtrlSetState($cSch, $state)
@@ -535,9 +569,9 @@ Func Update()
 		$searchArray[$qCount][0] = GUICtrlRead($ihSearch)
 		$qCount += 1
 	EndIf
-	If GUICtrlRead($cLevel) <> "Any" Then
+	If GUICtrlRead($cLevel) <> "Any" AND GUICtrlRead($cLevel2) <> "Any" Then
 		$searchArray[$qCount][1] = "Level"
-		$searchArray[$qCount][0] = GUICtrlRead($cLevel)
+		$searchArray[$qCount][0] = GUICtrlRead($cLevel) & "\\" & GUICtrlRead($cLevel2)
 		$qCount += 1
 	EndIf
 	If GUICtrlRead($cSch) <> "Any" Then
