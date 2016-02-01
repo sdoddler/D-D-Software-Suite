@@ -17,20 +17,19 @@
 #include <EditConstants.au3>
 #include <WindowsConstants.au3>
 #include <GuiButton.au3>
- #include <GuiListView.au3>
+#include <GuiListView.au3>
 
- ;; TO DO
- ; Complete Gems to Coin Conversion Func (GUI Done)
- ;
- ; Create Custom Treasure Table - -
- ;		- Add option of dice rolls (results)
- ;		- Be able to search from Items & Magic Items (& Custom)
- ;;;---------------------
+;; TO DO
+;
+; Create Custom Treasure Table - -
+;		- Add option of dice rolls (results)
+;		- Be able to search from Items & Magic Items (& Custom)
+;;;---------------------
 
 
 AutoItSetOption("GUIResizeMode", 802)
 
-Global $version = "v.01"
+Global $version = "v.02"
 
 Global $hMain = "", $mainTitle = "D&D Loot Generator"
 
@@ -82,11 +81,14 @@ Global $bSmallFormFactor
 
 Global $vCoTreasureHeaders, $vListview, $vTreasureHoards, $vTreasureIndiv
 
+Global $arrQueue[0]
+
 Global $gFile, $gDebug, $gReadOnly, $gViewRolls, $gViewTreasureTables
 Global $coChallenge, $coTreasureType, $gTreasureTitle, $gTakeDefault, $bTreasureGenerate, $gConvertGems
 Global $cbWeapons, $cbAdvGear, $cbArmour, $cbMounts, $cbTools, $gMiscTitle, $gMiscMaxValue, $bMiscGenerate
 Global $gMagicTitle, $cbMinorProps, $cbQuirks, $cbCreator, $cbHistory, $bHistoryGenerate
-Global $gDiceTitle, $coDice, $gRolls, $bRoll
+Global $gDiceTitle, $coDice, $gRolls, $bRoll, $gAdd
+Global $bQueue, $bRollQueue
 Global $gSteamIcon, $gTwitterIcon, $gYoutubeIcon, $gGithubIcon
 
 Global $mTreasure, $mCL04, $mCL510, $mCL1116, $mCL17, $mHoard, $mIndividual, $mTakeDefault, $mConvertGems
@@ -127,7 +129,7 @@ FileInstall(".\Resources\Magic Item Table H.txt", $appDir & "Magic Item Table H.
 FileInstall(".\Resources\Magic Item Table I.txt", $appDir & "Magic Item Table I.txt", 0)
 
 FileInstall(".\Resources\Spell Levels.txt", $appDir & "Spell Levels.txt", 0)
-FileInstall(".\Resources\Magic Item Who Created it.txt", $appDir & "Magic Item Who Created it.txt",0)
+FileInstall(".\Resources\Magic Item Who Created it.txt", $appDir & "Magic Item Who Created it.txt", 0)
 FileInstall(".\Resources\Magic Item Quirks.txt", $appDir & "Magic Item Quirks.txt", 0)
 FileInstall(".\Resources\Magic Item History.txt", $appDir & "Magic Item History.txt", 0)
 FileInstall(".\Resources\Magic Item Minor Property.txt", $appDir & "Magic Item Minor Property.txt", 0)
@@ -269,43 +271,43 @@ While 1
 					EndIf
 					;;--Show Art Gained from Loot
 					If IsArray($Art) Then
-						if $treasureConvertGems Then
-							$treasureData &= ("---Converting " & $Art[0][0] & " x " & $Art[0][1] & " Art Objects to Coins:"& @CRLF)
-							$treasureData &= (($Art[0][0]*StringReplace($Art[0][1],"GP","")) & " GP"& @CRLF)
+						If $treasureConvertGems Then
+							$treasureData &= ("---Converting " & $Art[0][0] & " x " & $Art[0][1] & " Art Objects to Coins:" & @CRLF)
+							$treasureData &= (($Art[0][0] * StringReplace($Art[0][1], "GP", "")) & " GP" & @CRLF)
 						Else
-						$treasureData &= ("---" & $Art[0][0] & " x " & $Art[0][1] & " Art Objects Gained from Loot: " & @CRLF)
-						If $viewDiceRolls Then
-							$treasureData &= ("--Dice Rolled: " & $Art[0][2] & @CRLF _
-									 & "--Dice Result: " & $Art[0][0])
-							If $TreasureInfo[1] Then $treasureData &= (" (Default roll Taken)")
-							$treasureData &= (@CRLF)
-						EndIf
-						For $i = 1 To UBound($Art) - 1
-							$treasureData &= ($Art[$i][0] & "x " & $Art[$i][1])
-							If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Art[$i][2] & ")")
-							$treasureData &= (@CRLF)
-						Next
+							$treasureData &= ("---" & $Art[0][0] & " x " & $Art[0][1] & " Art Objects Gained from Loot: " & @CRLF)
+							If $viewDiceRolls Then
+								$treasureData &= ("--Dice Rolled: " & $Art[0][2] & @CRLF _
+										 & "--Dice Result: " & $Art[0][0])
+								If $TreasureInfo[1] Then $treasureData &= (" (Default roll Taken)")
+								$treasureData &= (@CRLF)
+							EndIf
+							For $i = 1 To UBound($Art) - 1
+								$treasureData &= ($Art[$i][0] & "x " & $Art[$i][1])
+								If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Art[$i][2] & ")")
+								$treasureData &= (@CRLF)
+							Next
 						EndIf
 					EndIf
 					;;--Show Gems Gained from Loot
 					If IsArray($Gems) Then
 
-						if $treasureConvertGems Then
-							$treasureData &= ("---Converting " & $Gems[0][0] & " x " & $Gems[0][1] & " Gems to Coins:"& @CRLF)
-							$treasureData &= (($Gems[0][0]*StringReplace($Gems[0][1],"GP","")) & " GP"& @CRLF)
+						If $treasureConvertGems Then
+							$treasureData &= ("---Converting " & $Gems[0][0] & " x " & $Gems[0][1] & " Gems to Coins:" & @CRLF)
+							$treasureData &= (($Gems[0][0] * StringReplace($Gems[0][1], "GP", "")) & " GP" & @CRLF)
 						Else
 							$treasureData &= ("---" & $Gems[0][0] & " x " & $Gems[0][1] & " Gems Gained from Loot: " & @CRLF)
-						If $viewDiceRolls Then
-							$treasureData &= ("--Dice Rolled: " & $Gems[0][2] & @CRLF _
-									 & "--Dice Result: " & $Gems[0][0])
-							If $TreasureInfo[1] Then $treasureData &= (" (Default roll Taken)")
-							$treasureData &= (@CRLF)
-						EndIf
-						For $i = 1 To UBound($Gems) - 1
-							$treasureData &= ($Gems[$i][0] & "x " & $Gems[$i][1])
-							If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Gems[$i][2] & ")")
-							$treasureData &= (@CRLF)
-						Next
+							If $viewDiceRolls Then
+								$treasureData &= ("--Dice Rolled: " & $Gems[0][2] & @CRLF _
+										 & "--Dice Result: " & $Gems[0][0])
+								If $TreasureInfo[1] Then $treasureData &= (" (Default roll Taken)")
+								$treasureData &= (@CRLF)
+							EndIf
+							For $i = 1 To UBound($Gems) - 1
+								$treasureData &= ($Gems[$i][0] & "x " & $Gems[$i][1])
+								If $viewDiceRolls Then $treasureData &= (" (Individual Dice Rolls: " & $Gems[$i][2] & ")")
+								$treasureData &= (@CRLF)
+							Next
 						EndIf
 					EndIf
 					;;--Show First set of Magic Items Gained from loot
@@ -434,8 +436,9 @@ While 1
 					$tempTitle = ""
 					$dice = GUICtrlRead($coDice)
 					$amount = GUICtrlRead($gRolls)
+					$additive = GUICtrlRead($gAdd)
 
-					$diceRoll = DiceRoll($dice, $amount, $debugMode)
+					$diceRoll = DiceRoll($dice, $amount, $debugMode, $additive)
 
 					If Not ($smallFormFactor) Then $tempTitle = GUICtrlRead($gDiceTitle)
 					If $tempTitle = "" Then
@@ -446,6 +449,7 @@ While 1
 					For $i = 0 To UBound($diceRoll) - 2
 						$diceData &= "Rolling a " & $dice & "..." & @CRLF & "--Result = " & $diceRoll[$i] & @CRLF & "--------------" & @CRLF
 					Next
+					If $additive <> 0 Then $diceData &= "Adding " & $additive & " to Total" & @CRLF & "--------------" & @CRLF
 					$diceData &= @CRLF & "Total = " & $diceRoll[UBound($diceRoll) - 1]
 					If WinExists($tempTitle) Then
 						$i = 1
@@ -460,6 +464,61 @@ While 1
 					Else
 						CreateSubWindow($tempTitle, $diceData, $subWindowRO)
 					EndIf
+				Case $bQueue
+					$currQ = UBound($arrQueue)
+					ReDim $arrQueue[$currQ + 1][4]
+					;Title(FullSize only) || Rolls || Dice || Addition
+
+					If Not ($smallFormFactor) Then $arrQueue[$currQ][0] = GUICtrlRead($gDiceTitle)
+					$arrQueue[$currQ][1] = GUICtrlRead($gRolls)
+					$arrQueue[$currQ][2] = GUICtrlRead($coDice)
+					$arrQueue[$currQ][3] = GUICtrlRead($gAdd)
+
+					GUICtrlSetData($bRollQueue, "Roll" & @LF & "Queue(" & UBound($arrQueue) & ")")
+				Case $bRollQueue
+					For $a = 0 To UBound($arrQueue) - 1
+						$dice = $arrQueue[$a][2]
+						$amount = $arrQueue[$a][1]
+						$additive = $arrQueue[$a][3]
+
+						$diceRoll = DiceRoll($dice, $amount, $debugMode, $additive)
+
+							$tempTitle = "Dice Roll Queue"
+
+
+						if $a = 0 then $diceData = ""
+						$diceData &= "-------Dice Roll-------" & @CRLF
+						if $arrQueue[$a][0] <> "" Then $diceData &= "---" & $arrQueue[$a][0] & @CRLF
+						if $additive >= 0 Then
+							$diceData &= "Rolling " & $amount & "d" & $dice & " + "& $additive & @CRLF & "--------------" & @CRLF
+						Else
+							$diceData &= "Rolling " & $amount & "d" & $dice & " - "& $additive & @CRLF & "--------------" & @CRLF
+						EndIf
+						;If $debugMode Then $diceData &= "Dice = " & $dice & @CRLF & "Amount = " & $amount & @CRLF & "--------------" & @CRLF
+						if $viewDiceRolls Then
+						For $i = 0 To UBound($diceRoll) - 2
+							$diceData &= "Rolling a " & $dice & "..." & @CRLF & "--Result = " & $diceRoll[$i] & @CRLF & "--------------" & @CRLF
+						Next
+						EndIf
+						;If $additive <> 0 Then $diceData &= "Adding " & $additive & " to Total" & @CRLF & "--------------" & @CRLF
+						$diceData &=  "Total = " & $diceRoll[UBound($diceRoll) - 1] & @CRLF &@CRLF
+
+					Next
+					If WinExists($tempTitle) Then
+							$i = 1
+							While $i > 0
+								If Not (WinExists($tempTitle & " - " & $i)) Then
+									CreateSubWindow($tempTitle & " - " & $i, $diceData, $subWindowRO)
+									$i = 0
+								Else
+									$i += 1
+								EndIf
+							WEnd
+						Else
+							CreateSubWindow($tempTitle, $diceData, $subWindowRO)
+						EndIf
+					Redim $arrQueue[0]
+					GUICtrlSetData($bRollQueue, "Roll" & @LF & "Queue(" & UBound($arrQueue) & ")")
 				Case $bHistoryGenerate
 					$historyData = "------ History Roll ------" & @CRLF
 					;if $debugMode Then $historyData &= "DebugMode: ENABLED" &@CRLF
@@ -879,18 +938,38 @@ Func SmallFormGui()
 	$bHistoryGenerate = GUICtrlCreateButton("Generate History", 10, 155)
 
 	GUISetFont(8.5)
-	GUICtrlCreateGroup("Dice Roller", 5, 200, 180, 52)
+	GUICtrlCreateGroup("Dice Roller", 5, 200, 290, 52)
 
-	$coDice = GUICtrlCreateCombo("", 50, 225, 50, -1, $CBS_DROPDOWNLIST)
-	GUICtrlSetData(-1, "d4|d6|d8|d10|d12|d20|d100", $diceType)
-
-	$gRolls = GUICtrlCreateInput($diceAmount, 10, 225, 35, 20, $ES_NUMBER)
+	$gRolls = GUICtrlCreateInput($diceAmount, 10, 225, 27, 20, $ES_NUMBER)
 	GUICtrlSetLimit(-1, 4)
+
+	GUICtrlCreateLabel(" X ", 37, 229)
+
+	$coDice = GUICtrlCreateCombo("", 50, 225, 40, $ES_NUMBER) ;, -1, $CBS_DROPDOWNLIST)
+	GUICtrlSetData(-1, "4|6|8|10|12|20|100", $diceType)
+
+	GUISetFont(12)
+	GUICtrlCreateLabel("+ ", 90, 225)
+	GUISetFont(8.5)
+
+	$gAdd = GUICtrlCreateInput(0, 99, 225, 34, 20, $ES_NUMBER)
+	GUICtrlCreateUpdown(-1)
+	GUICtrlSetLimit(-1, 10, -10)
 
 	GUISetFont(14)
 
-	$bRoll = GUICtrlCreateButton("Roll!", 120, 215)
+	$bRoll = GUICtrlCreateButton("Roll!", 135, 215)
 	GUISetFont(8.5)
+
+	$bQueue = GUICtrlCreateButton("Queue", 190, 220)
+
+	$bRollQueue = GUICtrlCreateButton("Roll" & @LF & "Queue(" & UBound($arrQueue) & ")", 233, 215, -1, 35, $BS_MULTILINE)
+
+	;; Add a queueing system for the Rolls (seperate button with "Roll Queue (0)") ?
+
+
+
+
 	#EndRegion Small Form Factor Main Window
 
 	#Region Icons\Buttons
@@ -898,16 +977,16 @@ Func SmallFormGui()
 	$bSmallFormFactor = GUICtrlCreateIcon("C:\Windows\System32\shell32.dll", 268, 244, 10, 48, 48)
 	GUICtrlSetTip(-1, "Change to the Larger version of the GUI", "Switch to Large Form Factor")
 
-	$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 220, 180, 32, 32)
+	$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 220, 134, 32, 32)
 	GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 	GUICtrlSetCursor(-1, 0)
-	$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 260, 180, 32, 32)
+	$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 260, 134, 32, 32)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-	$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 220, 220, 32, 32)
+	$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 220, 168, 32, 32)
 	GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 	GUICtrlSetCursor(-1, 0)
-	$gGithubIcon = GUICtrlCreateIcon($appDir & "Github_icon.Ico", -1, 260, 220, 32, 32)
+	$gGithubIcon = GUICtrlCreateIcon($appDir & "Github_icon.Ico", -1, 260, 168, 32, 32)
 	GUICtrlSetTip($gGithubIcon, " ", "D&D Loot Generator Github Page")
 	GUICtrlSetCursor(-1, 0)
 
@@ -1032,20 +1111,29 @@ Func FullSizeGui()
 	GUICtrlCreateGroup("Dice Roller", 10, 300, 480, 65)
 	GUISetFont(8.5)
 
-	GUICtrlCreateLabel("Title (Optional):", 20, 330)
-	$gDiceTitle = GUICtrlCreateInput("", 95, 328, 70)
+	GUICtrlCreateLabel("Title (Opt.):", 20, 330)
+	$gDiceTitle = GUICtrlCreateInput("", 75, 328, 60)
 
-	GUICtrlCreateLabel("Dice:", 180, 330)
-	$coDice = GUICtrlCreateCombo("", 210, 328, 50, -1, $CBS_DROPDOWNLIST)
-	GUICtrlSetData(-1, "d4|d6|d8|d10|d12|d20|d100", $diceType)
+	GUICtrlCreateLabel("Rolls:", 137, 330)
+	$gRolls = GUICtrlCreateInput($diceAmount, 168, 328, 30, -1, $ES_NUMBER)
 
-	GUICtrlCreateLabel("Rolls:", 270, 330)
-	$gRolls = GUICtrlCreateInput($diceAmount, 300, 328, 35, -1, $ES_NUMBER)
+	GUICtrlCreateLabel("Sides:", 205, 330)
+	$coDice = GUICtrlCreateCombo("", 235, 328, 40);;, -1, $CBS_DROPDOWNLIST)
+	GUICtrlSetData(-1, "4|6|8|10|12|20|100", $diceType)
+
+	GUICtrlCreateLabel("Add:", 280, 330)
+	$gAdd = GUICtrlCreateInput(0, 305, 327, 39, 20, $ES_NUMBER)
+	GUICtrlCreateUpdown(-1)
+	GUICtrlSetLimit(-1, 10, -10)
 
 	GUISetFont(14)
 
-	$bRoll = GUICtrlCreateButton("Roll!", 365, 320)
+	$bRoll = GUICtrlCreateButton("Roll!", 345, 320)
 	GUISetFont(8.5)
+
+	$bQueue = GUICtrlCreateButton("Queue", 395, 325)
+
+	$bRollQueue = GUICtrlCreateButton("Roll" & @LF & "Queue(" & UBound($arrQueue) & ")", 435, 320, -1, 35, $BS_MULTILINE)
 
 	#EndRegion Dice Roller
 
@@ -1075,6 +1163,7 @@ Func SavePreferences() ;; Saves Global Vars to Preferences.ini in AppData
 
 	IniWrite($prefIni, "Settings", "Debug Mode", $debugMode)
 	IniWrite($prefIni, "Settings", "Sub Windows Read Only", $subWindowRO)
+	IniWrite($prefIni, "Settings", "View Dice Rolls", $viewDiceRolls)
 
 	IniWrite($prefIni, "Settings", "Challenge Level", $treasureChallengeLevel)
 	IniWrite($prefIni, "Settings", "Treasure Type", $treasureType)
@@ -1154,10 +1243,10 @@ Func ViewTreasureTables()
 
 	Global $vListview = GUICtrlCreateListView("", 10, 100, 380, 270)
 	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
-	_GUICtrlListView_AddColumn($vListview,"Roll")
-	_GUICtrlListView_AddColumn($vListview,"Reward 1",100)
-	_GUICtrlListView_AddColumn($vListview,"Reward 2",100)
-	_GUICtrlListView_AddColumn($vListview,"Reward 3",100)
+	_GUICtrlListView_AddColumn($vListview, "Roll")
+	_GUICtrlListView_AddColumn($vListview, "Reward 1", 100)
+	_GUICtrlListView_AddColumn($vListview, "Reward 2", 100)
+	_GUICtrlListView_AddColumn($vListview, "Reward 3", 100)
 
 	TreasureTableGenerate()
 
@@ -1166,12 +1255,12 @@ EndFunc   ;==>ViewTreasureTables
 
 Func CoinSplit($CoinValue, $Coins = True)
 	$tempArray = $CoinValue
-	if $coins Then $quickSplit = StringSplit($tempArray[1][1], "++", 1)
-	if Not($coins) Then $quickSplit = StringSplit($tempArray,"++",1)
+	If $Coins Then $quickSplit = StringSplit($tempArray[1][1], "++", 1)
+	If Not ($Coins) Then $quickSplit = StringSplit($tempArray, "++", 1)
 	$tempString = ""
 	For $i = 1 To $quickSplit[0]
 		$tempSplit = StringSplit($quickSplit[$i], "\\", 1)
-		if UBound($tempSplit) > 2 Then $tempString &= $tempSplit[1] & " x " & $tempSplit[2] & " " & $tempSplit[4] & " (Default: " & $tempSplit[3] & ")" & @LF
+		If UBound($tempSplit) > 2 Then $tempString &= $tempSplit[1] & " x " & $tempSplit[2] & " " & $tempSplit[4] & " (Default: " & $tempSplit[3] & ")" & @LF
 	Next
 	Return $tempString
 EndFunc   ;==>CoinSplit
@@ -1180,41 +1269,41 @@ Func TreasureTableGenerate($vTable = "Hoard - Challenge 0-4")
 	_GUICtrlListView_DeleteAllItems($vListview)
 	$vListCount = 0
 
-	If StringInStr($vTable,"Hoard") Then
+	If StringInStr($vTable, "Hoard") Then
 
-		For $i = 1 to Ubound($vTreasureHoards)-1
+		For $i = 1 To UBound($vTreasureHoards) - 1
 			If $vTreasureHoards[$i][0] = $vTable Then
 
 				$vTempArray = $vTreasureHoards[$i][1]
 				$vData = CoinSplit($vTreasureHoards[$i][1])
 				GUICtrlSetData($vCoins, $vData)
-				For $j = 3 to UBound($vTempArray)-1
-					_GUICtrlListView_AddItem($vListview,$vTempArray[$j][0])
+				For $j = 3 To UBound($vTempArray) - 1
+					_GUICtrlListView_AddItem($vListview, $vTempArray[$j][0])
 
-					$vSplit = StringSplit(CoinSplit($vTempArray[$j][1],False),@LF,1)
-					For $v = 1 to $vSplit[0]
-						_GUICtrlListView_AddSubItem($vListview,$vListCount,$vSplit[$v],$v)
+					$vSplit = StringSplit(CoinSplit($vTempArray[$j][1], False), @LF, 1)
+					For $v = 1 To $vSplit[0]
+						_GUICtrlListView_AddSubItem($vListview, $vListCount, $vSplit[$v], $v)
 					Next
-					$vListCount +=1
+					$vListCount += 1
 				Next
 			EndIf
 		Next
 	Else
-		For $i = 1 to Ubound($vTreasureIndiv)-1
+		For $i = 1 To UBound($vTreasureIndiv) - 1
 			If $vTreasureIndiv[$i][0] = $vTable Then
 
 				$vTempArray = $vTreasureIndiv[$i][1]
 				GUICtrlSetData($vCoins, "")
-				For $j = 2 to UBound($vTempArray)-1
-					_GUICtrlListView_AddItem($vListview,$vTempArray[$j][0])
+				For $j = 2 To UBound($vTempArray) - 1
+					_GUICtrlListView_AddItem($vListview, $vTempArray[$j][0])
 
-					$vSplit = StringSplit(CoinSplit($vTempArray[$j][1],False),@LF,1)
-					For $v = 1 to $vSplit[0]
-						_GUICtrlListView_AddSubItem($vListview,$vListCount,$vSplit[$v],$v)
+					$vSplit = StringSplit(CoinSplit($vTempArray[$j][1], False), @LF, 1)
+					For $v = 1 To $vSplit[0]
+						_GUICtrlListView_AddSubItem($vListview, $vListCount, $vSplit[$v], $v)
 					Next
-					$vListCount +=1
+					$vListCount += 1
 				Next
 			EndIf
 		Next
 	EndIf
-EndFunc
+EndFunc   ;==>TreasureTableGenerate
