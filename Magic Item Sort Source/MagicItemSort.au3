@@ -10,7 +10,19 @@
 
 
 #cs TO DO _----_---___----____---_____-
+	Create Custom items via GUI
+	- Add Type
+	- Add Description (Paragraph)
+	- Add DescriptionTitle
+	- Add Sub Item (Bullet Point)
+	- Add TableTitle
+	- Add Table Columns
+	- Add Table Row
+	- Add Dice Roll
+	- Add Roll
+	- Add Effect
 
+	Add Custom item Search (Any|Only|No)
 #CE
 
 #AutoIt3Wrapper_Icon=MagicItems_icon.ico
@@ -33,13 +45,15 @@ DirCreate($appDir)
 
 $basicIni = $appDir & "MagicItems-BasicInfo.TXT"
 $completeIni = $appDir & "MagicItems-CompleteInfo.TXT"
+$custIni = @ScriptDir & "\Custom Magic Items.ini"
+ConsoleWrite($custIni & @LF)
 $iconsIcl = $appDir & "Icons.icl"
 
 #Region File and Icon Installs
 FileInstall(".\MagicItems-BasicInfo.TXT", $basicIni, 0)
-FileInstall(".\MagicItems-CompleteInfo.TXT", $completeIni, 0)
+FileInstall(".\MagicItems-CompleteInfo.TXT", $completeIni, 1)
 
-FileInstall(".\Steam_Icon.ico", $appDir & "Steam_Icon.ico",0)
+FileInstall(".\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
 FileInstall(".\Twitter_Icon.ico", $appDir & "Twitter_Icon.ico", 0)
 FileInstall(".\Youtube_icon.ico", $appDir & "Youtube_icon.ico", 0)
 FileInstall(".\Github_icon.ico", $appDir & "Github_icon.ico", 0)
@@ -82,15 +96,21 @@ GUICtrlSetData(-1, "Any|Armor|Potion|Ring|Rod|Scroll|Staff|Wand|Weapon|Wondrous 
 
 GUICtrlCreateLabel("Rarity", 245, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-$cRarity = GUICtrlCreateCombo("", 250, 15, 100)
+$cRarity = GUICtrlCreateCombo("", 250, 15, 78, -1, $CBS_DROPDOWNLIST)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, "Any|Common|Uncommon|Rare|Very Rare|Legendary", "Any")
 
-GUICtrlCreateLabel("Attunement", 365, 1)
+GUICtrlCreateLabel("Attunement", 340, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-$cAttune = GUICtrlCreateCombo("", 370, 15, 140) ; Yes/no
+$cAttune = GUICtrlCreateCombo("", 345, 15, 60, -1, $CBS_DROPDOWNLIST) ; Yes/no
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, "Any|Yes|-", "Any")
+
+GUICtrlCreateLabel("Custom Items", 420, 1)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+$cCustom = GUICtrlCreateCombo("", 425, 15, 70, -1, $CBS_DROPDOWNLIST)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetData(-1, "Any|Only|No", "Any")
 
 GUICtrlCreateGroup("", 5, 40, 345, 39)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -154,7 +174,7 @@ GUICtrlSetCursor(-1, 0)
 GUISetState()
 
 _GUICtrlSetState($GUI_DISABLE)
-$itemArray = SearchMagicItems()
+$itemArray = SearchMagicItems("Yes")
 _GUICtrlSetState($GUI_ENABLE)
 
 GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
@@ -180,24 +200,36 @@ While 1
 				Case $bUpdate ; Upadte Button is pressed
 					Update()
 				Case $Enter_KEY ; GUI Accelerator {ENTER} is pressed
-					if ControlGetHandle($winTitle,"",ControlGetFocus($winTitle)) = GUICtrlGetHandle($idListview) Then
-						$indicies = _GUICtrlListView_GetSelectedIndices($idListview,True)
+					If ControlGetHandle($winTitle, "", ControlGetFocus($winTitle)) = GUICtrlGetHandle($idListview) Then
+						$indicies = _GUICtrlListView_GetSelectedIndices($idListview, True)
 
-						For $i = 1 to $indicies[0]
+						For $i = 1 To $indicies[0]
 							$item = _GUICtrlListView_GetItemText($idListview, $indicies[$i])
-						$itemRead = IniRead($basicIni, "MagicItems", $item, "")
-						$split = StringSplit($itemRead, "\\", 1)
-						If $split[0] = 6 Then
-							;ConsoleWrite($split[6] & @LF)
-							$quick = _IniDecode($split[6])
-							CreateSubWindow($split[6],$quick[0] , 200 + ($quick[1] * 5))
-							;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
-						Else
-							;ConsoleWrite($item & @LF)
-							$quick = _IniDecode($item)
-							CreateSubWindow($item, $quick[0], 200 + ($quick[1] * 5))
-							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
-						EndIf
+							For $j = 0 To UBound($itemArray) - 1
+								If $itemArray[$j][0] = $item Then
+									If $itemArray[$j][6] = "CUSTOMITEM" Then
+										$itemRead = IniRead($custIni, "Index",$item,"")
+										$type = "Custom"
+									Else
+										$itemRead = IniRead($basicIni, "MagicItems", $item, "")
+										$type = "Complete"
+									EndIf
+									ExitLoop
+								EndIf
+							Next
+							$split = StringSplit($itemRead, "\\", 1)
+							If $split[0] = 6 Then
+								;ConsoleWrite($split[6] & @LF)
+								$quick = _IniDecode($split[6],$type)
+								CreateSubWindow($split[6], $quick[0], 200 + ($quick[1] * 5))
+								;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
+							Else
+								;ConsoleWrite($item & @LF)
+								$quick = _IniDecode($item,$type)
+								CreateSubWindow($item, $quick[0], 200 + ($quick[1] * 5))
+								;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
+							EndIf
+
 						Next
 					Else
 						Update()
@@ -206,18 +238,19 @@ While 1
 					GUICtrlSetData($cRarity, "")
 					GUICtrlSetData($cType, "")
 					GUICtrlSetData($cAttune, "")
-					;GUICtrlSetData($cSpeed, $castTimes, "Any")
+					GUICtrlSetData($cCustom, "")
 					GUICtrlSetData($cRarity, "Any|Common|Uncommon|Rare|Very Rare|Legendary", "Any")
 					GUICtrlSetData($cType, "Any|Armor|Potion|Ring|Rod|Scroll|Staff|Wand|Weapon|Wondrous Item", "Any")
 					GUICtrlSetData($cAttune, "Any|Yes|-", "Any")
+					GUICtrlSetData($cCustom, "Any|Only|No", "Any")
 					GUICtrlSetData($iNotes, "")
 					GUICtrlSetData($ihSearch, "")
 				Case $gSteamIcon
-						ShellExecute('https://steamcommunity.com/id/sdoddler')
-					Case $gTwitterIcon
-						ShellExecute('https://twitter.com/sdoddler')
-					Case $gYoutubeIcon
-						ShellExecute('https://youtube.com/user/doddddy')
+					ShellExecute('https://steamcommunity.com/id/sdoddler')
+				Case $gTwitterIcon
+					ShellExecute('https://twitter.com/sdoddler')
+				Case $gYoutubeIcon
+					ShellExecute('https://youtube.com/user/doddddy')
 				Case $gGithubIcon
 					ShellExecute('https://github.com/sdoddler/D-D-Software-Suite')
 			EndSwitch
@@ -257,7 +290,7 @@ WEnd
 
 Func _GUICtrlSetState($state)
 	GUICtrlSetState($idListview, $state)
-	;GUICtrlSetState($cSpeed, $state)
+	GUICtrlSetState($cCustom, $state)
 	GUICtrlSetState($cType, $state)
 	GUICtrlSetState($iNotes, $state)
 	GUICtrlSetState($cRarity, $state)
@@ -288,26 +321,40 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 					If $tInfo.Item > -1 Then
 						$iItem = $tInfo.Item
 						$item = _GUICtrlListView_GetItemText($idListview, $iItem)
-						$itemRead = IniRead($basicIni, "MagicItems", $item, "")
-						$split = StringSplit($itemRead, "\\", 1)
-						If $split[0] = 6 Then
-							;ConsoleWrite($split[6] & @LF)
-							$quick = _IniDecode($split[6])
-							CreateSubWindow($split[6],$quick[0] , 200 + ($quick[1] * 5))
-							;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
-						Else
-							;ConsoleWrite($item & @LF)
-							$quick = _IniDecode($item)
-							CreateSubWindow($item, $quick[0], 200 + ($quick[1] * 5))
-							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
-						EndIf
+						For $i = 0 To UBound($itemArray) - 1
+							If $item = $itemArray[$i][0] Then
+								If $itemArray[$i][6] = "CUSTOMITEM" Then
+									$quick = _IniDecode($itemArray[$i][0], "Custom")
+									$name = $itemArray[$i][0]
+								Else
+									$quick = _IniDecode($itemArray[$i][6])
+									$name = $itemArray[$i][6]
+								EndIf
+								CreateSubWindow($name, $quick[0], 200 + ($quick[1] * 5))
+								ExitLoop
+							EndIf
+
+						Next
+;~ 						$itemRead = IniRead($basicIni, "MagicItems", $item, "")
+;~ 						$split = StringSplit($itemRead, "\\", 1)
+;~ 						If $split[0] = 6 Then
+;~ 							;ConsoleWrite($split[6] & @LF)
+;~ 							$quick = _IniDecode($split[6])
+;~ 							CreateSubWindow($split[6],$quick[0] , 200 + ($quick[1] * 5))
+;~ 							;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
+;~ 						Else
+;~ 							;ConsoleWrite($item & @LF)
+;~ 							$quick = _IniDecode($item)
+;~ 							CreateSubWindow($item, $quick[0], 200 + ($quick[1] * 5))
+;~ 							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
+;~ 						EndIf
 					EndIf
 			EndSwitch
 	EndSwitch
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>WM_NOTIFY
 
-Func SearchMagicItems($iSearch = 0)
+Func SearchMagicItems($customs = "Default", $iSearch = 0)
 	;;Sect[ITEM][0] = Magic Item Name
 	;[ITME][1] = Type
 	;[ITME][2] = Rarity
@@ -321,7 +368,8 @@ Func SearchMagicItems($iSearch = 0)
 	$secT = IniReadSection($basicIni, "MagicItems")
 	Dim $itArray[$secT[0][0]][7]
 	;_ArrayDisplay($secT)
-	If @NumParams = 0 Then
+	If @NumParams < 2 Then
+		ConsoleWrite("Customs = " & $customs & @LF)
 		For $j = 1 To $secT[0][0]
 
 			$itArray[$listCount][0] = $secT[$j][0]
@@ -346,6 +394,41 @@ Func SearchMagicItems($iSearch = 0)
 			$listCount += 1
 
 		Next
+		If $customs <> "Default" Then
+
+			If FileExists($custIni) Then
+
+				ConsoleWrite("BOOYAH")
+				$UB = UBound($itArray)
+				$secT = IniReadSection($custIni, "Index")
+
+				ReDim $itArray[$UB + $secT[0][0]][7]
+				;_ArrayDisplay($itArray)
+				For $j = 1 To $secT[0][0]
+
+					$itArray[$listCount][0] = $secT[$j][0]
+					_GUICtrlListView_AddItem($idListview, $itArray[$listCount][0])
+
+					$iSplit = StringSplit($secT[$j][1], "\\", 1)
+					$itArray[$listCount][1] = $iSplit[1]
+					$itArray[$listCount][2] = $iSplit[2]
+					$itArray[$listCount][3] = $iSplit[3]
+					$itArray[$listCount][4] = $iSplit[4]
+					$itArray[$listCount][5] = $iSplit[5]
+
+					$itArray[$listCount][6] = "CUSTOMITEM"
+
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[1], 1)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[2], 2)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[3], 3)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[4], 4)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[5], 5)
+					$listCount += 1
+
+				Next
+			EndIf
+
+		EndIf
 		Return $itArray
 	Else
 
@@ -370,7 +453,7 @@ Func SearchMagicItems($iSearch = 0)
 							ExitLoop
 						EndIf
 					Case "Rarity"
-						If Not (StringInStr($itemArray[$i][2], $iSearch[$j][0])) Then
+						If Not ($itemArray[$i][2] = $iSearch[$j][0]) Then
 							$include = False
 							ExitLoop
 						EndIf
@@ -378,6 +461,18 @@ Func SearchMagicItems($iSearch = 0)
 						If Not (StringInStr($itemArray[$i][3], $iSearch[$j][0])) Then
 							$include = False
 							ExitLoop
+						EndIf
+					Case "Custom Items"
+						If $itemArray[$i][6] = "CUSTOMITEM" Then
+							If $iSearch[$j][0] = "No" Then
+								$include = False
+								ExitLoop
+							EndIf
+						Else
+							If $iSearch[$j][0] = "Only" Then
+								$include = False
+								ExitLoop
+							EndIf
 						EndIf
 					Case "Notes"
 						If Not (StringInStr($itemArray[$i][4], $iSearch[$j][0])) Then
@@ -431,6 +526,11 @@ Func Update()
 		$searchArray[$qCount][0] = GUICtrlRead($cAttune)
 		$qCount += 1
 	EndIf
+	If GUICtrlRead($cCustom) <> "Any" Then
+		$searchArray[$qCount][1] = "Custom Items"
+		$searchArray[$qCount][0] = GUICtrlRead($cCustom)
+		$qCount += 1
+	EndIf
 	If GUICtrlRead($iNotes) <> "" Then
 		$searchArray[$qCount][1] = "Notes"
 		$searchArray[$qCount][0] = GUICtrlRead($iNotes)
@@ -442,17 +542,18 @@ Func Update()
 		ConsoleWrite("Qcount > 0" & @LF)
 		ReDim $searchArray[$qCount][2]
 		_GUICtrlSetState($GUI_DISABLE)
-		SearchMagicItems($searchArray)
+		SearchMagicItems("Yes", $searchArray)
 		_GUICtrlSetState($GUI_ENABLE)
 	Else
 		ConsoleWrite("Qcount = 0" & @LF)
 		_GUICtrlSetState($GUI_DISABLE)
-		$itemArray = SearchMagicItems()
+		$itemArray = SearchMagicItems("Yes")
 		_GUICtrlSetState($GUI_ENABLE)
 	EndIf
 EndFunc   ;==>Update
 
-Func _IniDecode($iSection)
+Func _IniDecode($iSection, $iniType = "Complete")
+	ConsoleWrite("Initype = " & $iniType & @LF)
 	Local $retString = "", $longestStr = 0
 
 	$titleLen = StringLen($iSection)
@@ -470,8 +571,11 @@ Func _IniDecode($iSection)
 	Next
 	$retString &= "+" & @CRLF
 
-	$iniData = IniReadSection($completeIni, $iSection)
-
+	If $iniType = "Complete" Then
+		$iniData = IniReadSection($completeIni, $iSection)
+	ElseIf $iniType = "Custom" Then
+		$iniData = IniReadSection($custIni, $iSection)
+	EndIf
 
 	For $i = 1 To $iniData[0][0]
 		Select
@@ -545,14 +649,14 @@ Func _IniDecode($iSection)
 					; You would probably need array because Columns\Items need +3 inbetween each column where as a Title only needs +2 on either side
 					$j += 1
 				Until ($j > $iniData[0][0] Or StringInStr($iniData[$j][0], "Table") = 0)
-				if NOT ($j > $iniData[0][0]) Then
-					$i = $j-1
+				If Not ($j > $iniData[0][0]) Then
+					$i = $j - 1
 				Else
 					$i = $j
 				EndIf
 				$colInt = 1
 				For $j = 0 To UBound($colLengths) - 1
-					$colint += $colLengths[$j]
+					$colInt += $colLengths[$j]
 					If $j = UBound($colLengths) - 1 Then
 						$colInt += 1
 					Else
@@ -563,15 +667,15 @@ Func _IniDecode($iSection)
 				If $colInt > $longestStr Then
 					$longestStr = $colInt
 				Else
-					$j = $colint
+					$j = $colInt
 					$z = 0
 					Do
-						if $z > UBound($colLengths) - 1 Then $z = 0
-							$colLengths[$z] += 1
-							$j +=1
-							$z +=1
+						If $z > UBound($colLengths) - 1 Then $z = 0
+						$colLengths[$z] += 1
+						$j += 1
+						$z += 1
 
-					Until $j > $longestStr-1
+					Until $j > $longestStr - 1
 				EndIf
 
 				ReDim $tableArray[$tableItems + 2][$colSplit[0]]
@@ -592,11 +696,11 @@ Func _IniDecode($iSection)
 					Next
 					$retString &= "+" & @CRLF
 				EndIf
-				$retString&= "+"
-					For $j = 1 To $longestStr
-						$retString &= "-"
-					Next
-					$retString &= "+" & @CRLF
+				$retString &= "+"
+				For $j = 1 To $longestStr
+					$retString &= "-"
+				Next
+				$retString &= "+" & @CRLF
 				For $j = 1 To $tableItems + 1
 					$retString &= "|"
 
@@ -613,12 +717,12 @@ Func _IniDecode($iSection)
 						If Not ($a = UBound($tableArray, 2) - 1) Then $retString &= "|"
 					Next
 					$retString &= "|" & @CRLF
-					if $j =1 Then
+					If $j = 1 Then
 						$retString &= "+"
-					For $x = 1 To $longestStr
-						$retString &= "-"
-					Next
-					$retString &= "+" & @CRLF
+						For $x = 1 To $longestStr
+							$retString &= "-"
+						Next
+						$retString &= "+" & @CRLF
 					EndIf
 				Next
 				$retString &= "+"
@@ -666,8 +770,8 @@ Func _IniDecode($iSection)
 				EndIf
 		EndSelect
 	Next
-	if $longestStr > $titleLen Then $titleLen = $longestStr
-	Dim $retArray[2] = [$retString,$titleLen]
+	If $longestStr > $titleLen Then $titleLen = $longestStr
+	Dim $retArray[2] = [$retString, $titleLen]
 	Return $retArray
 EndFunc   ;==>_IniDecode
 
