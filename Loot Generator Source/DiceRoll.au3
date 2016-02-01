@@ -21,7 +21,7 @@ Func SplitDice($diceStr, $debug = 0)
 	Return $dice
 EndFunc   ;==>SplitDice
 
-Func DiceRoll($dice, $times = 1, $debug = 0)
+Func DiceRoll($dice, $times = 1, $debug = 0, $addition = 0)
 
 	Dim $iRoll[$times + 1]
 	Local $iCount = 0
@@ -32,7 +32,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 4, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -46,7 +46,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 6, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -60,7 +60,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 8, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -74,7 +74,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 10, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -88,7 +88,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 12, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -102,7 +102,7 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 20, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
 ;~ 			if $debug AND $times > 1 Then $ar2String = @TAB & "-- Individual Dice Rolls: (" & _ArrayToString($iRoll,")(",0,$times-1) & ")"
 ;~ 			ConsoleWrite("DiceRoll Called:" &@LF _
 ;~ 			& @TAB & "-- $times = " & $times &@LF _
@@ -116,7 +116,14 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 				$iRoll[$i] = Random(1, 100, 1)
 				$iCount += $iRoll[$i]
 			Next
-			$iRoll[$times] = $iCount
+			$iRoll[$times] = $iCount + $addition
+		Case Else
+			$dice = StringReplace($dice,"d","")
+			For $i = 0 To $times - 1
+				$iRoll[$i] = Random(1, $dice, 1)
+				$iCount += $iRoll[$i]
+			Next
+			$iRoll[$times] = $iCount + $addition
 
 	EndSwitch
 
@@ -124,7 +131,8 @@ Func DiceRoll($dice, $times = 1, $debug = 0)
 	if $debug Then ConsoleWrite("DiceRoll Called:" & @LF _
 			 & @TAB & "-- $times = " & $times & @LF _
 			 & @TAB & "-- $dice = " & $dice & @LF _
-			 & @TAB & "-- Total roll Result = " & $iCount & @LF)
+			 & @TAB & "-- $addition = " & $addition &@LF _
+			 & @TAB & "-- Total roll Result = " & $iCount  & @LF)
 	If $debug And $times > 1 Then ConsoleWrite($ar2String & @LF)
 	ConsoleWrite(@LF)
 
