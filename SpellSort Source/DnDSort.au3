@@ -22,7 +22,7 @@ $appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
 DirCreate($appDir)
 
 FileInstall(".\SearchParams.ini", $appDir & "SearchParams.ini", 0)
-FileInstall(".\DnD Spell List.txt", $appDir & "DnD Spell List.txt", 0)
+FileInstall(".\DnD Spell List.txt", $appDir & "DnD Spell List.txt", 1)
 FileInstall(".\Classes.txt", $appDir & "Classes.txt", 0)
 
 FileInstall(".\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
@@ -214,6 +214,9 @@ While 1
 		$active = False
 		HotKeySet("{ENTER}")
 		ConsoleWrite("SetHotkeysOff")
+
+		ToolTip('')
+		$ToolTipActive = False
 		;SetGrid
 	ElseIf (WinActive($winTitle) And $active = False) Then ;;If Window DOES have focus but just didn't
 		$active = True
@@ -385,19 +388,23 @@ Func _SearchSpells($iSearch = 0)
 	_GUICtrlListView_DeleteAllItems($idListview)
 
 	If @NumParams = 0 Then
+		$LEL = TimerInit()
 		$rSec = _IniReadSectionNamesEx($rIni)
 		Local $spArray[9][$rSec[0] + 1]
 		$spArray[0][0] = $rSec[0]
-		$LEL = TimerInit()
+
 		For $i = 1 To $rSec[0]
 			$spArray[0][$i] = $rSec[$i]
 			_GUICtrlListView_AddItem($idListview, $spArray[0][$i])
 			If $debug = 1 Then ConsoleWrite("$i = " & $i & @TAB & "- $rSec[$i] = " & $rSec[$i] & @TAB & @LF)
-			$secArray = _IniReadSectionEx($rIni, $rSec[$i])
+
+			$secArray = IniReadSection($rIni, $rSec[$i])
 
 			If $secArray = 0 Then
-				$secArray = IniReadSection($rIni, $rSec[$i])
+				$secArray = _IniReadSectionEx($rIni, $rSec[$i])
 			EndIf
+
+
 			;If $i < 5 Then 	_ArrayDisplay($secArray)
 			#CS List View Columns
 				[0] Spell Name	[1]Level	[2]School	[3]Ritual	[4]Cast Time	[5]Range	[6]Components	[7]Duration	[8]Description
@@ -435,7 +442,8 @@ Func _SearchSpells($iSearch = 0)
 
 			$listCount += 1
 		Next
-		ConsoleWrite(TimerDiff($LEL))
+		;ConsoleWrite(TimerDiff($LEL) &@LF)
+		ConsoleWrite("Total Search Time - " & TimerDiff($LEL) &@LF)
 		Return $spArray
 	Else
 
@@ -760,6 +768,10 @@ Func _ToolCheck()
 			(Abs($pos[0] - $pos0[0]) > 30 Or _
 			Abs($pos[1] - $pos0[1]) > 30)) Then
 
+		ToolTip('')
+		$ToolTipActive = False
+			EndIf
+	if WinActive($winTitle) = 0 Then
 		ToolTip('')
 		$ToolTipActive = False
 	EndIf

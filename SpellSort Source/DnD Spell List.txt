@@ -1272,7 +1272,7 @@ Range = Self (10-foot radius)
 Components = V, S, M (a glass or crystal bead thatshatters when the spell ends)
 Duration = Concentration, up to 1 minute
 Description = An immobile, faintly shimmering barrier springs into@CRLFexistence in a 10-foot radius around you and remains for@CRLFthe duration.@CRLFAny spell of 5th level or lower cast from outside the@CRLFbarrier cant affect creatures or objects within it, even@CRLFif the spell is cast using a higher level spell slot. Such a@CRLFspell can target creatures and objects within the barrier,@CRLFbut the spell has no effect on them. Similarly, the area@CRLFwithin the barrier is excluded from the areas affected@CRLFby such spells.@CRLFAt Higher Levels. When you cast this spell using a@CRLFspell slot of 7th level or higher, the barrier blocks spells@CRLF@CRLFof one level higher for each slot level above 6th. @CRLF@CRLF
-[Glyph o f Warding]
+[Glyph of Warding]
 Level = 3rd
 School = abjuration
 Casting Time = 1 hour
@@ -2897,7 +2897,7 @@ Casting Time = 1 action
 Range = 5 feet
 Components = V
 Duration = Instantaneous
-Description = You and up to five w illing creatures within 5 feet o f you@CRLFinstantly teleport to a previously designated sanctuary.@CRLFYou and any creatures that teleport with you appear in@CRLFthe nearest unoccupied space to the spot you designated@CRLFwhen you prepared your sanctuary (see below). If you@CRLFcast this spell without first preparing a sanctuary, the@CRLFspell has no effect.@CRLFYou must designate a sanctuary by casting this spell@CRLFwithin a location, such as a temple, dedicated to or@CRLFstrongly linked to your deity. If you attempt to cast the@CRLFspell in this manner in an area that isnt dedicated to@CRLFyour deity, the spell has no effect. @CRLF@CRLF
+Description = You and up to five w illing creatures within 5 feet of you@CRLFinstantly teleport to a previously designated sanctuary.@CRLFYou and any creatures that teleport with you appear in@CRLFthe nearest unoccupied space to the spot you designated@CRLFwhen you prepared your sanctuary (see below). If you@CRLFcast this spell without first preparing a sanctuary, the@CRLFspell has no effect.@CRLFYou must designate a sanctuary by casting this spell@CRLFwithin a location, such as a temple, dedicated to or@CRLFstrongly linked to your deity. If you attempt to cast the@CRLFspell in this manner in an area that isnt dedicated to@CRLFyour deity, the spell has no effect. @CRLF@CRLF
 [Wrathful Smite]
 Level = 1st
 School = evocation
@@ -2906,12 +2906,11 @@ Range = Self
 Components = V
 Duration = Concentration, up to 1 minute
 Description = The next time you hit with a melee w eapon attack@CRLFduring this spells duration, your attack deals an extra@CRLF1d6 psychic damage. Additionally, if the target is a@CRLFcreature, it must make a W isdom saving throw or be@CRLFfrightened of you until the spell ends. As an action, the@CRLFcreature can make a W isdom check against your spell@CRLFsave DC to steel its resolve and end this spell. @CRLF@CRLF
-[Zone o f Truth]
+[Zone of Truth]
 Level = 2nd
 School = enchantment
 Casting Time = 1 action
 Range = 60 feet
 Components = V, S
 Duration = 10 minutes
-Description = You create a magical zone that guards against deception@CRLFin a 15-foot-radius sphere centered on a point of your@CRLFchoice within range. Until the spell ends, a creature@CRLFthat enters the spells area for the first time on a turn@CRLFor starts its turn there must make a Charisma saving@CRLFthrow. On a failed save, a creature cant speak a@CRLFdeliberate lie while in the radius. You know whether@CRLFeach creature succeeds or fails on its saving throw.@CRLFAn affected creature is aware of the spell and can thus@CRLFavoid answering questions to which it would normally@CRLFrespond with a lie. Such a creature can be evasive in@CRLFits answers as long as it remains within the boundaries@CRLF
-o f the truth.
+Description = You create a magical zone that guards against deception@CRLFin a 15-foot-radius sphere centered on a point of your@CRLFchoice within range. Until the spell ends, a creature@CRLFthat enters the spells area for the first time on a turn@CRLFor starts its turn there must make a Charisma saving@CRLFthrow. On a failed save, a creature cant speak a@CRLFdeliberate lie while in the radius. You know whether@CRLFeach creature succeeds or fails on its saving throw.@CRLFAn affected creature is aware of the spell and can thus@CRLFavoid answering questions to which it would normally@CRLFrespond with a lie. Such a creature can be evasive in@CRLFits answers as long as it remains within the boundaries of the truth.
