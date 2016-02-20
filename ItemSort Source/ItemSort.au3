@@ -1,5 +1,8 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=ItemSort_icon.ico
 #AutoIt3Wrapper_Outfile=..\Item Sort.exe
+#AutoIt3Wrapper_Compression=0
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 #include <WindowsConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -10,9 +13,6 @@
 #include <GuiMenu.au3>
 #include <ComboConstants.au3>
 #include <File.au3>
-
-
-
 
 $winWidth = 765
 $winHeight = 400

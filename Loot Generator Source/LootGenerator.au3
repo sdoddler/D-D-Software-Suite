@@ -1,5 +1,8 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Loot_Generator.ico
 #AutoIt3Wrapper_Outfile=..\Loot Generator.exe
+#AutoIt3Wrapper_Compression=0
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 #include-once
 #include "DiceRoll.au3"
@@ -140,7 +143,7 @@ FileInstall(".\Resources\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
 FileInstall(".\Resources\Twitter_Icon.ico", $appDir & "Twitter_Icon.ico", 0)
 FileInstall(".\Resources\Youtube_icon.ico", $appDir & "Youtube_icon.ico", 0)
 FileInstall(".\Resources\Github_icon.ico", $appDir & "Github_icon.ico", 0)
-FileInstall(".\Resources\Icons.icl", $appDir & "Icons.icl", 0)
+FileInstall(".\Resources\Icons.icl", $appDir & "Icons.icl", 1)
 #EndRegion Icon File Install
 
 
