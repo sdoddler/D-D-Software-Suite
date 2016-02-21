@@ -1,4 +1,4 @@
-# Doddler's D&D Software Suite
+# Doddler's D&D Software Suite - Now with Homebrew!
 ----
 The following programs were designed to enhance the gameplay for Players and DMs of D&D by creating quick reference\sort\lookup tools. Designed for ease of use are compact and/or resizeable (for smaller tabletop devices).
 
@@ -7,11 +7,22 @@ Downloads:
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
 -  [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
 
+HomeBrew Example:
+ - [Album of Basics](http://imgur.com/a/jzcqA)
+ - [Video Walkthrough\Explanation](https://youtu.be/__Y_lMwG81Q) 
+ - [Edit Description part of video](https://youtu.be/__Y_lMwG81Q?t=166)
+
+Homebrew Items will by default (on first Run) look for files in the local directory e.g. Spells-Custom.ini. This can be changed via the File Menu and will save to the settings.ini (in appdata for each computer\user) when the program is quit. So the last one you load will be what the program runs with next time.
+
+Let me know if I need to go over something in more detail for the Homebrew\Custom Items - I threw the video together pretty quickly to just show off what it can do. I can show you more of the editing description if the process is unclear :)
+
 ## Magic Item Sort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Magic%20Item%20Sort%20Source/README.MD)
 
 This handy tool allows you to view the Rules for the various Magic Items found in D&D (5e) -- [Example Pic](http://imgur.com/uVQnh3J)
 
+  - Now allows for Homebrew items!
   - **Double click** to view Rules\Descriptions
+  - Right Click to Add\Edit & Delete Custom Items
   - All Rules are able to be modified and/or saved (so that you can take out the rules and parts you dont need) & refreshed(to default) in case you dun f**ked up
   - Sort by columns (this can be dumb due to txt based sorting)
   - All columns are searchable via text and some by drop-down menu
@@ -37,6 +48,8 @@ Spell Sort is a desktop app to sort through the various spells available in Dung
 
 [Example.gif](http://imgur.com/P4PZAqb) 
 
+- Now with Homebrew - Add your own spells
+- Right click to add, edit or delete custom spells
 - **Double or Right Click** for Spell Rules, Components & Descriptions
 - Everything is searchable by text or drop down menu.
 
