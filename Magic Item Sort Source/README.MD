@@ -3,6 +3,7 @@
 This handy tool allows you to view the Rules for the various Magic Items found in D&D (5e)
 
   - Right Click for Homebrew\Custom Item options!
+  - Use the File Menu to Create or Edit Custom Items & Manage multiple Homebrew Files
   - Double Click view Rules \ Descriptions
   - All Rules are saveable\Modifyable (so that you can take out the rules and parts you dont need) + Refresh button if you dun f**k up
   - Sort by columns (this can be dumb due to txt based sorting)
