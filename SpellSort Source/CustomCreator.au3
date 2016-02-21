@@ -101,6 +101,7 @@
 #include <EditConstants.au3>
 #include <WindowsConstants.au3>
 #include <GUIEdit.Au3>
+#include <GuiComboBoxEx.au3>
 
 
 
@@ -793,7 +794,8 @@ Func EditorWindow($iType, $currTitle = "", $currData = "", $currDescription = ""
 			Else
 				$dataSplit = StringSplit($currData, "\\", 1)
 				If $dataSplit[0] = 5 Then
-					GUICtrlSetData($ewItemType, $types, $dataSplit[1])
+					GUICtrlSetData($ewItemType, $types )
+					ControlSetText($editorWindow,"",$ewItemType, $dataSplit[1])
 					GUICtrlSetData($ewItemRarity, $raritys, $dataSplit[2])
 					GUICtrlSetData($ewItemAttunement, $attunements, $dataSplit[3])
 					GUICtrlSetData($ewItemNotes, $dataSplit[4])
@@ -847,10 +849,14 @@ Func EditorWindow($iType, $currTitle = "", $currData = "", $currDescription = ""
 					GUICtrlSetData($ewSpellLevel, $Levels, $dataSplit[1])
 					GUICtrlSetData($ewSpellSchool, $Schools, $dataSplit[2])
 					GUICtrlSetData($ewSpellRitual, $Rituals, $dataSplit[3])
-					GUICtrlSetData($ewSpellCast, $castTimes, $dataSplit[4])
-					GUICtrlSetData($ewSpellRange, $Ranges, $dataSplit[5])
-					GUICtrlSetData($ewSpellComponents, $Components, $dataSplit[6])
-					GUICtrlSetData($ewSpellDuration, $Durations, $dataSplit[7])
+					GUICtrlSetData($ewSpellCast, $castTimes)
+					ControlSetText($editorWindow,"",$ewSpellCast, $dataSplit[4])
+					GUICtrlSetData($ewSpellRange, $Ranges)
+					ControlSetText($editorWindow,"",$ewSpellRange, $dataSplit[5])
+					GUICtrlSetData($ewSpellComponents, $Components)
+					ControlSetText($editorWindow,"",$ewSpellComponents, $dataSplit[6])
+					GUICtrlSetData($ewSpellDuration, $Durations)
+					ControlSetText($editorWindow,"",$ewSpellDuration, $dataSplit[7])
 				Else
 					MsgBox(48, "Corrupt Data", "Data format is incorrect and the program is unable to read it" & @LF & "Sorry :(")
 					GUICtrlSetData($ewSpellLevel, $Levels, "Cantrip")
