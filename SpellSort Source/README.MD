@@ -2,8 +2,8 @@
 ---
 Spell Sort is a desktop app to sort through the various spells available in Dungeons and Dragons.
 
-Made for a friend and released to the public.
-
+  - Right click to Add\Edit or Delete Custom Spells
+  - Use the File Menu to Create or Edit Custom Spells & Manage multiple Homebrew Files
   - Double Click or Right Click to view full Components \ Descriptions
   - Sort by one column or all!
   - All columns are searchable via text(except Class) or drop down
