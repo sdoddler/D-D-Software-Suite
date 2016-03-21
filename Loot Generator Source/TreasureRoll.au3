@@ -7,7 +7,7 @@
 
 Func TreasureRoll($iChallenge, $takeDefault = False, $treasureType = "Individual", $debug = 0)
 
-	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	$section = IniReadSection($appDir & "Treasure-" & $treasureType & ".txt", $iChallenge)
 	Local $art = "", $gems = "", $magicItems = "", $magicItems2, $rawCoin = 0

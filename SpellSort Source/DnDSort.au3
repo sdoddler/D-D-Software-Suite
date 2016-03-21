@@ -1,5 +1,5 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Icon=dnd_icon.ico
+#AutoIt3Wrapper_Icon=..\Resources\Spell Sort\dnd_icon.ico
 #AutoIt3Wrapper_Outfile=..\Spell Sort.exe
 #AutoIt3Wrapper_Compression=0
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -14,7 +14,10 @@
 #include <Array.au3>
 #include <GuiMenu.au3>
 #include <ComboConstants.au3>;; Include in source
-#include "CustomCreator.au3"
+#include "..\Resources\CustomCreator.au3"
+#include "..\Resources\_RefreshCache.au3"
+
+_RefreshCache()
 
 $winWidth = 765
 $winHeight = 420 ;; LELEL JST BLZ
@@ -22,30 +25,27 @@ $winHeight = 420 ;; LELEL JST BLZ
 
 $appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
 DirCreate($appDir)
+DirCreate($appDir & "\Spell Sort Resources\")
 
 #Region File Installs
-FileInstall(".\SearchParams.ini", $appDir & "SearchParams.ini", 1)
-FileInstall(".\Spells-Basic.ini", $appDir & "Spells-Basic.ini", 1)
-FileInstall(".\Spells-Complete.ini", $appDir & "Spells-Complete.ini", 1)
-FileInstall(".\Classes.txt", $appDir & "Classes.txt", 0)
+FileInstall("..\Resources\Spell Sort\SearchParams.ini", $appDir & "Spell Sort Resources\SearchParams.ini", 0)
+FileInstall("..\Resources\Spell Sort\Spells-Basic.ini", $appDir & "Spell Sort Resources\Spells-Basic.ini", 0)
+FileInstall("..\Resources\Spell Sort\Spells-Complete.ini", $appDir & "Spell Sort Resources\Spells-Complete.ini", 0)
+FileInstall("..\Resources\Spell Sort\Classes.txt", $appDir & "Spell Sort Resources\Classes.txt", 0)
 
-FileInstall(".\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
-FileInstall(".\Twitter_Icon.ico", $appDir & "Twitter_Icon.ico", 0)
-FileInstall(".\Youtube_icon.ico", $appDir & "Youtube_icon.ico", 0)
-FileInstall(".\Github_icon.ico", $appDir & "Github_icon.ico", 0)
+FileInstall("..\Resources\Icons.ICL", $appDir & "Icons.icl", 0)
 
 #EndRegion File Installs
 
-FileInstall(".\Icons.icl", $appDir & "Icons.icl", 1)
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
 
-$sParamsIni = $appDir & "SearchParams.ini"
-$rIni = $appDir & "DnD Spell List.txt"
-$classesTxt = $appDir & "Classes.txt"
+$sParamsIni = $appDir & "Spell Sort Resources\SearchParams.ini"
+$classesTxt = $appDir & "Spell Sort Resources\Classes.txt"
 $iconsIcl = $appDir & "Icons.icl"
 $prefIni = $appDir & "Preferences.ini"
 
-$compIni = $appDir & "Spells-Complete.ini"
-$basicIni = $appDir & "Spells-Basic.ini"
+$compIni = $appDir & "Spell Sort Resources\Spells-Complete.ini"
+$basicIni = $appDir & "Spell Sort Resources\Spells-Basic.ini"
 
 $start = TimerInit()
 
@@ -75,15 +75,16 @@ $fSetSpells = GUICtrlCreateMenuItem("Set Custom Spells File",$fileMenu)
 $fRestart = GUICtrlCreateMenuItem("Restart", $fileMenu)
 
 
-;$tempArray = IniReadSection("SearchParams.ini","Schools")
-$Schools = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Schools"), "|", 0, 0, "|", 1)
-$Levels = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Levels"), "|", 0, 0, "|", 1)
-$Rituals = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Rituals"), "|", 0, 0, "|", 1)
-$castTimes = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Cast Times"), "|", 0, 0, "|", 1)
-$Ranges = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Ranges"), "|", 0, 0, "|", 1)
-$Components = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Components"), "|", 0, 0, "|", 1)
-$Durations = "Any" & _ArrayToString(IniReadSection($sParamsIni, "Durations"), "|", 0, 0, "|", 1)
-$Classes = "Any|" & _ArrayToString(IniReadSectionNames($classesTxt), "|", 1, 0, "|", 1)
+$Schools = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Schools"), "|", 1, -1, "|",1,1)
+$Levels = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Levels"), "|", 1, -1, "|", 1,1)
+$Rituals = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Rituals"), "|", 1, -1, "|", 1,1)
+$castTimes = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Cast Times"), "|", 1, -1, "|", 1,1)
+$Ranges = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Ranges"), "|", 1, -1, "|", 1,1)
+$Components = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Components"), "|", 1, -1, "|", 1,1)
+$Durations = "Any|" & _ArrayToString(IniReadSection($sParamsIni, "Durations"), "|", 1, -1, "|", 1,1)
+$Classes = "Any|" & _ArrayToString(IniReadSectionNames($classesTxt), "|", 1, -1, "|", 1,1)
+
+
 $levelArray = IniReadSection($sParamsIni, "Levels")
 $levelArray[0][1] = "Any"
 
@@ -205,20 +206,20 @@ _GUICtrlListView_AddColumn($idListview, "Description", 100)
 #EndRegion List View Setup
 
 #Region Social Media Icons
-$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 600, 5, 32, 32)
+$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 600, 5, 32, 32)
 GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 640, 5, 32, 32)
+$gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 640, 5, 32, 32)
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 680, 5, 32, 32)
+$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl, 14, 680, 5, 32, 32)
 GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gGithubIcon = GUICtrlCreateIcon($appDir & "github_icon.Ico", -1, 720, 5, 32, 32)
-GUICtrlSetTip($gGithubIcon, " ", "DnD Sort Github Page")
+$gGithubIcon = GUICtrlCreateIcon($iconsIcl, 11, 720, 5, 32, 32)
+GUICtrlSetTip($gGithubIcon, " ", "D&D Software Suite Github Page")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 #EndRegion Social Media Icons
@@ -288,10 +289,13 @@ While 1
 						If $itemName = $spellArray[0][$i] Then ExitLoop
 					Next
 					ConsoleWrite($itemName & @LF)
-					_ArrayDisplay(IniRead($custIni, "Index", $itemName, ""))
+					;_ArrayDisplay(IniRead($custIni, "Index", $itemName, ""))
 
 					_CustomCreator($hGUI, $winTitle, "Spell", $itemName, IniRead($custIni, "Index", $itemName, ""), IniReadSection($custIni, $itemName))
-
+$pSpellIni = IniRead($prefIni, "Settings", "Custom Spells File", "")
+If FileExists($pSpellIni) Then
+	Global $custIni = $pSpellIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$SpellArray = CreateSpellArray(False)
@@ -299,6 +303,10 @@ While 1
 					_GUICtrlSetState($GUI_ENABLE)
 				Case $dummy_proc4
 					_CustomCreator($hGUI, $winTitle, "Spell")
+					$pSpellIni = IniRead($prefIni, "Settings", "Custom Spells File", "")
+If FileExists($pSpellIni) Then
+	Global $custIni = $pSpellIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$spellArray = CreateSpellArray(False)
@@ -367,6 +375,10 @@ While 1
 					_Toolcheck()
 					EndIf
 					_CustomCreator($hGUI, $winTitle)
+					$pSpellIni = IniRead($prefIni, "Settings", "Custom Spells File", "")
+If FileExists($pSpellIni) Then
+	Global $custIni = $pSpellIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$SpellArray = CreateSpellArray(False)
@@ -522,6 +534,8 @@ Func CreateSpellArray($redoList = True)
 			$quickDecode = _IniDecode($spArray[0][$i])
 
 			$spArray[8][$i] = $quickDecode[0];StringReplace($secArray[$j][1], "@CRLF", @CRLF)
+
+			;_ArrayDisplay($spArray)
 
 			If $redoList Then
 			_GUICtrlListView_AddItem($idListview, $spArray[0][$i])

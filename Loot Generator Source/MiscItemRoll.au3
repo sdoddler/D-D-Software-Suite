@@ -36,7 +36,7 @@
 
 Func ItemRoll($dice, $rolls, $iFiles = "", $maxPrice = "", $debug = 0)
 
-	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	$weapIni = $appDir & "Weapons.txt"
 	$AdvGearIni = $appDir & "Adventuring Gear.txt"

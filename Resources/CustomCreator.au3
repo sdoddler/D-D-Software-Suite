@@ -175,7 +175,7 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 		EditorWindow($type, $hEditTitle, $hCurrData, $hCurrDescription)
 	EndIf
 
-	OnAutoItExitRegister("SavePrefs")
+	;OnAutoItExitRegister("SavePrefs")
 
 	While 1
 		If (WinActive($edWinTitle) = 0 And $active = True) Then ;; If window does not have window but it just did
@@ -333,7 +333,7 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 									If IsArray($workingDescription) Then
 										IniWriteSection($cSpellIni, $cSpellName, $workingDescription)
 									Else
-										IniWriteSection($cSpellIni, $cSpellName, "Description", "")
+										IniWriteSection($cSpellIni, $cSpellName, "Description=")
 									EndIf
 									if $deleteFirst Then
 										IniDelete($cSpellIni, $ewFirstName)
@@ -354,7 +354,7 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 										If IsArray($workingDescription) Then
 											IniWriteSection($cSpellIni, $cSpellName, $workingDescription)
 										Else
-											IniWriteSection($cSpellIni, $cSpellName, "Description", "")
+											IniWriteSection($cSpellIni, $cSpellName, "Description=", "")
 										EndIf
 										If $type = "Default" Then
 											GUIDelete($editorWindow)
@@ -382,7 +382,7 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 									If IsArray($workingDescription) Then
 										IniWriteSection($cMagicItemsIni, $cItemName, $workingDescription)
 									Else
-										IniWrite($cMagicItemsIni, $cItemName, "Description", "")
+										IniWrite($cMagicItemsIni, $cItemName, "Description=", "")
 									EndIf
 									if $deleteFirst Then
 										IniDelete($cMagicItemsIni, $ewFirstName)
@@ -403,7 +403,7 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 										If IsArray($workingDescription) Then
 											IniWriteSection($cMagicItemsIni, $cItemName, $workingDescription)
 										Else
-											IniWrite($cMagicItemsIni, $cItemName, "Description", "")
+											IniWrite($cMagicItemsIni, $cItemName, "Description=", "")
 										EndIf
 										If $type = "Default" Then
 											GUIDelete($editorWindow)
@@ -598,6 +598,8 @@ Func _CustomCreator($hParentGUI = "", $hTitle = "", $type = "Default", $hEditTit
 		Sleep(10)
 
 	WEnd
+
+	SavePrefs()
 
 EndFunc   ;==>_CustomCreator
 

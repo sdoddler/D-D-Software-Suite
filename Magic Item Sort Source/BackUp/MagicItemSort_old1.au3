@@ -183,19 +183,19 @@ _GUICtrlListView_AddColumn($idListview, "Source", 100)
 #EndRegion Listview Creation
 
 #Region Display ICons
-$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 360, 45, 32, 32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
+$gSteamIcon = GUICtrlCreateIcon($iconsIcl,12,360,45,32,32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
 GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 400, 45, 32, 32)
+$gTwitterIcon = GUICtrlCreateIcon($iconsIcl,13, 400, 45, 32, 32)
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl, 14, 440, 45, 32, 32)
+$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl,14, 440, 45, 32, 32)
 GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gGithubIcon = GUICtrlCreateIcon($iconsIcl, 11, 480, 45, 32, 32)
+$gGithubIcon = GUICtrlCreateIcon($iconsIcl,11, 480, 45, 32, 32)
 GUICtrlSetTip($gGithubIcon, " ", "D&D Software Suite Github Page")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
@@ -325,10 +325,10 @@ While 1
 					Next
 
 					_CustomCreator($hGUI, $winTitle, "Magic Item", $itemName, IniRead($custIni, "Index", $itemName, ""), IniReadSection($custIni, $itemName))
-					$pMagicItemIni = IniRead($prefIni, "Settings", "Custom Magic Items File", "")
-					If FileExists($pMagicItemIni) Then
-						Global $custIni = $pMagicItemIni
-					EndIf
+$pMagicItemIni = IniRead($prefIni, "Settings", "Custom Magic Items File", "")
+If FileExists($pMagicItemIni) Then
+	Global $custIni = $pMagicItemIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$itemArray = CreateItemArray(False)
@@ -337,9 +337,9 @@ While 1
 				Case $dummy_proc4 ; Add?
 					_CustomCreator($hGUI, $winTitle, "Magic Item")
 					$pMagicItemIni = IniRead($prefIni, "Settings", "Custom Magic Items File", "")
-					If FileExists($pMagicItemIni) Then
-						Global $custIni = $pMagicItemIni
-					EndIf
+If FileExists($pMagicItemIni) Then
+	Global $custIni = $pMagicItemIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$itemArray = CreateItemArray(False)
@@ -376,9 +376,9 @@ While 1
 				Case $fCustomCreator
 					_CustomCreator($hGUI, $winTitle)
 					$pMagicItemIni = IniRead($prefIni, "Settings", "Custom Magic Items File", "")
-					If FileExists($pMagicItemIni) Then
-						Global $custIni = $pMagicItemIni
-					EndIf
+If FileExists($pMagicItemIni) Then
+	Global $custIni = $pMagicItemIni
+	EndIf
 					_GUICtrlSetState($GUI_DISABLE)
 					GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
 					$itemArray = CreateItemArray(False)
@@ -586,37 +586,37 @@ Func CreateItemArray($redoList = True)
 		$UB = UBound($itArray)
 		$secT = IniReadSection($custIni, "Index")
 
-		If IsArray($secT) Then
-			ReDim $itArray[$UB + $secT[0][0]][7]
-			;_ArrayDisplay($itArray)
-			For $j = 1 To $secT[0][0]
+		if IsArray($sect) Then
+		ReDim $itArray[$UB + $secT[0][0]][7]
+		;_ArrayDisplay($itArray)
+		For $j = 1 To $secT[0][0]
 
-				$itArray[$listCount][0] = $secT[$j][0]
-				$iSplit = StringSplit($secT[$j][1], "\\", 1)
-				If $iSplit[0] <> 5 Then ContinueLoop
+			$itArray[$listCount][0] = $secT[$j][0]
+			$iSplit = StringSplit($secT[$j][1], "\\", 1)
+			If $iSplit[0] <> 5 Then ContinueLoop
 
 
 
-				$itArray[$listCount][1] = $iSplit[1]
-				$itArray[$listCount][2] = $iSplit[2]
-				$itArray[$listCount][3] = $iSplit[3]
-				$itArray[$listCount][4] = $iSplit[4]
-				$itArray[$listCount][5] = $iSplit[5]
+			$itArray[$listCount][1] = $iSplit[1]
+			$itArray[$listCount][2] = $iSplit[2]
+			$itArray[$listCount][3] = $iSplit[3]
+			$itArray[$listCount][4] = $iSplit[4]
+			$itArray[$listCount][5] = $iSplit[5]
 
-				$itArray[$listCount][6] = "CUSTOMITEM"
-				If $redoList Then
-					_GUICtrlListView_AddItem($idListview, $itArray[$listCount][0])
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[1], 1)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[2], 2)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[3], 3)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[4], 4)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[5], 5)
-				EndIf
-				$listCount += 1
+			$itArray[$listCount][6] = "CUSTOMITEM"
+			If $redoList Then
+				_GUICtrlListView_AddItem($idListview, $itArray[$listCount][0])
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[1], 1)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[2], 2)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[3], 3)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[4], 4)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[5], 5)
+			EndIf
+			$listCount += 1
 
-			Next
+		Next
 		EndIf
-	EndIf
+		EndIf
 
 	Return $itArray
 EndFunc   ;==>CreateItemArray

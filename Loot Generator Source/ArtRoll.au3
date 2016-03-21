@@ -7,7 +7,7 @@ Func ArtRoll($value, $amount = 1, $debug = 0, $dice = "")
 	$iCount = 1
 	$skip = False
 
-	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	$section = IniReadSection($appDir & "Art Objects.txt", $value)
 	if $debug Then ConsoleWrite("Selecting Artwork(s) x" & $amount & "..." & @LF)

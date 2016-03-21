@@ -1,5 +1,5 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Icon=Resources\Loot_Generator.ico
+#AutoIt3Wrapper_Icon=..\Resources\Loot Generator\Loot_Generator.ico
 #AutoIt3Wrapper_Outfile=..\Loot Generator.exe
 #AutoIt3Wrapper_Compression=0
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -21,6 +21,9 @@
 #include <WindowsConstants.au3>
 #include <GuiButton.au3>
 #include <GuiListView.au3>
+#include "..\Resources\_RefreshCache.au3"
+
+_RefreshCache()
 
 ;; TO DO
 ;
@@ -41,6 +44,7 @@ Global $hSubs[0]
 
 $appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
 DirCreate($appDir)
+DirCreate($appDir & "Loot Generator Resources\")
 
 $prefIni = $appDir & "Preferences.ini"
 
@@ -76,7 +80,7 @@ Global $magicMinor = BoolCheck(IniRead($prefIni, "Settings", "Include Minor Prop
 Global $magicQuirks = BoolCheck(IniRead($prefIni, "Settings", "Include Quirks", True))
 
 Global $diceAmount = IniRead($prefIni, "Settings", "Dice Rolls", 1)
-Global $diceType = IniRead($prefIni, "Settings", "Dice Type", "d4")
+Global $diceType = IniRead($prefIni, "Settings", "Dice Type", "4")
 #EndRegion Global Variables -- These are the ones required to Set the GUI Initially Etc
 
 #Region Global Gui Variables -- Due to the Small Form Factor Option I need to declare empty Variables (Globally) So Autoit Doesn't Error\Warn
@@ -100,50 +104,47 @@ Global $mMagicItem, $mCreator, $mHistory, $mMinorProperty, $mQuirks
 #EndRegion Global Gui Variables -- Due to the Small Form Factor Option I need to declare empty Variables (Globally) So Autoit Doesn't Error\Warn
 
 #Region Misc Item Variables and Install
-$weapIni = $appDir & "Weapons.txt"
-$AdvGearIni = $appDir & "Adventuring Gear.txt"
-$ArmourIni = $appDir & "Armour.txt"
-$mountIni = $appDir & "Mounts.txt"
-$toolIni = $appDir & "Tools.txt"
+$weapIni = $appDir & "Loot Generator Resources\Weapons.txt"
+$AdvGearIni = $appDir & "Loot Generator Resources\Adventuring Gear.txt"
+$ArmourIni = $appDir & "Loot Generator Resources\Armour.txt"
+$mountIni = $appDir & "Loot Generator Resources\Mounts.txt"
+$toolIni = $appDir & "Loot Generator Resources\Tools.txt"
 
-FileInstall(".\Resources\Weapons.txt", $weapIni, 0)
-FileInstall(".\Resources\Adventuring Gear.txt", $AdvGearIni, 0)
-FileInstall(".\Resources\Armour.txt", $ArmourIni, 0)
-FileInstall(".\Resources\Mounts.txt", $mountIni, 0)
-FileInstall(".\Resources\Tools.txt", $toolIni, 0)
+FileInstall("..\Resources\Loot Generator\Weapons.txt", $weapIni, 0)
+FileInstall("..\Resources\Loot Generator\Adventuring Gear.txt", $AdvGearIni, 0)
+FileInstall("..\Resources\Loot Generator\Armour.txt", $ArmourIni, 0)
+FileInstall("..\Resources\Loot Generator\Mounts.txt", $mountIni, 0)
+FileInstall("..\Resources\Loot Generator\Tools.txt", $toolIni, 0)
 #EndRegion Misc Item Variables and Install
 
 #Region Treasure and Gem\Art Install
-FileInstall(".\Resources\Gemstones.txt", $appDir & "Gemstones.txt", 0)
-FileInstall(".\Resources\Art Objects.txt", $appDir & "Art Objects.txt", 0)
-FileInstall(".\Resources\Treasure-Hoards.txt", $appDir & "Treasure-Hoards.txt", 0)
-FileInstall(".\Resources\Treasure-Individual.txt", $appDir & "Treasure-Individual.txt", 0)
+FileInstall("..\Resources\Loot Generator\Gemstones.txt", $appDir & "Loot Generator Resources\Gemstones.txt", 0)
+FileInstall("..\Resources\Loot Generator\Art Objects.txt", $appDir & "Loot Generator Resources\Art Objects.txt", 0)
+FileInstall("..\Resources\Loot Generator\Treasure-Hoards.txt", $appDir & "Loot Generator Resources\Treasure-Hoards.txt", 0)
+FileInstall("..\Resources\Loot Generator\Treasure-Individual.txt", $appDir & "Loot Generator Resources\Treasure-Individual.txt", 0)
 #EndRegion Treasure and Gem\Art Install
 
 #Region Magic Item Table Install
-FileInstall(".\Resources\Magic Item Table A.txt", $appDir & "Magic Item Table A.txt", 0)
-FileInstall(".\Resources\Magic Item Table B.txt", $appDir & "Magic Item Table B.txt", 0)
-FileInstall(".\Resources\Magic Item Table C.txt", $appDir & "Magic Item Table C.txt", 0)
-FileInstall(".\Resources\Magic Item Table D.txt", $appDir & "Magic Item Table D.txt", 0)
-FileInstall(".\Resources\Magic Item Table E.txt", $appDir & "Magic Item Table E.txt", 0)
-FileInstall(".\Resources\Magic Item Table F.txt", $appDir & "Magic Item Table F.txt", 0)
-FileInstall(".\Resources\Magic Item Table G.txt", $appDir & "Magic Item Table G.txt", 0)
-FileInstall(".\Resources\Magic Item Table H.txt", $appDir & "Magic Item Table H.txt", 0)
-FileInstall(".\Resources\Magic Item Table I.txt", $appDir & "Magic Item Table I.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table A.txt", $appDir & "Loot Generator Resources\Magic Item Table A.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table B.txt", $appDir & "Loot Generator Resources\Magic Item Table B.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table C.txt", $appDir & "Loot Generator Resources\Magic Item Table C.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table D.txt", $appDir & "Loot Generator Resources\Magic Item Table D.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table E.txt", $appDir & "Loot Generator Resources\Magic Item Table E.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table F.txt", $appDir & "Loot Generator Resources\Magic Item Table F.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table G.txt", $appDir & "Loot Generator Resources\Magic Item Table G.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table H.txt", $appDir & "Loot Generator Resources\Magic Item Table H.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Table I.txt", $appDir & "Loot Generator Resources\Magic Item Table I.txt", 0)
 
-FileInstall(".\Resources\Spell Levels.txt", $appDir & "Spell Levels.txt", 0)
-FileInstall(".\Resources\Magic Item Who Created it.txt", $appDir & "Magic Item Who Created it.txt", 0)
-FileInstall(".\Resources\Magic Item Quirks.txt", $appDir & "Magic Item Quirks.txt", 0)
-FileInstall(".\Resources\Magic Item History.txt", $appDir & "Magic Item History.txt", 0)
-FileInstall(".\Resources\Magic Item Minor Property.txt", $appDir & "Magic Item Minor Property.txt", 0)
+FileInstall("..\Resources\Loot Generator\Spell Levels.txt", $appDir & "Loot Generator Resources\Spell Levels.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Who Created it.txt", $appDir & "Loot Generator Resources\Magic Item Who Created it.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Quirks.txt", $appDir & "Loot Generator Resources\Magic Item Quirks.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item History.txt", $appDir & "Loot Generator Resources\Magic Item History.txt", 0)
+FileInstall("..\Resources\Loot Generator\Magic Item Minor Property.txt", $appDir & "Loot Generator Resources\Magic Item Minor Property.txt", 0)
 #EndRegion Magic Item Table Install
 
 #Region Icon File Install
-FileInstall(".\Resources\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
-FileInstall(".\Resources\Twitter_Icon.ico", $appDir & "Twitter_Icon.ico", 0)
-FileInstall(".\Resources\Youtube_icon.ico", $appDir & "Youtube_icon.ico", 0)
-FileInstall(".\Resources\Github_icon.ico", $appDir & "Github_icon.ico", 0)
-FileInstall(".\Resources\Icons.icl", $appDir & "Icons.icl", 1)
+
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 1)
 #EndRegion Icon File Install
 
 
@@ -980,17 +981,17 @@ Func SmallFormGui()
 	$bSmallFormFactor = GUICtrlCreateIcon("C:\Windows\System32\shell32.dll", 268, 244, 10, 48, 48)
 	GUICtrlSetTip(-1, "Change to the Larger version of the GUI", "Switch to Large Form Factor")
 
-	$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 220, 134, 32, 32)
+	$gSteamIcon = GUICtrlCreateIcon($iconsIcl,12, 220, 134, 32, 32)
 	GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 	GUICtrlSetCursor(-1, 0)
-	$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 260, 134, 32, 32)
+	$gTwitterIcon = GUICtrlCreateIcon($iconsIcl,13, 260, 134, 32, 32)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-	$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 220, 168, 32, 32)
+	$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl,14, 220, 168, 32, 32)
 	GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 	GUICtrlSetCursor(-1, 0)
-	$gGithubIcon = GUICtrlCreateIcon($appDir & "Github_icon.Ico", -1, 260, 168, 32, 32)
-	GUICtrlSetTip($gGithubIcon, " ", "D&D Loot Generator Github Page")
+	$gGithubIcon = GUICtrlCreateIcon($iconsIcl,11, 260, 168, 32, 32)
+	GUICtrlSetTip($gGithubIcon, " ", "D&D Software Suite Github Page")
 	GUICtrlSetCursor(-1, 0)
 
 	#EndRegion Icons\Buttons
@@ -1144,16 +1145,16 @@ Func FullSizeGui()
 	$bSmallFormFactor = GUICtrlCreateIcon("C:\Windows\System32\shell32.dll", 268, 10, 370, 32, 32)
 	GUICtrlSetTip(-1, "Change to the Smaller version of the GUI", "Switch to Small Form Factor")
 
-	$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 340, 370, 32, 32)
+	$gSteamIcon = GUICtrlCreateIcon($iconsIcl,12, 340, 370, 32, 32)
 	GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 	GUICtrlSetCursor(-1, 0)
-	$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 380, 370, 32, 32)
+	$gTwitterIcon = GUICtrlCreateIcon($iconsIcl,13, 380, 370, 32, 32)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-	$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 420, 370, 32, 32)
+	$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl,14, 420, 370, 32, 32)
 	GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 	GUICtrlSetCursor(-1, 0)
-	$gGithubIcon = GUICtrlCreateIcon($appDir & "Github_icon.Ico", -1, 460, 370, 32, 32)
+	$gGithubIcon = GUICtrlCreateIcon($iconsIcl,11, 460, 370, 32, 32)
 	GUICtrlSetTip($gGithubIcon, " ", "D&D Loot Generator Github Page")
 	GUICtrlSetCursor(-1, 0)
 	#EndRegion Icons\Small Form Factor Button
@@ -1207,7 +1208,7 @@ Func ViewTreasureTables()
 		Return 0
 	EndIf
 
-	$rSec = IniReadSectionNames($appDir & "Treasure-" & "Hoards" & ".txt")
+	$rSec = IniReadSectionNames($appDir & "Loot Generator Resources\Treasure-" & "Hoards" & ".txt")
 
 	Global $vTreasureHoards[$rSec[0] + 1][2]
 	$vDefault = "Hoard - " & $rSec[1]
@@ -1216,10 +1217,10 @@ Func ViewTreasureTables()
 		If Not ($i = 1) Then $vTreasureHoards[0][0] &= "|"
 		$vTreasureHoards[0][0] &= "Hoard - " & $rSec[$i]
 		$vTreasureHoards[$i][0] = "Hoard - " & $rSec[$i]
-		$vTreasureHoards[$i][1] = IniReadSection($appDir & "Treasure-" & "Hoards" & ".txt", $rSec[$i])
+		$vTreasureHoards[$i][1] = IniReadSection($appDir & "Loot Generator Resources\Treasure-" & "Hoards" & ".txt", $rSec[$i])
 	Next
 
-	$rSec = IniReadSectionNames($appDir & "Treasure-" & "Individual" & ".txt")
+	$rSec = IniReadSectionNames($appDir & "Loot Generator Resources\Treasure-" & "Individual" & ".txt")
 
 	Global $vTreasureIndiv[$rSec[0] + 1][2]
 
@@ -1227,7 +1228,7 @@ Func ViewTreasureTables()
 		$vTreasureIndiv[0][0] &= "|"
 		$vTreasureIndiv[0][0] &= "Indivdual - " & $rSec[$i]
 		$vTreasureIndiv[$i][0] = "Indivdual - " & $rSec[$i]
-		$vTreasureIndiv[$i][1] = IniReadSection($appDir & "Treasure-" & "Individual" & ".txt", $rSec[$i])
+		$vTreasureIndiv[$i][1] = IniReadSection($appDir & "Loot Generator Resources\Treasure-" & "Individual" & ".txt", $rSec[$i])
 	Next
 
 ;~ 	_ArrayDisplay($vTreasureHoards[1][1])

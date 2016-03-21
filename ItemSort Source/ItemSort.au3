@@ -1,5 +1,5 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Icon=ItemSort_icon.ico
+#AutoIt3Wrapper_Icon=..\Resources\Item Sort\ItemSort_icon.ico
 #AutoIt3Wrapper_Outfile=..\Item Sort.exe
 #AutoIt3Wrapper_Compression=0
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
@@ -13,6 +13,9 @@
 #include <GuiMenu.au3>
 #include <ComboConstants.au3>
 #include <File.au3>
+#include "..\Resources\_RefreshCache.au3"
+
+_RefreshCache()
 
 $winWidth = 765
 $winHeight = 400
@@ -20,23 +23,24 @@ $winHeight = 400
 
 $appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
 DirCreate($appDir)
+DirCreate($appDir & "Item Sort Resources")
 
-$weapIni = $appDir & "Weapons.txt"
-$AdvGearIni = $appDir & "Adventuring Gear.txt"
-$ArmourIni = $appDir & "Armour.txt"
-$mountIni = $appDir & "Mounts.txt"
-$toolIni = $appDir & "Tools.txt"
+$weapIni = $appDir & "Item Sort Resources\Weapons.txt"
+$AdvGearIni = $appDir & "Item Sort Resources\Adventuring Gear.txt"
+$ArmourIni = $appDir & "Item Sort Resources\Armour.txt"
+$mountIni = $appDir & "Item Sort Resources\Mounts.txt"
+$toolIni = $appDir & "Item Sort Resources\Tools.txt"
 
-FileInstall(".\Weapons.txt", $weapIni, 0)
-FileInstall(".\Adventuring Gear.txt", $AdvGearIni, 0)
-FileInstall(".\Armour.txt", $ArmourIni, 0)
-FileInstall(".\Mounts.txt", $mountIni, 0)
-FileInstall(".\Tools.txt", $toolIni, 0)
+$iconsIcl = $appDir & "Icons.icl"
 
-FileInstall(".\Steam_Icon.ico", $appDir & "Steam_Icon.ico", 0)
-FileInstall(".\Twitter_Icon.ico", $appDir & "Twitter_Icon.ico", 0)
-FileInstall(".\Youtube_icon.ico", $appDir & "Youtube_icon.ico", 0)
-FileInstall(".\Github_icon.ico", $appDir & "Github_icon.ico", 0)
+FileInstall("..\Resources\Item Sort\Weapons.txt", $weapIni, 0)
+FileInstall("..\Resources\Item Sort\Adventuring Gear.txt", $AdvGearIni, 0)
+FileInstall("..\Resources\Item Sort\Armour.txt", $ArmourIni, 0)
+FileInstall("..\Resources\Item Sort\Mounts.txt", $mountIni, 0)
+FileInstall("..\Resources\Item Sort\Tools.txt", $toolIni, 0)
+
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
+
 
 
 
@@ -135,20 +139,20 @@ _GUICtrlListView_AddColumn($idListview, "Carrying Capacity", 100)
 _GUICtrlListView_AddColumn($idListview, "Properties", 150)
 
 
-$gSteamIcon = GUICtrlCreateIcon($appDir & "Steam_Icon.Ico", -1, 600, 5, 32, 32)
+$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 600, 5, 32, 32)
 GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gTwitterIcon = GUICtrlCreateIcon($appDir & "Twitter_Icon.Ico", -1, 640, 5, 32, 32)
+$gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 640, 5, 32, 32)
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
-$gYoutubeIcon = GUICtrlCreateIcon($appDir & "Youtube_Icon.Ico", -1, 680, 5, 32, 32)
+$gYoutubeIcon = GUICtrlCreateIcon($iconsIcl, 14, 680, 5, 32, 32)
 GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
-$gGithubIcon = GUICtrlCreateIcon($appDir & "Github_icon.Ico", -1, 720, 5, 32, 32)
-GUICtrlSetTip($gGithubIcon, " ", "DnD Sort Github Page")
+$gGithubIcon = GUICtrlCreateIcon($iconsIcl, 11, 720, 5, 32, 32)
+GUICtrlSetTip($gGithubIcon, " ", "D&D Software Suite Github Page")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 
