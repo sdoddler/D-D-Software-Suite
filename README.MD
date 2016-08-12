@@ -4,8 +4,9 @@ The following programs were designed to enhance the gameplay for Players and DMs
 
 Downloads:
 - [Github (Source + Exe's)](https://github.com/sdoddler/D-D-Software-Suite)
+- [MediaFire Link - Monster & Combat Tool Only](http://www.mediafire.com/download/idn9axgk4f3po7u/Monster_%26_Combat_Tool.zip)
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
--  [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
+- [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
 
 ## Monster & Combat Tool - [README]() - [Example Pic](http://i.imgur.com/lQd9CGt.png)
 This tool has a number of functions in relation to Monsters\NPCs and Combat. It includes basic stats for all monsters in the Monster Manual, as well as the ability to add your own.
