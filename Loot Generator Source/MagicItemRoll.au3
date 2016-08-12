@@ -164,7 +164,7 @@ EndFunc   ;==>MagicItemRoll
 
 
 Func MinorPropertyRoll($debug = 0)
-	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	$section = IniReadSection($appDir & "Magic Item Minor Property.txt", "d20")
 	ConsoleWrite("Selecting MinorProperty(s)..." & @LF)
@@ -205,7 +205,7 @@ EndFunc   ;==>MinorPropertyRoll
 Func HistoryAndQuirksRoll($history = True, $quirks = True, $creator = True, $debug = 0)
 	Local $histCount = 0
 
-	Local $array[3][4], $appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	Local $array[3][4], $appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	If $history Then
 		$histSect = IniReadSection($appDir & "Magic Item History.txt", "d8")
@@ -298,7 +298,7 @@ Func SubMagicRoll($initialString)
 EndFunc   ;==>SubMagicRoll
 
 Func ScrollRoll($strScroll)
-	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\"
+	$appDir = EnvGet("APPDATA") & "\Doddler's D&D\Loot Generator Resources\"
 
 	Local $rIni = $appDir & "Spell Levels.txt"
 	Local $bracket = StringInStr($strScroll, "("), $rSec = IniReadSectionNames($rIni);,$spCount = 0

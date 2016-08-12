@@ -96,7 +96,7 @@ Global $cbWeapons, $cbAdvGear, $cbArmour, $cbMounts, $cbTools, $gMiscTitle, $gMi
 Global $gMagicTitle, $cbMinorProps, $cbQuirks, $cbCreator, $cbHistory, $bHistoryGenerate
 Global $gDiceTitle, $coDice, $gRolls, $bRoll, $gAdd
 Global $bQueue, $bRollQueue
-Global $gSteamIcon, $gTwitterIcon, $gYoutubeIcon, $gGithubIcon
+Global $gDiscordIcon, $gTwitterIcon, $gYoutubeIcon, $gGithubIcon
 
 Global $mTreasure, $mCL04, $mCL510, $mCL1116, $mCL17, $mHoard, $mIndividual, $mTakeDefault, $mConvertGems
 Global $mMiscMenu, $mMiscWeapons, $mMiscAdv, $mMiscArmour, $mMiscMounts, $mMiscTools, $gMiscAmount, $coMiscDice
@@ -574,8 +574,8 @@ While 1
 					Else
 						CreateSubWindow($tempTitle, $historyData, $subWindowRO)
 					EndIf
-				Case $gSteamIcon
-					ShellExecute('https://steamcommunity.com/id/sdoddler')
+				Case $gDiscordIcon
+					ShellExecute('https://discord.gg/qkEGawD')
 				Case $gTwitterIcon
 					ShellExecute('https://twitter.com/sdoddler')
 				Case $gYoutubeIcon
@@ -981,8 +981,8 @@ Func SmallFormGui()
 	$bSmallFormFactor = GUICtrlCreateIcon("C:\Windows\System32\shell32.dll", 268, 244, 10, 48, 48)
 	GUICtrlSetTip(-1, "Change to the Larger version of the GUI", "Switch to Large Form Factor")
 
-	$gSteamIcon = GUICtrlCreateIcon($iconsIcl,12, 220, 134, 32, 32)
-	GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
+	$gDiscordIcon = GUICtrlCreateIcon($iconsIcl,27, 220, 134, 32, 32)
+	GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
 	GUICtrlSetCursor(-1, 0)
 	$gTwitterIcon = GUICtrlCreateIcon($iconsIcl,13, 260, 134, 32, 32)
 	GUICtrlSetCursor(-1, 0)
@@ -1145,8 +1145,8 @@ Func FullSizeGui()
 	$bSmallFormFactor = GUICtrlCreateIcon("C:\Windows\System32\shell32.dll", 268, 10, 370, 32, 32)
 	GUICtrlSetTip(-1, "Change to the Smaller version of the GUI", "Switch to Small Form Factor")
 
-	$gSteamIcon = GUICtrlCreateIcon($iconsIcl,12, 340, 370, 32, 32)
-	GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
+	$gDiscordIcon = GUICtrlCreateIcon($iconsIcl,27, 340, 370, 32, 32)
+	GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
 	GUICtrlSetCursor(-1, 0)
 	$gTwitterIcon = GUICtrlCreateIcon($iconsIcl,13, 380, 370, 32, 32)
 	GUICtrlSetCursor(-1, 0)
@@ -1209,6 +1209,7 @@ Func ViewTreasureTables()
 	EndIf
 
 	$rSec = IniReadSectionNames($appDir & "Loot Generator Resources\Treasure-" & "Hoards" & ".txt")
+;~ 	ConsoleWrite($rSec&@LF)
 
 	Global $vTreasureHoards[$rSec[0] + 1][2]
 	$vDefault = "Hoard - " & $rSec[1]

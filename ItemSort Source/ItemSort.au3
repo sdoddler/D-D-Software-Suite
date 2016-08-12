@@ -39,7 +39,7 @@ FileInstall("..\Resources\Item Sort\Armour.txt", $ArmourIni, 0)
 FileInstall("..\Resources\Item Sort\Mounts.txt", $mountIni, 0)
 FileInstall("..\Resources\Item Sort\Tools.txt", $toolIni, 0)
 
-FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 1)
 
 
 
@@ -47,6 +47,9 @@ FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
 Global $debug = 0, $searchArray = 0, $ToolTipActive = False, $descWindows = 0, $hDescripts[0], $active = False
 
 Global Enum $idproc1 = 1000, $winTitle = "DnD Item Sort"
+
+Global $subWindows = 0
+Global $hSubs[0]
 
 $hGUI = GUICreate($winTitle, $winWidth, $winHeight, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
 
@@ -128,7 +131,7 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 Local $iStylesEx = BitOR($LVS_EX_GRIDLINES, $LVS_EX_FULLROWSELECT)
 $idListview = GUICtrlCreateListView("", 10, 90, $winWidth - 20, 280, BitOR($LVS_SHOWSELALWAYS, $LVS_REPORT))
 _GUICtrlListView_SetExtendedListViewStyle($idListview, $iStylesEx)
-GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
+GUICtrlSetResizing($idListview, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
 
 _GUICtrlListView_AddColumn($idListview, "Item Name", 120)
 _GUICtrlListView_AddColumn($idListview, "Cost", 60)
@@ -139,8 +142,8 @@ _GUICtrlListView_AddColumn($idListview, "Carrying Capacity", 100)
 _GUICtrlListView_AddColumn($idListview, "Properties", 150)
 
 
-$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 600, 5, 32, 32)
-GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
+$gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 600, 5, 32, 32)
+GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 $gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 640, 5, 32, 32)
@@ -194,6 +197,9 @@ Dim $txtArray[5] = [$weapIni, $AdvGearIni, $ArmourIni, $mountIni, $toolIni]
 _GUICtrlSetState($GUI_DISABLE)
 $itemArray = _SearchItems($txtArray)
 _GUICtrlSetState($GUI_ENABLE)
+
+GUIRegisterMsg($WM_NOTIFY, "WM_NOTIFY")
+
 $winSize = WinGetClientSize ($winTitle)
 $lastWinSize = $winSize[0]
 If WinActive($winTitle) Then HotKeySet("{ENTER}", "Update")
@@ -219,27 +225,27 @@ While 1
 		$lastWinSize = $winSize[0]
 	Switch $winSize[0]
 		Case 760 to 3000
-			GUICtrlSetState($gSteamIcon,$GUI_SHOW)
+			GUICtrlSetState($gDiscordIcon,$GUI_SHOW)
 			GUICtrlSetState($gTwitterIcon,$GUI_SHOW)
 			GUICtrlSetState($gYoutubeIcon,$GUI_SHOW)
 			GUICtrlSetState($gGithubIcon,$GUI_SHOW)
 		Case 720 to 760
-			GUICtrlSetState($gSteamIcon,$GUI_HIDE)
+			GUICtrlSetState($gDiscordIcon,$GUI_HIDE)
 			GUICtrlSetState($gTwitterIcon,$GUI_SHOW)
 			GUICtrlSetState($gYoutubeIcon,$GUI_SHOW)
 			GUICtrlSetState($gGithubIcon,$GUI_SHOW)
 		Case 680 to 720
-			GUICtrlSetState($gSteamIcon,$GUI_HIDE)
+			GUICtrlSetState($gDiscordIcon,$GUI_HIDE)
 			GUICtrlSetState($gTwitterIcon,$GUI_HIDE)
 			GUICtrlSetState($gYoutubeIcon,$GUI_SHOW)
 			GUICtrlSetState($gGithubIcon,$GUI_SHOW)
 		Case 640 to 680
-			GUICtrlSetState($gSteamIcon,$GUI_HIDE)
+			GUICtrlSetState($gDiscordIcon,$GUI_HIDE)
 			GUICtrlSetState($gTwitterIcon,$GUI_HIDE)
 			GUICtrlSetState($gYoutubeIcon,$GUI_HIDE)
 			GUICtrlSetState($gGithubIcon,$GUI_SHOW)
 		Case 0 to 640
-			GUICtrlSetState($gSteamIcon,$GUI_HIDE)
+			GUICtrlSetState($gDiscordIcon,$GUI_HIDE)
 			GUICtrlSetState($gTwitterIcon,$GUI_HIDE)
 			GUICtrlSetState($gYoutubeIcon,$GUI_HIDE)
 			GUICtrlSetState($gGithubIcon,$GUI_HIDE)
@@ -270,8 +276,8 @@ While 1
 					GUICtrlSetData($cWeight, $Weights, "Any")
 					GUICtrlSetData($cDam, $Damages, "Any")
 					GUICtrlSetData($ihSearch, "")
-				Case $gSteamIcon
-					ShellExecute('https://steamcommunity.com/id/sdoddler')
+				Case $gDiscordIcon
+					ShellExecute('https://discord.gg/qkEGawD')
 				Case $gTwitterIcon
 					ShellExecute('https://twitter.com/sdoddler')
 				Case $gYoutubeIcon
@@ -280,6 +286,39 @@ While 1
 					ShellExecute('https://github.com/sdoddler/D-D-Software-Suite')
 			EndSwitch
 	EndSwitch
+
+	if $subWindows > 0 THen
+	For $i = 1 To UBound($hSubs) - 1
+		If $msg[1] = $hSubs[$i][0] Then
+			;ConsoleWrite("Message hit on: " & $hDescripts[$i]&@LF)
+			Switch $msg[0]
+				Case $GUI_EVENT_CLOSE
+					GUIDelete($hSubs[$i][0])
+					_ArrayDelete($hSubs, $i)
+					$subWindows -= 1
+					ExitLoop
+				Case $hSubs[$i][2]
+					$hSubs[$i][6] = Not ($hSubs[$i][6])
+
+					If $hSubs[$i][6] Then
+						$styles = BitOR($ES_READONLY, $ES_MULTILINE, $WS_VSCROLL)
+					Else
+						$styles = BitOR($ES_MULTILINE, $WS_VSCROLL)
+					EndIf
+					GUICtrlSetStyle($hSubs[$i][5], $styles)
+				Case $hSubs[$i][3]
+					GUICtrlSetData($hSubs[$i][5], $hSubs[$i][1])
+				Case $hSubs[$i][4]
+					$quickSave = FileSaveDialog($hSubs[$i][7], @ScriptDir, "Text files (*.txt)")
+					If Not (@error) Then
+						FileWrite($quickSave, GUICtrlRead($hSubs[$i][5]))
+					EndIf
+
+			EndSwitch
+		EndIf
+	Next
+	EndIf
+	Sleep(10)
 
 
 
@@ -621,3 +660,135 @@ Func Update()
 		_GUICtrlSetState($GUI_ENABLE)
 	EndIf
 EndFunc   ;==>Update
+
+Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
+
+	; structure to map $ilParam ($tNMHDR - see Help file)
+	Local $tNMHDR = DllStructCreate($tagNMHDR, $ilParam);, $tagNMLISTVIEW
+
+	Switch $tNMHDR.IDFrom
+		Case $idListview
+			Switch $tNMHDR.Code
+				Case $NM_DBLCLK
+					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
+					If $tInfo.Item > -1 Then
+						$iItem = $tInfo.Item
+						$item = _GUICtrlListView_GetItemText($idListview, $iItem)
+						For $i = 0 To UBound($itemArray) - 1
+							If $item = $itemArray[$i][0] Then
+;~ 								If $itemArray[$i][6] = "CUSTOMITEM" Then
+;~ 									$quick = ;_IniDecode($itemArray[$i][0], "Custom")
+;~
+;~ 								Else
+;~ 									$quick = l_IniDecode($itemArray[$i][6])
+;~ 									$name = $itemArray[$i][6]
+;~ 								EndIf
+
+;~		 [0] Item Name	[1]Cost		[2]Damage	[3]Weight	[4]Speed	[5]Carry Capacity	[6]Properties
+								$name = $itemArray[$i][0]
+								$titleLen = StringLen($name)
+								$quick = "Cost: " & $itemArray[$i][1] & @CRLF & "Damage: " & $itemArray[$i][2] & @CRLF & _
+								"Weight: " & $itemArray[$i][3] & @CRLF & "Speed: " & $itemArray[$i][4]  & @CRLF _
+								& "Carrying Capacity: " & $itemArray[$i][5] & @CRLF &  "Properties: " & $itemArray[$i][6]
+								CreateSubWindow($name, $quick, 200 + ($titleLen * 5))
+								ExitLoop
+							EndIf
+
+						Next
+;~ 						$itemRead = IniRead($basicIni, "MagicItems", $item, "")
+;~ 						$split = StringSplit($itemRead, "\\", 1)
+;~ 						If $split[0] = 6 Then
+;~ 							;ConsoleWrite($split[6] & @LF)
+;~ 							$quick = _IniDecode($split[6])
+;~ 							CreateSubWindow($split[6],$quick[0] , 200 + ($quick[1] * 5))
+;~ 							;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
+;~ 						Else
+;~ 							;ConsoleWrite($item & @LF)
+;~ 							$quick = _IniDecode($item)
+;~ 							CreateSubWindow($item, $quick[0], 200 + ($quick[1] * 5))
+;~ 							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
+;~ 						EndIf
+					EndIf
+			EndSwitch
+			EndSwitch
+				EndFunc
+
+Func _Titilise($iString)
+	$titleLen = StringLen($iString)
+
+	$retString = "+"
+	For $i = 0 To $titleLen + 1
+		$retString &= "~"
+	Next
+	$retString &= "+" & @CRLF
+	$retString &= "| " & $iString & " |" & @CRLF
+	$retString &= "+"
+	For $i = 0 To $titleLen + 1
+		$retString &= "~"
+	Next
+	$retString &= "+" & @CRLF
+
+	Return $retString
+EndFunc   ;==>_Titilise
+
+Func CreateSubWindow($iTitle, $iData, $iWidth = 250, $iReadOnly = True)
+	;; For additional windows have an Array structured as per below
+	;$windows[X][0] = WindowHandle
+	;$windows[X][1] = Full Data (Returned from whatever Generator was used)
+	;$windows[X][2] = Allow Edit (Button with Toggle)
+	;$windows[X][3] = Reset Data (Button to reset Input to [x][1])
+	;$windows[X][5] = Input Handle
+	;$windows[X][4] = Save Button? (Save current to .txt)
+	;$windows[X][6] = Allow Edit Value (True/False) ??
+	Local $height, $width, $title
+	GUISetState(@SW_DISABLE, $hGUI)
+
+	$subWindows += 1
+
+
+	ReDim $hSubs[$subWindows + 1][8]
+
+	$hSubs[$subWindows][0] = GUICreate($iTitle, $iWidth, 300, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
+
+	$iTitle = _Titilise($iTitle)
+
+	ConsoleWrite($iTitle)
+
+	$hSubs[$subWindows][1] = $iTitle & @CRLF & $iData
+
+	$hSubs[$subWindows][2] = GUICtrlCreateIcon($iconsIcl, 3, 10, 230);;Lock\Unlock
+	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
+	GUICtrlSetCursor(-1, 0)
+	GUICtrlSetTip(-1, "Unlock the workspace for editing" & @LF & "Useful for Picking and choosing loot or releasing over time", "Unlock\Lock Workspace")
+
+	$hSubs[$subWindows][3] = GUICtrlCreateIcon($iconsIcl, 4, 40, 230);Reset WorkSpace
+	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
+	GUICtrlSetCursor(-1, 0)
+	GUICtrlSetTip(-1, "Reset the text to it's default state" & @LF _
+			 & "(How it was generated)", "Reset Workspace")
+
+	$hSubs[$subWindows][4] = GUICtrlCreateIcon($iconsIcl, 1, 70, 230);Save
+	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
+	GUICtrlSetCursor(-1, 0)
+	GUICtrlSetTip(-1, "Save current text to a text file for later viewing", "Save")
+
+	$hSubs[$subWindows][6] = $iReadOnly
+
+	$hSubs[$subWindows][7] = $iTitle
+
+	If $iReadOnly Then
+		$styles = BitOR($ES_READONLY, $ES_MULTILINE, $WS_VSCROLL)
+	Else
+		$styles = BitOR($ES_MULTILINE, $WS_VSCROLL)
+	EndIf
+
+	$hSubs[$subWindows][5] = GUICtrlCreateEdit($hSubs[$subWindows][1], 5, 5, $iWidth - 10, 210, $styles)
+	GUICtrlSetFont(-1, 9, 400, -1, "Consolas")
+
+
+	GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOCKRIGHT)
+
+	GUISetState()
+
+	GUISetState(@SW_ENABLE, $hGUI)
+EndFunc   ;==>CreateSubWindow

@@ -1,4 +1,4 @@
-# Doddler's D&D Software Suite - Now with Homebrew!
+# Doddler's D&D Software Suite
 ----
 The following programs were designed to enhance the gameplay for Players and DMs of D&D by creating quick reference\sort\lookup tools. Designed for ease of use are compact and/or resizeable (for smaller tabletop devices).
 
@@ -7,7 +7,23 @@ Downloads:
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
 -  [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
 
-HomeBrew Example:
+## Monster & Combat Tool - [README]() - [Example Pic](http://i.imgur.com/lQd9CGt.png)
+This tool has a number of functions in relation to Monsters\NPCs and Combat. It includes basic stats for all monsters in the Monster Manual, as well as the ability to add your own.
+It has combat capabilites with Player, NPC and Initiative Windows allowing for customisation, notetaking and improved combat readiness. Key Features include:
+
+- Automatic Initiative Rolls (Where applicable)
+- Save and Load Functionality
+- Global Notes for Monster Types
+- Local Notes for Individual instances of a Monster\Player\NPC
+- Combat window with a turn system
+- Completely offline, no internet connection required.
+
+There are still a number of other features I wish to add to this if people are going to use the tool. Such as Random Encounter Generation (from the DMs handbook), the ability to add Reference Images to each monster type & a tie into my other Loot Generator to automatically generate random loot.
+
+
+
+---------
+##### HomeBrew Example (Magic Items and Spells):
  - [Album of Basics](http://imgur.com/a/jzcqA)
  - [Video Walkthrough\Explanation](https://youtu.be/__Y_lMwG81Q) 
  - [Edit Description part of video](https://youtu.be/__Y_lMwG81Q?t=166)
@@ -70,7 +86,7 @@ If you do not own any of the Dungeons and Dragons books these Spells & Items are
  
 
 #### License
-Copyright (c) 2015 sDoddler
+Copyright (c) 2016 sDoddler
 
 
 

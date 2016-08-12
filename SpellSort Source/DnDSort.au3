@@ -1,6 +1,6 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=..\Resources\Spell Sort\dnd_icon.ico
-#AutoIt3Wrapper_Outfile=..\Spell Sort.exe
+#AutoIt3Wrapper_Outfile=..\Spell Check.exe
 #AutoIt3Wrapper_Compression=0
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
@@ -33,11 +33,11 @@ FileInstall("..\Resources\Spell Sort\Spells-Basic.ini", $appDir & "Spell Sort Re
 FileInstall("..\Resources\Spell Sort\Spells-Complete.ini", $appDir & "Spell Sort Resources\Spells-Complete.ini", 0)
 FileInstall("..\Resources\Spell Sort\Classes.txt", $appDir & "Spell Sort Resources\Classes.txt", 0)
 
-FileInstall("..\Resources\Icons.ICL", $appDir & "Icons.icl", 0)
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 1)
 
 #EndRegion File Installs
 
-FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
+;~ FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
 
 $sParamsIni = $appDir & "Spell Sort Resources\SearchParams.ini"
 $classesTxt = $appDir & "Spell Sort Resources\Classes.txt"
@@ -64,7 +64,7 @@ ConsoleWrite("CustINi = " & $custIni&@LF)
 
 Global $debug = 0, $searchArray = 0, $ToolTipActive = False, $descWindows = 0, $hDescripts[0], $active = False, $subWindows = 0, $hSubs[0], $DefaultSpells = 0
 
-Global Enum $idproc1 = 1000, $idproc2 = 2000, $winTitle = "D&D Spell Sort"
+Global Enum $idproc1 = 1000, $idproc2 = 2000, $winTitle = "D&D Spell Check"
 
 $hGUI = GUICreate($winTitle, $winWidth, $winHeight, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
 
@@ -206,21 +206,21 @@ _GUICtrlListView_AddColumn($idListview, "Description", 100)
 #EndRegion List View Setup
 
 #Region Social Media Icons
-$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 600, 5, 32, 32)
-GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
-GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
+$gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 600, 5, 32, 32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
+GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
+GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 $gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 640, 5, 32, 32)
-GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
+GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 GUICtrlSetTip($gTwitterIcon, " ", "sDoddler's Twitter Page")
 $gYoutubeIcon = GUICtrlCreateIcon($iconsIcl, 14, 680, 5, 32, 32)
 GUICtrlSetTip($gYoutubeIcon, " ", "sDoddler's YouTube Channel")
-GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
+GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 $gGithubIcon = GUICtrlCreateIcon($iconsIcl, 11, 720, 5, 32, 32)
 GUICtrlSetTip($gGithubIcon, " ", "D&D Software Suite Github Page")
-GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
+GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 #EndRegion Social Media Icons
 
@@ -342,8 +342,8 @@ If FileExists($pSpellIni) Then
 				Case $cLevel
 					GUICtrlSetData($cLevel2, GUICtrlRead($cLevel))
 
-				Case $gSteamIcon
-					ShellExecute('https://steamcommunity.com/id/sdoddler')
+				Case $gDiscordIcon
+					ShellExecute('https://discord.gg/qkEGawD')
 				Case $gTwitterIcon
 					ShellExecute('https://twitter.com/sdoddler')
 				Case $gYoutubeIcon

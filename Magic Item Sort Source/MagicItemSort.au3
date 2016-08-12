@@ -57,7 +57,7 @@ $iconsIcl = $appDir & "Icons.icl"
 FileInstall("..\Resources\Magic Item Sort\MagicItems-BasicInfo.TXT", $basicIni, 0)
 FileInstall("..\Resources\Magic Item Sort\MagicItems-CompleteInfo.TXT", $completeIni, 0)
 
-FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 0)
+FileInstall("..\Resources\Icons.icl", $appDir & "Icons.icl", 1)
 #EndRegion File and Icon Installs
 
 
@@ -183,9 +183,9 @@ _GUICtrlListView_AddColumn($idListview, "Source", 100)
 #EndRegion Listview Creation
 
 #Region Display ICons
-$gSteamIcon = GUICtrlCreateIcon($iconsIcl, 12, 360, 45, 32, 32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
-GUICtrlSetTip($gSteamIcon, " ", "sDoddler's Steam Profile")
-GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
+$gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 360, 45, 32, 32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
+GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
+GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
 $gTwitterIcon = GUICtrlCreateIcon($iconsIcl, 13, 400, 45, 32, 32)
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKRIGHT + $GUI_DOCKSIZE)
@@ -345,8 +345,8 @@ While 1
 					$itemArray = CreateItemArray(False)
 					Update()
 					_GUICtrlSetState($GUI_ENABLE)
-				Case $gSteamIcon
-					ShellExecute('https://steamcommunity.com/id/sdoddler')
+				Case $gDiscordIcon
+					ShellExecute('https://discord.gg/qkEGawD')
 				Case $gTwitterIcon
 					ShellExecute('https://twitter.com/sdoddler')
 				Case $gYoutubeIcon

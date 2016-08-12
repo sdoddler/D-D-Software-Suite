@@ -547,7 +547,7 @@ While 1
 	Sleep(10)
 WEnd
 
-Func ReturnCurrency($iString) ;; Shouldnt need this anymore..
+Func ReturnCurrency($iString)
 	Select
 		Case StringInStr($iString, "CP")
 			Dim $iArray[2] = ["CP", 100]
@@ -556,7 +556,7 @@ Func ReturnCurrency($iString) ;; Shouldnt need this anymore..
 			Dim $iArray[2] = ["SP", 10]
 			Return $iArray
 		Case StringInStr($iString, "EP")
-			Dim $iArray[2] = ["EP", 5]
+			Dim $iArray[2] = ["EP", 2]
 			Return $iArray
 		Case StringInStr($iString, "GP")
 			Dim $iArray[2] = ["GP", 1]
@@ -608,6 +608,7 @@ Func _Convert($iCurr)
 			GUICtrlSetData($hPP, Int($iDecimal / 100))
 			If Mod($iDecimal, 100) <> 0 Then GUICtrlSetData($hPPRemainder, Mod($iDecimal, 100) & " SP")
 		Case $calcEP
+
 
 			$iDecimal = CurrencyConverter(GUICtrlRead($hEP) & " EP")
 
@@ -1124,7 +1125,7 @@ Dim $toBeConverted[4]
 						$GpSplit = Int($currGP / $partyMembers)
 						$GpExtra = Mod($currGP, $partyMembers)
 						If GUICtrlRead($hGPRemainder) <> 0 Then
-							$remainderDec = CurrencyConverter(GUICtrlRead($hGPRemainder))
+							$remainderDec = CurrencyConverter(GUICtrlRead($hGPRemainder),true,false,1)
 							$remainderCurr = ReturnCurrency(GUICtrlRead($hGPRemainder))
 							$remainderDec[0] *= $remainderCurr[1]
 							$remainderSplit = Int($remainderDec[0] / $partyMembers)
@@ -1246,6 +1247,3 @@ Func Calculate()
 	GUICtrlSetData($calcDisplay, $calcFirstNumber)
 	$calcMode = "First Number"
 EndFunc   ;==>Calculate
-
-
-
