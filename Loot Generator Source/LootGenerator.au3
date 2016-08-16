@@ -480,6 +480,8 @@ While 1
 
 					GUICtrlSetData($bRollQueue, "Roll" & @LF & "Queue(" & UBound($arrQueue) & ")")
 				Case $bRollQueue
+
+					if UBound($arrQueue) - 1 > -1 Then
 					For $a = 0 To UBound($arrQueue) - 1
 						$dice = $arrQueue[$a][2]
 						$amount = $arrQueue[$a][1]
@@ -487,7 +489,7 @@ While 1
 
 						$diceRoll = DiceRoll($dice, $amount, $debugMode, $additive)
 
-							$tempTitle = "Dice Roll Queue"
+						$tempTitle = "Dice Roll Queue"
 
 
 						if $a = 0 then $diceData = ""
@@ -523,6 +525,7 @@ While 1
 						EndIf
 					Redim $arrQueue[0]
 					GUICtrlSetData($bRollQueue, "Roll" & @LF & "Queue(" & UBound($arrQueue) & ")")
+					EndIf
 				Case $bHistoryGenerate
 					$historyData = "------ History Roll ------" & @CRLF
 					;if $debugMode Then $historyData &= "DebugMode: ENABLED" &@CRLF

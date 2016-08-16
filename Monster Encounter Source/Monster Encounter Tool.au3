@@ -1,6 +1,6 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=..\Resources\Monster Encounter\Combat_Icon.ico
-#AutoIt3Wrapper_Outfile=..\Monster Encounter Tool.exe
+#AutoIt3Wrapper_Outfile=..\Monster & Combat Tool.exe
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #cs ----------------------------------------------------------------------------
 
@@ -1537,6 +1537,22 @@ While 1
 							& "The Results were: " & $notesIndivRolls & " the lowest roll being: " & $disadvRoll &@LF _
 							& "Total: " & $disadvRoll+$notesAdd)
 					EndSwitch
+				Case $hNotes[$i][22];Change Image
+					$currImage = GUICtrlRead($hNotes[$i][23])
+					if FileExists($currImage) Then
+
+						$firstSlash = StringInStr($currImage, "\", 0, -1)
+						$loadTempImage = FileOpenDialog("Change Monster image", StringLeft($currImage, $firstSlash), "Image Files (*.jpg;*.png;*.gif;*.jpeg;*.bmp)|All Files (*.*)", 0, StringRight($currImage, StringLen($currImage) - $firstSlash))
+					Else
+						$loadTempImage = FileOpenDialog("Change Monster image", @ScriptDir, "Image Files (*.jpg;*.png;*.gif;*.jpeg;*.bmp)|All Files (*.*)", 0)
+					EndIf
+					if FileExists($loadTempImage) Then
+						GUICtrlSetData($hNotes[$i][23],$loadTempImage,"")
+						IniWrite($globalNotesIni,$hNotes[$i][19],"Image",$loadTempImage)
+					EndIf
+				Case $hNotes[$i][24]
+					$currImage = GUICtrlRead($hNotes[$i][23])
+					if FileExists($currImage) Then ShellExecute($currImage)
 			EndSwitch
 
 		EndIf
@@ -1707,9 +1723,8 @@ Func SavePreferences()
 	IniWrite($prefIni, "Window Size", "Width", $winApiWidth-14);$windowSize[2])
 	IniWrite($prefIni, "Window Size", "Height", $winApiHeight-14);$windowSize[3])
 
-	IniWrite($prefIni, "Window Size", "Left", $winApiLeft);$windowSize[3])
-	IniWrite($prefIni, "Window Size", "Top", $winApiTop);$windowSize[3])
-
+	if $winApiLeft > -1 Then IniWrite($prefIni, "Window Size", "Left", $winApiLeft);$windowSize[3])
+	if $winApiTop > -1 Then IniWrite($prefIni, "Window Size", "Top", $winApiTop);$windowSize[3])
 
 	Local $listviewColOrder = _GUICtrlListView_GetColumnOrderArray($idListview)
 
@@ -2203,7 +2218,7 @@ EndFunc   ;==>CreateSubWindow
 
 
 #Region Notes Window and related Funcs
-Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "", $iWidth = 250); (if required)
+Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "");, $iImage = "");, $iWidth = 250); (if required)
 ;~ 	Use $iType to determine if It's NPC\Player
 ;~ 		--  Should I Allow the Initiative Manual Adds to have Notes?
 
@@ -2212,6 +2227,7 @@ Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC
 ;~ 	Use $statsData for the "Stats" part that is uneditable
 
 ;~ 	Use $iIndex to give focus if Window already active
+Local $iWidth = 250
 
 	For $i = 0 To UBound($hNotes) - 1
 		If $hNotes[$i][2] = $iType And $hNotes[$i][3] = $iIndex Then
@@ -2229,7 +2245,7 @@ Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC
 
 	$notesWindows += 1
 
-	ReDim $hNotes[$notesWindows + 1][22]
+	ReDim $hNotes[$notesWindows + 1][25]
 
 	$hNotes[$notesWindows][0] = GUICreate($iTitle, $iWidth, $height, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
 
@@ -2258,6 +2274,9 @@ Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC
 ;~ 		- Initiative[$XX][10] = Local Notes
 ;~ 		- Encounter[$XX][17] = Local Notes
 ;~ 		- Players[$XX][17] = Local Notes
+;	22 = Change Image
+;	23 = Image Edit (Disabled) For Filename
+;	24 = View Image
 
 	GUICtrlCreateLabel($iTitle & " - Stats:", 5, 5)
 	GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
@@ -2284,11 +2303,37 @@ Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC
 			GUICtrlSetResizing(-1, $GUI_DOCKHEIGHT + $GUI_DOCKBOTTOM)
 			GUICtrlSetFont(-1, 9, 400, -1, "Consolas")
 
+			$hNotes[$notesWindows][22] = GUICtrlCreateButton("", 45, 380, 24, 24, $BS_ICON)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+			GUICtrlSetImage(-1, $iconsIcl, 29, 0)
+			GUICtrlSetTip(-1, "Edit Image")
+
+			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni,$iMonRef,"Image",""), 75, 382, 105,20,$ES_READONLY + $ES_AUTOHSCROLL)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+
+			$hNotes[$notesWindows][24] = GUICtrlCreateButton("", 190, 380, 24, 24, $BS_ICON)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+			GUICtrlSetImage(-1, $iconsIcl, 30, 0)
+			GUICtrlSetTip(-1, "View Image")
+
 
 			$hNotes[$notesWindows][18] = GUICtrlCreateButton("", 220, 380, 24, 24, $BS_ICON)
 			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 			GUICtrlSetImage(-1, $iconsIcl, 2, 0)
 		Else
+			$hNotes[$notesWindows][22] = GUICtrlCreateButton("", 45, 255, 24, 24, $BS_ICON)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+			GUICtrlSetImage(-1, $iconsIcl, 29, 0)
+			GUICtrlSetTip(-1, "Edit Image")
+
+			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni,$iMonRef,"Image",""), 75, 257, 105,20,$ES_READONLY + $ES_AUTOHSCROLL)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+
+			$hNotes[$notesWindows][24] = GUICtrlCreateButton("", 190, 255, 24, 24, $BS_ICON)
+			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
+			GUICtrlSetImage(-1, $iconsIcl, 30, 0)
+			GUICtrlSetTip(-1, "View Image")
+
 			$hNotes[$notesWindows][18] = GUICtrlCreateButton("", 220, 255, 24, 24, $BS_ICON)
 			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 			GUICtrlSetImage(-1, $iconsIcl, 2, 0)
@@ -3055,7 +3100,8 @@ Func InitLoad($iOverwrite = False) ;; If you have #2, #3, #4 and you delete #3 t
 			EndIf
 			If $initLoadSection[4][1] = "False" Then $initLoadSection[4][1] = False
 			If $initLoadSection[4][1] = "True" Then $initLoadSection[4][1] = True
-			$initLoadIndex = InitiativeAdd($initCurrSecName, $initLoadSection[1][1], -1, False, $initLoadSection[3][1], $initLoadSection[2][1], $initLoadSection[5][1], $initLoadSection[4][1], False)
+			$initLoadIndex = InitiativeAdd($initCurrSecName, $initLoadSection[1][1], -1, False, $initLoadSection[3][1], _
+			$initLoadSection[2][1], $initLoadSection[5][1], $initLoadSection[4][1], False)
 			If $initLoadSection[6][1] = "True" Then
 				$initTurnValue = $initLoadIndex
 				$initTurnIndex = 0
