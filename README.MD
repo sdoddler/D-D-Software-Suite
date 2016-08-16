@@ -8,7 +8,7 @@ Downloads:
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
 - [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
 
-## Monster & Combat Tool - [README]() - [Example Pic](http://i.imgur.com/lQd9CGt.png)
+## Monster & Combat Tool - [README]() - [Example Album](http://imgur.com/a/NLJDG)
 This tool has a number of functions in relation to Monsters\NPCs and Combat. It includes basic stats for all monsters in the Monster Manual, as well as the ability to add your own.
 It has combat capabilites with Player, NPC and Initiative Windows allowing for customisation, notetaking and improved combat readiness. Key Features include:
 
@@ -22,18 +22,7 @@ It has combat capabilites with Player, NPC and Initiative Windows allowing for c
 There are still a number of other features I wish to add to this if people are going to use the tool. Such as Random Encounter Generation (from the DMs handbook), the ability to add Reference Images to each monster type & a tie into my other Loot Generator to automatically generate random loot.
 
 
-
----------
-##### HomeBrew Example (Magic Items and Spells):
- - [Album of Basics](http://imgur.com/a/jzcqA)
- - [Video Walkthrough\Explanation](https://youtu.be/__Y_lMwG81Q) 
- - [Edit Description part of video](https://youtu.be/__Y_lMwG81Q?t=166)
-
-Homebrew Items will by default (on first Run) look for files in the local directory e.g. Spells-Custom.ini. This can be changed via the File Menu and will save to the settings.ini (in appdata for each computer\user) when the program is quit. So the last one you load will be what the program runs with next time.
-
-Let me know if I need to go over something in more detail for the Homebrew\Custom Items - I threw the video together pretty quickly to just show off what it can do. I can show you more of the editing description if the process is unclear :)
-
-## Magic Item Sort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Magic%20Item%20Sort%20Source/README.MD)
+## Magic Item Sort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Magic%20Item%20Sort%20Source/README.MD) - [Example Album](http://imgur.com/a/4ZECo)
 
 This handy tool allows you to view the Rules for the various Magic Items found in D&D (5e) -- [Example Pic](http://imgur.com/uVQnh3J)
 
@@ -46,8 +35,18 @@ This handy tool allows you to view the Rules for the various Magic Items found i
   - Select multiple items at once and press **Enter** to open them all.
   - Or press **enter** to search when search fields have focus
   - *Smart Width* (Should bring the width of the window out for Tables\Headings)
+ 
+ ---------
+##### HomeBrew Example (Magic Items and Spells):
+ - [Album of Basics](http://imgur.com/a/jzcqA)
+ - [Video Walkthrough\Explanation](https://youtu.be/__Y_lMwG81Q) 
+ - [Edit Description part of video](https://youtu.be/__Y_lMwG81Q?t=166)
 
-## D&D Loot Generator - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Loot%20Generator%20Source/README.md)
+Homebrew Items will by default (on first Run) look for files in the local directory e.g. Spells-Custom.ini. This can be changed via the File Menu and will save to the settings.ini (in appdata for each computer\user) when the program is quit. So the last one you load will be what the program runs with next time.
+
+Let me know if I need to go over something in more detail for the Homebrew\Custom Items - I threw the video together pretty quickly to just show off what it can do. I can show you more of the editing description if the process is unclear :)
+
+## D&D Loot Generator - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Loot%20Generator%20Source/README.md) - [Example Album](http://imgur.com/a/lBlxx)
 D&D Loot Generator is a small & easy to use tool to help generate Treasure and Loot for your party. With the following Loot\Treasure Generators
  
  - Treasure Generator
@@ -59,7 +58,7 @@ Pictures:
 - [Normal Window](http://imgur.com/19TBar0) 
 - [Small Form Factor](http://imgur.com/hWPWBC5)
 
-## SpellSort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/SpellSort%20Source/README.MD)
+## Spell Check - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/SpellSort%20Source/README.MD) - [Example Album](http://imgur.com/a/uqLgg)
 
 Spell Sort is a desktop app to sort through the various spells available in Dungeons and Dragons.
 
@@ -70,7 +69,7 @@ Spell Sort is a desktop app to sort through the various spells available in Dung
 - **Double or Right Click** for Spell Rules, Components & Descriptions
 - Everything is searchable by text or drop down menu.
 
-## Item Sort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/ItemSort%20Source/README.MD)
+## Item Sort - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/ItemSort%20Source/README.MD) - [Example Album](http://imgur.com/a/R4ISR)
 Pretty much the same as Spell sort but rewritten to work with the following: 
 
 - Weapons
@@ -81,6 +80,9 @@ Pretty much the same as Spell sort but rewritten to work with the following:
 - [Example .Gif](http://imgur.com/csYB3Rs)
 
 Everything is searchable by text or drop down menu (which is handy as the Cost & weight columns do not sort correctly due to being plain text.)
+
+### Currency Calculator - [Example Album](http://imgur.com/a/1QOV8)
+Works as a basic Calculator with Inbuilt Currency options and a Group Split calculation panel.
 
 #### Disclaimer
 If you do not own any of the Dungeons and Dragons books these Spells & Items are from please do not use these apps until you purchase these books and support the company that makes this great game possible.
