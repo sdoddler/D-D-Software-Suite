@@ -4975,6 +4975,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 								ExitLoop
 							EndIf
 						Next
+						Local $monIndex = $j
 						Local $statArray[6][4]
 							Local $statCount = 0
 							For $i = 1 To $monsterRead[0][0]
@@ -5022,21 +5023,21 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 								EndSwitch
 							Next
 						$split = StringSplit($monsterBasic, "\\", 1)
-						If $monsterArray[$j][9] <> "CUSTOMMONSTER" Then ;; If NOT Custom Monster Then
+						If $monsterArray[$monIndex][9] <> "CUSTOMMONSTER" Then ;; If NOT Custom Monster Then
 
-							$quick = $monsterArray[$j][1] & " " & $monsterArray[$j][2] _
-									 & ", " & AlignmentSwitch($monsterArray[$j][4]) & @CRLF & "HP = " & $monsterArray[$j][7] & @CRLF & "CR = " _
-									 & $monsterArray[$j][5] & " (XP: " & $monsterArray[$j][6] & ")" & @CRLF & @LF & _ArrayToString(IniReadSection($monCompIni, $monster), " = ", 1)
-;~ 							CreateSubWindow($monsterArray[$j][9], $quick, 200 + (StringLen($monster) * 5))
-							CreateNotesWindow($monsterArray[$j][9], $quick, $hMainGUI, "Monster", $j, $statArray, False, $monster)
+							$quick = $monsterArray[$monIndex][1] & " " & $monsterArray[$monIndex][2] _
+									 & ", " & AlignmentSwitch($monsterArray[$monIndex][4]) & @CRLF & "HP = " & $monsterArray[$monIndex][7] & @CRLF & "CR = " _
+									 & $monsterArray[$monIndex][5] & " (XP: " & $monsterArray[$monIndex][6] & ")" & @CRLF & @LF & _ArrayToString(IniReadSection($monCompIni, $monster), " = ", 1)
+;~ 							CreateSubWindow($monsterArray[$monIndex][9], $quick, 200 + (StringLen($monster) * 5))
+							CreateNotesWindow($monsterArray[$monIndex][9], $quick, $hMainGUI, "Monster", $monIndex, $statArray, False, $monster)
 							;ConsoleWrite(200 + (StringLen($split[6]) * 4) & @LF)
 						Else
 							;ConsoleWrite($item & @LF)
-							$quick = $monsterArray[$j][1] & " " & $monsterArray[$j][2] _
-									 & ", " & AlignmentSwitch($monsterArray[$j][4]) & @CRLF & "HP = " & $monsterArray[$j][7] & @CRLF & "CR = " _
-									 & $monsterArray[$j][5] & " (XP: " & $monsterArray[$j][6] & ")" & @CRLF & @LF & _ArrayToString(IniReadSection($custIni, $monster), " = ", 1)
-							CreateNotesWindow($monster, $quick, $hMainGUI, "Monster", $j, $statArray, False, $monster)
-							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF)
+							$quick = $monsterArray[$monIndex][1] & " " & $monsterArray[$monIndex][2] _
+									 & ", " & AlignmentSwitch($monsterArray[$monIndex][4]) & @CRLF & "HP = " & $monsterArray[$monIndex][7] & @CRLF & "CR = " _
+									 & $monsterArray[$monIndex][5] & " (XP: " & $monsterArray[$monIndex][6] & ")" & @CRLF & @LF & _ArrayToString(IniReadSection($custIni, $monster), " = ", 1)
+							CreateNotesWindow($monster, $quick, $hMainGUI, "Monster", $monIndex, $statArray, False, $monster)
+							;ConsoleWrite(200 + (StringLen($item) * 4) & @LF) $monIndex
 						EndIf
 					EndIf
 			EndSwitch
