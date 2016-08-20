@@ -1,19 +1,6 @@
 [ADAMANTINE ARMOR]
 Type = Armor (medium or heavy, but not hide), uncommon
 Description = This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit.
-[ALCHEMY jUG]
-Type = Wondrous item, uncommon
-Description = This ceramic jug appears to be able to hold a gallon of liquid and weighs 12 pounds whether full or empty.
-Sloshing sounds can be heard from within the jug when it is shaken, even if the jug is empty.
-Description2 = You can use an action and name one liquid from the table below to cause the jug to produce the chosen liquid. Afterward, you can uncork the jug as an action and pour that liquid out, up to 2 gallons per minute. The maximum amount of liquid the jug can produce depends on the liquid you named. Once the jug starts producing a liquid, it can't produce a different one, or more of one that has reached its maximum, until the next dawn.
-##Table
-TableColumns = Liquid\\Max Amount\\Liquid\\Max Amount
-Table1 = Acid\\8 ounces\\Oil\\1 quart
-Table2 = Basic poison\\1/2 ounce\\Vinegar\\2 gallons
-Table3 = Beer\\4 gallons\\Water, fresh\\8 gallons
-Table4 = Honey\\1 gallon\\Water, salt\\12 gallons
-Table5 = Mayonnaise\\2 gallons\\Wine\\1 gallon
-##Ammunition Below Requires Work.
 [AMMUNITION, +1 , +2, OR +3]
 Type = Weapon (any ammunition), uncommon (+1), rare (+2), or very rare (+3)
 Description = You have a bonus to attack and damage rolls made with this piece of magic ammunition. The bonus is determined by the rarity of the ammunition. Once it hit a target, the ammunition is no longer magical.
@@ -30,7 +17,7 @@ Description2 = Roll a d100. On a 1-60, you travel to a random location on the pl
 [ANIMATED SHIELD]
 Type = Armor (shield), very rare (requires atttunement)
 Description = While holding this shield, you can speak its command word as a bonus action to cause it to animate. The shield leaps into the air and hovers in your space to protect you as if you were wielding it, leaving your hands free. The shield remains animated for 1 minute, until you use a bonus action to end this effect, or until you are incapacitated or die, at which point the shield falls to the ground or into your hand if you have one free.
-[APPARATUS OF KWALISH]
+[APPARATUS OF THE CRAB]
 Type = Wondrous item, legendary
 Description = This item first appears to be a Large sealed iron barrel weighing 500 pounds. The barrel has a hidden catch, which can be found with a successful DC 20 Intelligence (Investigation) check. Releasing the catch unlocks a hatch at one end of the barrel, allowing two Medium or smaller creatures to crawl inside. Ten levers are set in a row at the far end, each in a neutral position, able to move either up or down. When certain levers are used, the apparatus transforms to resemble a giant lobster.
 Description2 = The apparatus of Kwalish is a Large object with the following statistics:
@@ -40,7 +27,7 @@ Description5 = Speed: 30 ft., swim 30 ft. (or 0 ft. for both if the legs and tai
 Description6 = Damage Immunities: poison, psychic 
 Description7 = To be used as a vehicle, the apparatus requires one pilot. While the apparatus's hatch is closed, the compartment is airtight and watertight. The compartment holds enough air for 10 hours of breathing, divided by the number of breathing creatures inside. The apparatus floats on water. It can also go underwater to a depth of 900 feet. Below that, the vehicle takes 2d6 bludgeoning damage per minute from pressure.
 Description8 = A creature in the compartment can use an action to move as many as two of the apparatus's levers up or down. After each use, a lever goes back to its neutral position. Each lever, from left to right, functions as shown in the Apparatus of Kwalish Levers table.
-DescriptionTitle = APPARATUS OF KWALISH LEVERS
+DescriptionTitle = APPARATUS OF THE CRAB LEVERS
 ##TABLE OR SOMETHING SIMILAR
 DescriptionTitle1 = Lever Up
 Subitem9=1	 Legs and tail extend, allowing the apparatus to walk and swim.
@@ -247,9 +234,6 @@ TableRow5 = 18-20\\Lawful good\\-\\-
 Description2 = The candle's magic is activated when the candle is lit, which requires an action. After burning for 4 hours, the candle is destroyed. You can snuff it out early for use at a later time. Deduct the time it burned in increments of 1 minute from the candle's total burn time.
 Description3 = While lit, the candle sheds dim light in a 30-foot radius. Any creature within that light whose alignment matches that of the candle makes attack rolls, saving throws, and ability checks with advantage. In addition, a cleric or druid in the light whose a lignment matches the candle's can cast 1st-level spells he or she has prepared without expending spell slots, though the spell's effect is as if cast with a 1st-level slot.
 Description4 = Alternatively, when you light the candle for the first time, you can cast the gate spell with it. Doing so destroys the candle.
-[CAP OF WATER BREATHING]
-Type = Wondrous item, uncommon
-Description = While wearing this cap underwater, you can speak its command word as an action to create a bubble of air around your head. It allows you to breathe normally underwater. This bubble stays with you until you speak the command word again, the cap is removed, or you are no longer underwater.
 [CAPE OF THE MOUNTEBANK]
 Type = Wondrous item, rare
 Description = This cape smells faintly of brimstone. While wearing it, you can use it to cast the dimension door spell as an action. This property of the cape can't be used again until the next dawn. When you disappear, you leave behind a cloud of smoke, and you appear in a similar cloud of smoke at your destination. The smoke lightly obscures the space you left and the space you appear in, and it dissipates at the end of your next turn. A light or stronger wind disperses the smoke.
@@ -289,10 +273,6 @@ Description = While you wear this cloak, it projects an illusion that makes you 
 [CLOAK OF ELVENKIND]
 Type = Wondrous item, uncommon (requires attunement)
 Description = While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage and you have advantage on Dexterity (Stealth) checks made to hide, as the cloak's color shifts to camouflage you. Pulling the hood up or down requires an action.
-[CLOAK OF INVISIBILITY]
-Type = Wondrous item, legendary (requires attunement)
-Description = While wearing this cloak, you can pull its hood over your head to cause yourself to become invisible. While you are invisible, anything you are carrying or wearing is invisible with you. You become visible when you cease wearing the hood. Pulling the hood up or down requires an action.
-Description2 = Deduct the time you are invisible, in increments of 1 minute, from the cloak's maximum duration of 2 hours. After 2 hours of use, the cloak ceases to function. For every uninterrupted period of 12 hours the cloak goes unused, it regains 1 hour of duration.
 [CLOAK OF PROTECTION]
 Type = Wondrous item, uncommon (requires attunement)
 Description = You gain a +1 bonus to AC and saving throws while you wear this cloak.
@@ -506,10 +486,6 @@ TableRow5 = Copper\\Acid\\White\\Cold
 Type = Weapon (any sword), rare
 Description = You gain a +1 bonus to attack and damage rolls made with this magic weapon.
 Description2 = When you hit a dragon with this weapon, the dragon takes an extra 3d6 damage of the weapon's type. For the purpose of this weapon, "dragon" refers to any creature with the dragon type, including dragon turtles and wyverns.
-[DRIFTGLOBE]
-Type = Wondrous item, uncommon
-Description = This small sphere of thick glass weighs 1 pound. If you are within 60 feet of it, you can speak its command word and cause it to emanate the light or daylight spell. Once used, the daylight effect can't be used again until the next dawn.
-Description2 = You can speak another command word as an action to make the illuminated globe rise into the air and float no more than 5 feet off the ground. The globe hovers in this way until you or another creature grasps it. If you move more than 60 feet from the hovering globe, it follows you until it is within 60 feet of you. It takes the shortest route to do so. If prevented from moving, the globe sinks gently to the ground and becomes inactive, and its light winks out.
 [DUST OF DISAPPEARANCE]
 Type = Wondrous item, uncommon
 Description = Found in a small packet, this powder resembles very fine sand. There is enough of it for one use. When you use an action to throw the dust into the air, you and each creature and object within 10 feet of you become invisible for 2d4 minutes. The duration is the same for all subjects, and the dust is consumed when its magic takes effect. If a creature affected by the dust attacks or casts a spell, the invisibility ends for that creature.
@@ -540,9 +516,6 @@ Roll2 = ll-90
 Effect2 = The efreeti serves you for 1 hour, doing as you command. Then the efreeti returns to the bottle, and a new stopper contains it. The stopper can't be removed for 24 hours . The next two times the bottle is opened , the same effect occurs. If the bottle is opened a fourth time , the efreeti escapes and disappears, and the bottle loses its magic.
 Roll3 = 91-100 
 Effect3 = The efreeti can cast the wish spell three times for you. It disappears when it grants the final wish or after 1 hour, and the bottle loses its magic.
-[EFREETI CHAIN]
-Type = Armor (chain mail), legendary (requires attunement)
-Description = While wearing this armor, you gain a +3 bonus to AC, you are immune to fire damage, and you can understand and speak Primordial. In addition, you can stand on and walk across molten rock as if it were solid ground.
 [ELEMENTAL GEM]
 Type = Wondrous item, uncommon
 Description = This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.
@@ -551,9 +524,6 @@ TableRow = Blue sapphire\\Air elemental
 TableRow1 = Yellow diamond\\Earth elemental
 TableRow2 = Red corundum\\Fire elemental
 TableRow3 = Emerald\\Water elemental
-[ELIXIR OF HEALTH]
-Type = Potion, rare
-Description = When you drink this potion, it cures any disease afflicting you, and it removes the blinded, deafened, paralyzed, and poisoned conditions. The clear red liquid has tiny bubbles of light in it.
 [ELVEN CHAIN]
 Type = Armor (chain shirt), rare
 Description = You gain a +1 bonus to AC while you wear this armor.
@@ -648,9 +618,6 @@ Description = These gloves seem to almost meld into your hands when you don them
 [GLOVES OF SWIMMING AND CLIMBING]
 Type = Wondrous item, uncommon (requires attunement)
 Description = While wearing these gloves, climbing and swimming don't cost you extra movement, and you gain a +5 bonus to Strength (Athletics) checks made to climb or swim.
-[GLOVES OF THIEVERY]
-Type = Wondrous item, uncommon
-Description = These gloves are invisible while worn. While wearing them, you gain a +5 bonus to Dexterity (Sleight of Hand) checks and Dexterity checks made to pick locks.
 [GoGGLES oF NIGHT]
 Type = Wondrous item, uncommon
 Description = While wearing these dark lenses, you have darkvision out to a range of 60 feet. If you already have darkvision, wearing the goggles increases its range by 60 feet.
@@ -873,9 +840,6 @@ Description3 = Once you finish creating the golem, the book is consumed in eldri
 [MANUAL OF QUICKNESS OF ACTION]
 Type = Wondrous item, very rare
 Description = This book contains coordination and balance exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying rhe book's contents and practicing its guidelines, your Dexterity score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century.
-[MARINER'S ARMOR]
-Type = Armor (light, medium, or heavy), uncommon
-Description = While wearing this armor, you have a swimming speed equal to your walking speed. In addition, whenever you start your turn underwater with 0 hit points, the armor causes you to rise 60 feet toward the surface. The armor is decorated with fish and shell motifs.
 [MEDALLION OF THOUGHTS]
 Type = Wondrous item, uncommon (requires attunement)
 Description = The medallion has 3 charges. While wearing it, you can use an action and expend 1 charge to cast the detect thoughts spell (save DC 13) from it. The medallion regains 1d3 expended charges daily at dawn.
@@ -934,6 +898,23 @@ Description = This clear, gelatinous oil sparkles with tiny, ultrathin silver sh
 Type = Potion, uncommon
 Description = This sticky black unguent is thick and heavy in the container, but it flows quickly when poured. The oil can cover a Medium or smaller creature, along with the equipment it's wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of a freedom of movement spell for 8 hours.
 Description2 = Alternatively, the oil can be poured on the ground as an action, where it covers a 10-foot square, duplicating the effect of the grease spell in that area for 8 hours. 
+[ORB OF DRAGONKIND]
+Type = Wondrous item, artifact (requires attunement)
+Description = Ages past, elves and humans waged a terrible war against evil dragons. When the world seemed doomed, powerful wizards came together and worked their greatest magic, forging five Orbs of Dragonkind (or Dragon Orbs) to help them defeat the dragons. One orb was taken to each of the five wizard towers, and there they were used to speed the war toward a victorious end. The wizards used the orbs to lure dragons to them, then destroyed the dragons with powerful magic. 
+Description2=As the wizard towers fell in later ages, the orbs were destroyed or faded into legend, and only three are thought to survive. Their magic has been warped and twisted over the centuries, so although their primary purpose of calling dragons still functions, they also allow some measure of control over dragons. 
+Each orb contains the essence of an evil dragon, a presence that resents any attempt to coax magic from it. Those lacking in force of personality might find themselves enslaved to an orb. 
+Description3=An orb is an etched crystal globe about 10 inches in diameter. When used, it grows to about 20 inches in diameter, and mist swirls inside it. 
+While attuned to an orb, you can use an action to peer into the orb's depths and speak its command word. You must then make a DC 15 Charisma check. On a successful check, you control the orb for as long as you remain attuned to it. On a failed check, you become charmed by the orb for as long as you remain attuned to it. 
+Description4=While you are charmed by the orb, you can't voluntarily end your attunement to it, and the orb casts suggestion on you at will (save DC 18), urging you to work toward the evil ends it desires. The dragon essence within the orb might want many things: the annihilation of a particular people, freedom from the orb, to spread suffering in the world, to advance the worship of Tiamat, or something else the GM decides.
+Description5=
+Description6=Random Properties.
+Description7=An Orb of Dragonkind has the following random properties: 2 minor beneficial properties 1 minor detrimental property * 1 major detrimental property
+Description8=
+Description9=Spells.
+Description10=The orb has 7 charges and regains 1d4 + 3 expended charges daily at dawn. If you control the orb, you can use an action and expend 1 or more charges to cast one of the following spells (save DC 18) from it: cure wounds (5th-level version, 3 charges), daylight (1 charge), death ward (2 charges), or scrying (3 charges). 
+Description11=You can also use an action to cast the detect magic spell from the orb without using any charges. 
+Description12=Call Dragons. While you control the orb, you can use an action to cause the artifact to issue a telepathic call that extends in all directions for 40 miles. Evil dragons in range feel compelled to come to the orb as soon as possible by the most direct route. Dragon deities such as Tiamat are unaffected by this call. Dragons drawn to the orb might be hostile toward you for compelling them against their will. Once you have used this property, it can't be used again for 1 hour. 
+Description13=Destroying an Orb. An Orb of Dragonkind appears fragile but is impervious to most damage, including the attacks and breath weapons of dragons. A disintegrate spell or one good hit from a +3 magic weapon is sufficient to destroy an orb, however.
 [PEARL OF PowER]
 Type = Wondrous item, uncommon (requires attunement by a spellcaster)
 Description = You can use an action to speak this pearl's command word and regain one expended spell slot of up to 3rd level. Once you have used the pearl, it can't be used again until the next dawn. 
@@ -1016,12 +997,6 @@ Description = For 1 hour after drinking it, you gain 10 temporary hit points tha
 [POTION OF INVISIBILITY]
 Type = Potion, very rare
 Description = This potion's container looks empty but feels as though it holds liquid. When you drink it, you become invisible for 1 hour. Anything you wear or carry is invisible with you. The effect ends early if you attack or cast a spell.
-[POTION OF INVULNERABILITY]
-Type = Potion, rare
-Description = For 1 minute after you drink this potion, you have resistance to all damage. The potion's syrupy liquid looks like liquified iron.
-[POTION OF LONGEVITY]
-Type = Potion, very rare
-Description = When you drink this potion, your physical age is reduced by 1d6 + 6 years, to a minimum of 13 years. Each time you subsequently drink a potion of longevity, there is 10 percent cumulative chance that you instead age by 1d6 + 6 years. Suspended in this amber liquid are a scorpion's tail, an adder's fang, a dead spider, and a tiny heart that, against all reason, is still beating. These ingredients vanish when the potion is opened.
 [POTION OF MIND READING]
 Type = Potion, rare
 Description = When you drink this potion, you gain the effect of the detect thoughts spell (save DC 13). The potion's dense, purple liquid has an ovoid cloud of pink floating in it.
@@ -1046,9 +1021,6 @@ TableRow10 = 10\\Thunder
 [POTION OF SPEED]
 Type = Potion, very rare
 Description = When you drink this potion, you gain the effect of the haste spell for 1 minute (no concentration required). The potion's yellow fluid is streaked with black and swirl on its own.
-[POTION OF VITALITY]
-Type = Potion, very rare
-Description = When you drink this potion, it removes any exhaustion you are suffering and cures any disease or poison affecting you. For the next 24 hours, you regain the maximum number of hit points for any Hit Die you spend. The potion's crimson liquid regularly pulses wi-dulllight, calling to mind a heartbeat.
 [POTION OF WATER BREATHING]
 Type = Potion, uncommon
 Description = You can breathe underwater for 1 hour after drinking this potion. Its cloudy green fluid smells of the sea and has a jellyfish-like bubble floating in it. 
@@ -1285,10 +1257,6 @@ Subitem4 = Terrify. While holding the rod, you can use an action to force each c
 Type = Rod, uncommon (+1), rare (+2), or very rare (+3) (requires attunement by a warlock)
 Description = While holding this rod, you gain a bonus to spell attack rolls and to the saving throw DCs of your warlock spells. The bonus is determined by the rod's rarity.
 Description2 = In addition, you can regain one warlock spell slot as an action while holding the rod. You can't use this property again until you finish a long rest.
-[Rod OF RESURRECTION]
-Type = Rod, legendary (requires attunement by a cleric, druid, or paladin)
-Description = The rod has 5 charges. While you hold it, you ·can use an action to cast one of the following spells from it: heal (expends 1 charge) or resurrection (expends 5 charges). 
-Description2 = The rod regains 1 expended charge daily at dawn. If the rod is reduced to 0 charges, roll a d20. On a 1, the rod disappears in a burst of radiance.
 [Rod OF RULERSHIP]
 Type = Rod, rare (requires attunement)
 Description = You can use an action to present the rod and command obedience from each creature of your choice that you can see within 120 feet of you. Each target must succeed on a DC 15 Wisdom saving throw or be charmed by you for 8 hours. While charmed in this way, the creature regards you as its trusted leader. If harmed by you or your companions, or commanded to do something contrary to its nature, a target ceases to be charmed in this way. The rod can't be used again until the next dawn.
@@ -1307,9 +1275,6 @@ Type = Wondrous item, rare
 Description = This rope is 30 feet long and weighs 3 pounds. If you hold one end of the rope and use an action to speak its command word, the other end darts forward to entangle a creature you can see within 20 feet of you. The target must succeed on a DC 15 Dexterity saving throw or become restrained. 
 Description2 = You can release the creature by using a bonus action to speak a second command word. A target restrained by the rope can use an action to make a DC 15 Strength or Dexterity check (target's choice). On a success, the creature is no longer restrained by the rope.
 Description3 = The rope has AC 20 and 20 hit points. It regains 1 hit point every 5 minutes as long as it has at least 1 hit point. If the rope drops to 0 hit points, it is destroyed.
-[SADDLE OF THE CAVALIER]
-Type = Wondrous item, uncommon
-Description = While in this saddle on a mount, you can't be dismounted against your will if you're conscious, and attack rolls against the mount have disadvantage. 
 [SCARAB OF PROTECTION]
 Type = Wondrous item, legendary (requires attunement)
 Description = If you hold this beetle-shaped medallion in your hand for 1 round, an inscription appears on its surface revealing its magical nature. It provides two benefits while it is on your person:
@@ -1318,24 +1283,6 @@ Subitem2 = The scarab has 12 charges. If you fail a saving throw against a necro
 [SCIMITAR OF SPEED]
 Type = Weapon (scimitar), very rare (requires attunement)
 Description = You gain a +2 bonus to attack and damage rolls made with this magic weapon. In addition, you can make one attack with it as a bonus action on each of your turns.
-[SCROLL OF PROTECTION]
-Type = Scroll, rare
-Description = Each scroll of protection works against a specific type of creature chosen by the DM or determined randomly by rolling on the following table.
-TableColumns = d100\\Creature Type\\d100\\Creature Type
-TableRow = 01-10\\Aberrations\\41-50\\Fey
-TableRow2 = 11-20\\Beasts\\51-75\\Fiends
-TableRow3 = 21-30\\Celestials\\76-80\\Plants
-TableRow4 = 31-40\\Elementals\\81-00\\Undead
-Description2 = Using an action to read the scroll encloses you in a invisible barrier that extends from you to form a 5-footradius, 10-foot-high cylinder. For 5 minutes, this barrier prevents creatures of the specified type from entering or affecting anything within the cylinder.
-Description3 = The cylinder moves with you and remains centered on you. However, if you move in such a way that a creature of the specified type would be inside the cylinder, the effect ends.
-Description4 = A creature can attempt to overcome the barrier by using an action to make a DC 15 Charisma check. On a success, the creature ceases to be affected by the barrier.
-[SENDING STONES]
-Type = Wondrous item, uncommon
-Description = Sending stones come in pairs, with each smooth stone carved to match the other so the pairing is easily recognized. While you touch one stone, you can use an action to cast the sending spell from it. The target is the bearer of the other stone. If no creature bears the other stone, you know that fact as soon as you use the stone and don't cast the spell.
-Description2 = Once sending is cast through the stones, they can't be used again until the next dawn. If one of the stones in a pair is destroyed, the other one becomes nonmagical.
-[SENTINEL SHIELD]
-Type = Armor (shield), uncommon
-Description = While holding this shield, you have advantage on initiative rolls and Wisdom (Perception) checks. The shield is emblazoned with a symbol of an eye. 
 [SHIELD, +1, +2, OR +3]
 Type = Armor (shield), uncommon (+1), rare (+2), or very rare (+3)
 Description = While holding this shield, you have a bonus to AC determined by the shield's rarity. This bonus is in addition to the shield's normal bonus to AC.
@@ -1425,11 +1372,6 @@ Type = Staff, rare (requires attunement by a bard, cleric, druid, sorcerer, warl
 Description = This staff has 10 charges and regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, a swarm of insects consumes and destroys the staff, then disperses. 
 Subitem = Spells. While holding the staff, you can use an action to expend some of its charges to cast one of the following spells from it, using your spell save DC: giant insect (4 charges) or insect plague (5 charges). 
 Subitem2 = Insect Cloud. While holding the staff, you can use an action and expend 1 charge to cause a swarm of harmless flying insects to spread out in a 30-foot radius from you. The insects remain for 10 minutes, making the area heavily obscured for creatures other than you. The swarm moves with you, remaining centered on you. A wind of at least 10 miles per hour disperses the swarm and ends the effect.
-[STAFF OF THE ADDER]
-Type = Staff, uncommon (requires attunement by a cleric, druid, or warlock)
-Description = You can use a bonus action to speak this staff's command word and make the head of the staff become that of an animate poisonous snake for 1 minute. By using another bonus action to speak the command word again, you return the staff to its normal inanimate form. 
-Description2 = You can make a melee attack using the snake head, which has a reach of 5 feet. Your proficiency bonus applies to the attack roll. On a hit, the target takes 1d6 piercing damage and must succeed on a DC 15 Constitution saving throw or take 3d6 poison damage.
-Description3 = The snake head can be attacked while it is animate. It has an Armor Class of 15 and 20 hit points. If the head drops to 0 hit points, the staff is destroyed. As long as it's not destroyed, the staff regains all lost hit points when it reverts to its inanimate form.
 [STAFF OF THE MAGI]
 Type = Staff, legendary (requires attunement by a sorcerer, warlock, or wizard)
 Description = This staff can be wielded as a magic quarterstaff that grants a +2 bonus to attack and damage rolls made with it. While you hold it, you gain a +2 bonus to spell attack rolls.
@@ -1478,20 +1420,6 @@ Description = This item appears to be a longsword hilt. While grasping the hilt,
 Description2 = You gain a +2 bonus to attack and damage rolls made with this weapon, which deals radiant damage instead of slashing damage. When you hit an undead with it, that target takes an extra 1d8 radiant damage.
 Description3 = The sword's luminous blade emits bright light in a 15-foot radius and dim light for an additional 15 feet.
 The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each.
-[SWORD OF ANSWERING]
-Type = Weapon (longsword), legendary (requires attunement by a creature with the same alignment as the sword)
-Description = In the world of Greyhawk, only nine of these blades are known to exist. Each is patterned after the legendary sword Fragarach, which is variously translated as "Final Word." Each of the nine swords has its own name and alignment, and each bears a different gem in its pommel.
-TableColumns = Name\\Alignment\\Gem
-TableRow1	=	Answerer\\Chaotic good\\Emerald
-TableRow2	=	Back Talker\\Chaotic evil\\jet
-TableRow3	=	Concluder\\Lawful neutral\\Amethyst
-TableRow4	=	Last Quip\\Chaotic neutral\\Tourmaline
-TableRow5	=	Rebutter\\Neutral good\\Topaz
-TableRow6	=	Replier\\Neutral\\Peridot
-TableRow7	=	Retorter\\Lawful good\\Aquamarine •
-TableRow8	=	Scather\\Lawful evil\\Garnet
-TableRow9	=	Squelcher\\Neutral evil\\Spinel
-Description2 =You gain a +3 bonus to attack and damage rolls made with this sword. In addition, while you hold the sword, you can use your reaction to make one melee attack with it against any creature in your reach that deals damage to you. You have advantage on the attack roll, and any damage dealt with this special attack ignores any damage immunity or resistance the target has.
 [SWORD OF LIFE STEALING]
 Type = Weapon (any sword), rare (requires attunement)
 Description = When you attack a creature with this magic weapon and roll a 20 on the attack roll, that target takes an extra 10 necrotic damage if it isn't a construct or an undead. You also gain 10 temporary hit points.
@@ -1500,12 +1428,6 @@ Type = Weapon (any sword that deals slashing damage), very·rare (requires attune
 Description = When you attack an object with this magic sword and hit, maximize your weapon damage dice against the target.
 Description2 = When you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 14 slashing damage. Then roll another d20. If you roll a 20 you lop off one of the target's limbs, with the effect of such loss determined by the DM. If the creature has no limb to sever, you lop off a portion of its body instead.
 Description3 = In addition, you can speak the sword's command word to cause the blade to shed bright light in a 10-foot radius and dim light for an additional 10 feet. Speaking the command word again or sheathing the sword puts out the light.
-[SWORD OF VENGEANCE]
-Type = Weapon (any sword), uncommon (requires attunement)
-Description = You gain a +1 bonus to attack and damage rolls made with this magic weapon.
-Curse = This sword is cursed and possessed by a vengeful spirit. Becoming attuned to it extends the curse to you. As long as you remain cursed, you are unwilling to part with the sword, keeping it on your person at all times. While attuned to this weapon, you have disadvantage on attack rolls made with weapons other than this one.
-Description2 = In addition, while the sword is on your person, you must succeed on a DC 15 Wisdom saving throw whenever you take damage in combat. On a failed save you must attack the creature that damaged you until you drop to 0 hit points or it does, or until you can't reach the creature to make a melee attack against it.
-Description3 = You can break the curse in the usual ways. Alternatively, casting banishment on the sword forces the vengeful spirit to leave it. The sword then becomes a +1 weapon with no other properties.
 [SwoRD OF WouNDING]
 Type = Weapon (any sword), rare (requires attunement)
 Description = Hit points lost to this weapon's damage can be regained only through a short or long rest, rather than by regeneration, magic, or any other means.
@@ -1523,21 +1445,12 @@ Type = Wondrous item, legendary (requires attunement by a creature of evil align
 Description = This item symbolizes unrepentant evil. A creature that is neither good nor evil in alignment takes 6d6 necrotic damage upon touching the talisman. A good creature takes 8d6 necrotic damage upon touching the talisman. Either sort of creature takes the damage again each time it ends its turn holding or carrying the talisman.
 Description2 = If you are an evil cleric or paladin, you can use the talisman as a holy symbol, and you gain a +2 bonus to spell attack rolls while you wear or hold it. 
 Description3 = The talisman has 6 charges. If you are wearing or holding it, you can use an action to expend 1 charge from the talisman and choose one creature you can see on the ground within 120 feet of you. If the target is of good alignment, a flaming fissure opens under it. The target must succeed on a DC 20 Dexterity saving throw or fall into the fissure and be destroyed, leaving no remains. The fissure then closes, leaving no trace of its existence. When you expend the last charge, the talisman dissolves into foul-smelling slime and is destroyed.
-[TENTACLE RoD]
-Type = Rod, rare (requires attunement)
-Description = Made by the drow, this rod is a magic weapon that ends in three rubbery tentacles. While holding the rod, you can use an action to direct each tentacle to attack a creature you can see within 15 feet of you. Each tentacle makes a melee attack roll with a +9 bonus. On a hit, the tentacle deals 1d6 bludgeoning damage. If you hit a target with all three tentacles, it must make a DC 15 Constitution saving throw. On a failure, the creature's speed is halved, it has disadvantage on Dexterity saving throws, and it can't use reactions for 1 minute. Moreover, on each of its turns, it can take either an action or a bonus action, but not both. At the end of each of its turns, it can repeat the saving throw, ending the effect on itself on a success.
 [TOME OF CLEAR THOUGHT]
 Type = Wondrous item, very rare
 Description = This book contains memory and logic exercises, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Intelligence score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century.
 [TOME OF LEADERSHIP AND INFLUENCE]
 Type = Wondrous item, very rare
 Description = This book contains guidelines for influencing and charming others, and its words are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's contents and practicing its guidelines, your Charisma score increases by 2, as does your maximum for that score. The manual then loses its·magic, but regains it in a century.
-[TOME OF THE STILLED TONGUE]
-Type = Wondrous item, legendary (requires attunement by a wizard)
-Description = This thick leather-bound volume has a desiccated tongue pinned to the front cover. Five of these tomes exist, and it's unknown which one is the original. The grisly cover decoration on the first tome of the stilled tongue once belonged to a treacherous former servant of the lich-god Vecna, keeper of secrets. The tongues pinned to the covers of the four copies came from other spellcasters who crossed Vecna. The first few pages of each tome are filled with indecipherable scrawls. The remaining pages are blank and pristine.
-Description2 = If you can attune to this item, you can use it as a spellbook and an arcane focus. In addition, while holding the tome, you can use a bonus action to cast a spell you have written in this tome, without expend in a spell slot or using any verbal or somatic component Once used, this property of the tome can't be used again until the next dawn.
-Description3 = While attuned to the book, you can remove the tongue from the book's cover. If you do so, all spells written in the book are permanently erased. 
-Description4 = Vecna watches anyone using this tome. He can also write cryptic messages in the book. These messages appear at midnight and fade away after they are read.
 [TOME OF UNDERSTANDING]
 Type = Wondrous item, very rare
 Description = This book contains intuition and insight exercises, and swords are charged with magic. If you spend 48 hours over a period of 6 days or fewer studying the book's on tents and practicing its guidelines, your Wisdom score increases by 2, as does your maximum for that score. The manual then loses its magic, but regains it in a century.
@@ -1655,9 +1568,6 @@ Effect22 = If you targeted a creature, it must make a DC 15 Constitution saving 
 [WEAPON, +1, +2, OR +3]
 Type = Weapon (any), uncommon (+1), rare (+2), or very rare (+3)
 Description = You have a bonus to attack and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity. 
-[WEAPON OF WARNING]
-Type = Weapon (any), uncommon (requires attunement)
-Description = This magic weapon warns you of danger. While the weapon is on your person, you have advantage on initiative rolls. In addition, you and any of your companions within 30 feet of you can't be surprised, except when incapacitated by something other than nonmagical sleep. The weapon magically awakens you and your companions within range if any of you are sleeping naturally when combat begins.
 [WELL OF MANY WORLDS]
 Type = Wondrous item, legendary
 Description = This fine black cloth, soft as silk, is folded up to the dimensions of a handkerchief. It unfolds into a circular sheet 6 feet in diameter.
