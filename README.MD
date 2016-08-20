@@ -3,7 +3,6 @@
 The following programs were designed to enhance the gameplay for Players and DMs of D&D by creating quick reference\sort\lookup tools. Designed for ease of use are compact and/or resizeable (for smaller tabletop devices).
 
 Downloads:
-- [Github (Source + Exe's)](https://github.com/sdoddler/D-D-Software-Suite)
 - [MediaFire Link - Monster & Combat Tool Only](http://www.mediafire.com/download/idn9axgk4f3po7u/Monster_%26_Combat_Tool.zip)
 - [MediaFire Link (.Zip Containing Exe's Only)](http://www.mediafire.com/download/7n7edht0085j0e9/D%26D_Software_Suite.zip)
 - [MediaFire Link (.Zip Containing Exe's + Source)](http://www.mediafire.com/download/5ejvupkedgadjp6/D%26D_Software_Suite_%28Source%29.zip)
@@ -46,18 +45,6 @@ Homebrew Items will by default (on first Run) look for files in the local direct
 
 Let me know if I need to go over something in more detail for the Homebrew\Custom Items - I threw the video together pretty quickly to just show off what it can do. I can show you more of the editing description if the process is unclear :)
 
-## D&D Loot Generator - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/Loot%20Generator%20Source/README.md) - [Example Album](http://imgur.com/a/lBlxx)
-D&D Loot Generator is a small & easy to use tool to help generate Treasure and Loot for your party. With the following Loot\Treasure Generators
- 
- - Treasure Generator
- - Misc Item Generator (The items included in Item Sort)
- - Magic Item History
- - A generic Dice Roller (can be used for any circumstance with any dice)
-
-Pictures: 
-- [Normal Window](http://imgur.com/19TBar0) 
-- [Small Form Factor](http://imgur.com/hWPWBC5)
-
 ## Spell Check - [README](https://github.com/sdoddler/D-D-Software-Suite/blob/master/SpellSort%20Source/README.MD) - [Example Album](http://imgur.com/a/uqLgg)
 
 Spell Sort is a desktop app to sort through the various spells available in Dungeons and Dragons.
@@ -83,6 +70,16 @@ Everything is searchable by text or drop down menu (which is handy as the Cost &
 
 ### Currency Calculator - [Example Album](http://imgur.com/a/1QOV8)
 Works as a basic Calculator with Inbuilt Currency options and a Group Split calculation panel.
+
+### D&D Loot Generator
+For the time being Loot Generator has been discontinued. The following items were not covered by the OGL:
+
+- Gemstones
+- Treasure Tables
+- Art Objects
+- Magic Item Quirks, Minor Properties and History
+
+As such the program became basically useless in it's current form. If there is enough interest i may bring back a homebrew version where you are able to create and add your own Treasure Tables and item\reward lists. 
 
 #### Disclaimer
 If you do not own any of the Dungeons and Dragons books these Spells & Items are from please do not use these apps until you purchase these books and support the company that makes this great game possible.
