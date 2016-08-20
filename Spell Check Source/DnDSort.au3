@@ -530,6 +530,8 @@ Func CreateSpellArray($redoList = True)
 			$split = StringSplit($rSec[$i][1], "\\", 1)
 			$spArray[0][$i] = $rSec[$i][0]
 
+;~ 			ConsoleWrite($spArray[0][$i]&@LF)
+
 			$spArray[1][$i] = $split[1]
 			$spArray[2][$i] = $split[2]
 			$spArray[3][$i] = $split[3]
