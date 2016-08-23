@@ -1810,6 +1810,7 @@ Func _Titilise($iString)
 EndFunc   ;==>_Titilise
 
 Func AlignmentSwitch($shortForm)
+	if StringInStr($shortForm, "Any") Then Return $shortForm
 	Switch $shortForm
 		Case "N"
 			Return "Neutral"
@@ -2042,7 +2043,8 @@ Func SearchMonsters($iSearch = 0)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][5], 5)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][6], 6)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][7], 7)
-			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][8], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][8], 9)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][10], 8)
 			$listCount += 1
 		EndIf
 	Next
@@ -2076,14 +2078,14 @@ Func CreateMonsterArray($redoList = True)
 
 
 		$iSplit = StringSplit($secT[$j][1], "\\", 1)
-		$monArray[$listCount][1] = $iSplit[1]
-		$monArray[$listCount][2] = $iSplit[2]
-		$monArray[$listCount][3] = $iSplit[3]
-		$monArray[$listCount][4] = $iSplit[4]
-		$monArray[$listCount][5] = $iSplit[5]
-		$monArray[$listCount][6] = $iSplit[6]
-		$monArray[$listCount][7] = $iSplit[7]
-		$monArray[$listCount][8] = $iSplit[8]
+		$monArray[$listCount][1] = $iSplit[1] ;Size
+		$monArray[$listCount][2] = $iSplit[2] ;Type
+		$monArray[$listCount][3] = $iSplit[3] ;Tags
+		$monArray[$listCount][4] = $iSplit[4] ;Alignment
+		$monArray[$listCount][5] = $iSplit[5] ;CR
+		$monArray[$listCount][6] = $iSplit[6] ;XP
+		$monArray[$listCount][7] = $iSplit[7] ;HP
+		$monArray[$listCount][8] = $iSplit[8] ;Source
 		$monArray[$listCount][9] = StringReplace($secT[$j][0], " (in lair)", "")
 
 		$monArray[$listCount][10] = IniRead($monCompIni, $monArray[$listCount][0], "Dex", "N/A")
@@ -2132,7 +2134,7 @@ Func CreateMonsterArray($redoList = True)
 				$monArray[$listCount][7] = $iSplit[7]
 				$monArray[$listCount][8] = $iSplit[8]
 				$monArray[$listCount][9] = "CUSTOMMONSTER"
-				$monArray[$listCount][10] = IniRead($custIni, $monArray[$listCount][0] = $secT[$j][0], "Dex", "N/A")
+				$monArray[$listCount][10] = IniRead($custIni, $monArray[$listCount][0], "Dex", "N/A")
 
 
 				If $redoList Then
