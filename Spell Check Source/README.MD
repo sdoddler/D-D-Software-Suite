@@ -13,8 +13,18 @@ Spell Sort is a desktop app to sort through the various spells available in Dung
 If you do not own any of the Dungeons and Dragons books these spells are from please purchase these books and support the company that makes this great game possible.
  
 
-#### License
-Copyright (c) 2015 sDoddler
+#### OGL INFO
+All default (non Custom) Magic Items, NPCs, Monsters, Misc Creatures, Items and Spells are used as part of the below Open Gaming License.
+
+#### OGL LICENSE
+Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC.
+
+System Reference Document 5.1 Copyright 2016, Wizards of the Coast, Inc.; Authors Mike Mearls, Jeremy Crawford, Chris Perkins, Rodney Thompson, Peter Lee, James Wyatt, Robert J. Schwalb, Bruce R. Cordell, Chris Sims, and Steve Townshend, based on original material by E. Gary Gygax and Dave Arneson.
+
+END OF LICENSE
+
+#### Open Source License
+Copyright (c) 2016 sDoddler
 
 
 

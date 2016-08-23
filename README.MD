@@ -84,11 +84,18 @@ As such the program became basically useless in it's current form. If there is e
 #### Disclaimer
 If you do not own any of the Dungeons and Dragons books these Spells & Items are from please do not use these apps until you purchase these books and support the company that makes this great game possible.
  
+#### OGL INFO
+All default (non Custom) Magic Items, NPCs, Monsters, Misc Creatures, Items and Spells are used as part of the below Open Gaming License.
 
-#### License
+#### OGL LICENSE
+Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC.
+
+System Reference Document 5.1 Copyright 2016, Wizards of the Coast, Inc.; Authors Mike Mearls, Jeremy Crawford, Chris Perkins, Rodney Thompson, Peter Lee, James Wyatt, Robert J. Schwalb, Bruce R. Cordell, Chris Sims, and Steve Townshend, based on original material by E. Gary Gygax and Dave Arneson.
+
+END OF LICENSE
+
+#### Open Source License
 Copyright (c) 2016 sDoddler
-
-
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
