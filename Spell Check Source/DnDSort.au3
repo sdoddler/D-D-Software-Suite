@@ -544,6 +544,25 @@ Func CreateSpellArray($redoList = True)
 
 			$spArray[8][$i] = $quickDecode[0];StringReplace($secArray[$j][1], "@CRLF", @CRLF)
 
+;~ 			Local $mdName = "", $fStr = "", $strWrite = False
+
+;~ 			$mdName = StringReplace(StringReplace(StringReplace($spArray[0][$i]," ","_"),"'",""),"/","") & ".md"
+;~ 			if FileExists("..\Resources\Spell Sort\spells\" & $mdName) Then
+;~ 				$fOpen = FileOpen("..\Resources\Spell Sort\spells\" & $mdName)
+;~ 				$fArray = FileReadToArray($fOpen)
+;~ 				FileClose($fOpen)
+;~ 				For $j = 0 to UBound($fArray)-1
+;~ 					if StringInStr($fArray[$j],"**Duration:**") Then
+;~ 						$strWrite = True
+;~ 						$j+=1
+;~ 					EndIf
+;~ 					if $strWrite = True Then
+;~ 							$fStr &= $fArray[$j]&@CRLF
+;~ 					EndIf
+;~ 				Next
+;~ 				$spArray[8][$i] = $fStr
+;~ 			EndIf
+
 			;_ArrayDisplay($spArray)
 
 			If $redoList Then
@@ -639,8 +658,10 @@ Func _SearchSpells($iSearch = 0)
 								$include = False
 								ExitLoop
 							EndIf
-						Else
+							Else
+
 							For $lev = 0 To UBound($levelArray) - 1
+								;; Level Split[1] = Left Search
 								If $levelSplit[1] = $levelArray[$lev][1] Then $levelCheck = Not ($levelCheck)
 
 								If $levelCheck = False And $SpellArray[1][$i] = $levelArray[$lev][1] Then
@@ -650,7 +671,7 @@ Func _SearchSpells($iSearch = 0)
 
 								EndIf
 
-								If $levelSplit[2] = $levelArray[$lev][1] Then $levelCheck = Not ($levelCheck)
+								If $levelSplit[2] = $levelArray[$lev][1] AND $levelCheck Then $levelCheck = Not ($levelCheck)
 							Next
 							If $include = False Then
 								ExitLoop
@@ -780,7 +801,7 @@ Func Update()
 		$searchArray[$qCount][0] = GUICtrlRead($ihSearch)
 		$qCount += 1
 	EndIf
-	If GUICtrlRead($cLevel) <> "Any" And GUICtrlRead($cLevel2) <> "Any" Then
+	If GUICtrlRead($cLevel) <> "Any" OR GUICtrlRead($cLevel2) <> "Any" Then
 		$searchArray[$qCount][1] = "Level"
 		$searchArray[$qCount][0] = GUICtrlRead($cLevel) & "\\" & GUICtrlRead($cLevel2)
 		$qCount += 1
