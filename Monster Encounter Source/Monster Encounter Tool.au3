@@ -227,6 +227,7 @@ Global $initiativeActive = False, $hInitiative = -1239801, $hInitChild = -128398
 Global $initDexMod, $initDexModUD, $initManualInput, $initName, $initRolled, $initRolledUD, $initRollFor, $initAdd, $initList, $idLabel, $scrollState = False, $initiativeTitle = "Combat Window"
 Global $hInitDummy, $aSize, $initChildTitle = "Combat Child Window", $initChildStyles, $initChildStyleEx, $initRefresh, $aStartSize[4], $initNextTurn, $initTurnIndex = -1, $initTurnValue = -1
 Dim $initiativeArray[0][6], $initArr[0][0]
+Global $initShowHP = True, $hInitFile, $hInitShowHP
 #EndRegion INITIATIVE Window Variables
 
 #Region PLAYERS Window Variables
@@ -400,16 +401,16 @@ GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOC
 ;[ITME][7] = HP
 ;[ITME][8] = Source
 
-If $listColWidth[0] = "n/a" Then $listColWidth[0] = 120
-If $listColWidth[1] = "n/a" Then $listColWidth[1] = 60
-If $listColWidth[2] = "n/a" Then $listColWidth[2] = 75
-If $listColWidth[3] = "n/a" Then $listColWidth[3] = 45
-If $listColWidth[4] = "n/a" Then $listColWidth[4] = 50
-If $listColWidth[5] = "n/a" Then $listColWidth[5] = 30
-If $listColWidth[6] = "n/a" Then $listColWidth[6] = 45
-If $listColWidth[7] = "n/a" Then $listColWidth[7] = 80
-If $listColWidth[8] = "n/a" Then $listColWidth[8] = 50
-If $listColWidth[9] = "n/a" Then $listColWidth[9] = 50
+If $listColWidth[0] = "n/a" OR  $listColWidth[0] < 5  Then $listColWidth[0] = 120
+If $listColWidth[1] = "n/a" OR  $listColWidth[1] < 5 Then $listColWidth[1] = 60
+If $listColWidth[2] = "n/a" OR  $listColWidth[2] < 5 Then $listColWidth[2] = 75
+If $listColWidth[3] = "n/a" OR  $listColWidth[3] < 5 Then $listColWidth[3] = 45
+If $listColWidth[4] = "n/a" OR  $listColWidth[4] < 5 Then $listColWidth[4] = 50
+If $listColWidth[5] = "n/a" OR  $listColWidth[5] < 5 Then $listColWidth[5] = 30
+If $listColWidth[6] = "n/a" OR  $listColWidth[6] < 5 Then $listColWidth[6] = 45
+If $listColWidth[7] = "n/a" OR  $listColWidth[7] < 5 Then $listColWidth[7] = 80
+If $listColWidth[8] = "n/a" OR  $listColWidth[8] < 5 Then $listColWidth[8] = 50
+If $listColWidth[9] = "n/a" OR  $listColWidth[9] < 5 Then $listColWidth[9] = 50
 _GUICtrlListView_AddColumn($idListview, "Monster Name", $listColWidth[0]);120)
 _GUICtrlListView_AddColumn($idListview, "Size", $listColWidth[1]);60)
 _GUICtrlListView_AddColumn($idListview, "Type", $listColWidth[2]);75)
@@ -418,8 +419,10 @@ _GUICtrlListView_AddColumn($idListview, "Alignment", $listColWidth[4]);50)
 _GUICtrlListView_AddColumn($idListview, "CR", $listColWidth[5]);30)
 _GUICtrlListView_AddColumn($idListview, "XP", $listColWidth[6]);45)
 _GUICtrlListView_AddColumn($idListview, "HP", $listColWidth[7]);80)
-_GUICtrlListView_AddColumn($idListview, "Dex", $listColWidth[8]);50)
+;~ _GUICtrlListView_AddColumn($idListview, "Dex", 0);$listColWidth[8],0);50)
 _GUICtrlListView_AddColumn($idListview, "Source", $listColWidth[9]);50)
+_GUICtrlListView_AddColumn($idListview, "",0) ; CR Fake Column
+_GUICtrlListView_AddColumn($idListview, "",0) ; HP Fake Column
 #EndRegion Listview Creation
 
 #Region Enc Listview Creation + Buttons
@@ -512,6 +515,8 @@ GUIRegisterMsg($WM_SIZE, "_WM_SIZE")
 GUIRegisterMsg($WM_NCHITTEST, "_WM_NCHITTEST") ;; This is to prevent dragging on $WS_EX_CONTROLPARENT ( Tabbing in Child Forms)
 
 _GUICtrlListView_RegisterSortCallBack($idListview)
+
+
 OnAutoItExitRegister("SavePreferences")
 
 #EndRegion GUI Set State & RegisterMsgs()
@@ -583,7 +588,15 @@ While 1
 					GUICtrlSetData($cType, $types, "Any")
 					GUICtrlSetData($cSize, $sizes, "Any")
 				Case $idListview ; List View Sort call
+					Switch GUICtrlGetState($idListview)
+						Case 5
+					_GUICtrlListView_SortItems($idListview, 9)
+						Case 7
+							_GUICtrlListView_SortItems($idListview, 10)
+				Case Else
+
 					_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
+					EndSwitch
 				Case $encAdd
 					EncModify()
 				Case $encMinus
@@ -648,6 +661,17 @@ While 1
 ;~ 					_GUIScrollbars_Scroll_Page($hInitChild, 1, 1)
 ;~ 					_GUIScrollbars_Generate($hInitChild, 250, 30 + $initUB * 25, 1, 1, False)
 ;~
+				Case $hInitShowHP
+					if $initShowHP Then
+						$initShowHP = False
+						GUICtrlSetState($hInitShowHP,$GUI_UNCHECKED)
+						InitiativeUpdate()
+					Else
+						$initShowHP = TRUE
+						GUICtrlSetState($hInitShowHP,$GUI_CHECKED)
+						InitiativeUpdate(0)
+					EndIf
+
 				Case $initSave
 					CreateSaveWindow()
 				Case $initLoad
@@ -2043,8 +2067,11 @@ Func SearchMonsters($iSearch = 0)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][5], 5)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][6], 6)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][7], 7)
-			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][8], 9)
-			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][10], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][8], 8)
+;~ 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][10], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($monsterArray[$i][5]), 9)
+			Local $jSplit = StringSplit($monsterArray[$i][7],"(")
+			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
 			$listCount += 1
 		EndIf
 	Next
@@ -2100,8 +2127,11 @@ Func CreateMonsterArray($redoList = True)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[5], 5)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[6], 6)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[7], 7)
-			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 9)
-			_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 8)
+;~ 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($iSplit[5]), 9)
+			Local $jSplit = StringSplit($monArray[$listCount][7],"(")
+			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
 		EndIf
 		$listCount += 1
 
@@ -2146,8 +2176,11 @@ Func CreateMonsterArray($redoList = True)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[5], 5)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[6], 6)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[7], 7)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 9)
-					_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 8)
+;~ 					_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($iSplit[5]), 9)
+					Local $jSplit = StringSplit($monArray[$listCount][7],"(")
+			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
 				EndIf
 				$listCount += 1
 
@@ -2158,6 +2191,20 @@ Func CreateMonsterArray($redoList = True)
 
 	Return $monArray
 EndFunc   ;==>CreateMonsterArray
+
+Func CRSwitch($iCR)
+	Switch $iCR
+		Case "1/8"
+		Return 0.125
+		Case "1/4"
+			Return 0.25
+		Case "1/2"
+		Return 0.5
+		Case Else
+			Return $iCR
+
+	EndSwitch
+	EndFunc
 #EndRegion Search and Listview Funcs
 
 Func CreateSubWindow($iTitle, $iData, $iWidth = 250, $iReadOnly = True)
@@ -2456,6 +2503,10 @@ Func InitiativeWindow()
 		;$initiativeTitle = "New Initiative Window"
 
 		$hInitiative = GUICreate($initiativeTitle, 400, 330, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
+
+		$hInitFile = GUICtrlCreateMenu("Options")
+		$hInitShowHP = GUICtrlCreateMenuItem("Show HP",$hInitFile)
+		if $initShowHP Then GUICtrlSetState(-1, $GUI_CHECKED)
 
 		GUISetFont(12, 700)
 		GUICtrlCreateLabel("Manual Entry", 5, 200)
@@ -2776,8 +2827,10 @@ Func InitiativeUpdate($readFromChild = 1, $destroyGUI = 1, $debug = 0) ;; FIX SO
 				GUICtrlSetResizing(-1, $GUI_DOCKALL)
 				If $initiativeArray[$initSort[$i]][7] = True Then GUICtrlSetBkColor(-1, $COLOR_RED)
 
+				if $initShowHP Then
 				$initGUIArray[4] = GUICtrlCreateInput($initiativeArray[$initSort[$i]][9], 150, 23 + $i * 25, 30)
 				GUICtrlSetResizing(-1, $GUI_DOCKALL)
+				EndIf
 
 
 				$initGUIArray[2] = GUICtrlCreateInput($initiativeArray[$initSort[$i]][4], 185, 23 + $i * 25, 30)
@@ -4947,6 +5000,7 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 
 	; structure to map $ilParam ($tNMHDR - see Help file)
 	Local $tNMHDR = DllStructCreate($tagNMHDR, $ilParam);, $tagNMLISTVIEW
+	Local Const $h_lv = GUICtrlGetHandle($idListview)
 
 	Switch $tNMHDR.IDFrom
 		Case $encListview
@@ -4957,6 +5011,13 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 			EndSwitch
 		Case $idListview
 			Switch $tNMHDR.Code
+				; ####### build in this part #################################################################
+				Case -12 ; User has changed column width
+				If _GUICtrlListView_GetColumnWidth($idlistview, 9) <> 0 Then _
+                _GUICtrlListView_SetColumnWidth($idlistview, 9, 0) ; width of column 10 reset to zero
+				If _GUICtrlListView_GetColumnWidth($idlistview, 10) <> 0 Then _
+                _GUICtrlListView_SetColumnWidth($idlistview, 10, 0) ; width of column 11 reset to zero
+; ############################################################################################
 				Case $NM_KILLFOCUS
 					$cLastFocus = $tNMHDR.IDFrom
 					;ConsoleWrite("Idlistview Kill focus" &@LF)
