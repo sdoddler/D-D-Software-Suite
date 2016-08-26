@@ -209,6 +209,7 @@ _GUICtrlListView_AddColumn($idListview, "Range", 100)
 _GUICtrlListView_AddColumn($idListview, "Components", 60)
 _GUICtrlListView_AddColumn($idListview, "Duration", 80)
 _GUICtrlListView_AddColumn($idListview, "Description", 100)
+_GUICtrlListView_AddColumn($idListview, "",0)
 
 #EndRegion List View Setup
 
@@ -275,7 +276,13 @@ While 1
 				Case $GUI_EVENT_CLOSE
 					Exit
 				Case $idListview
+					Switch GUICtrlGetState($idListview)
+						Case 1
+							_GUICtrlListView_SortItems($idListview, 9)
+
+						Case Else
 					_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
+					EndSwitch
 				Case $dummy_proc1
 					CreateSubWindow(_GUICtrlListView_GetItemText($idListview, $iItem));,_GUICtrlListView_GetItemText($idListview, $iItem,6),_GUICtrlListView_GetItemText($idListview, $iItem,8))
 					;MsgBox(64,_GUICtrlListView_GetItemText($idListview, $iItem),"Components: " &_GUICtrlListView_GetItemText($idListview, $iItem,6) & @LF & @LF & "Description: " & _GUICtrlListView_GetItemText($idListview, $iItem,8))
@@ -575,6 +582,7 @@ Func CreateSpellArray($redoList = True)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $spArray[6][$i], 6)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $spArray[7][$i], 7)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $spArray[8][$i], 8)
+			_GUICtrlListView_AddSubItem($idListview, $listCount, _LevelSwitch($spArray[1][$i]), 9)
 			EndIf
 			$listCount += 1
 
@@ -625,6 +633,7 @@ Func CreateSpellArray($redoList = True)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[6], 6)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[7], 7)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $spArray[8][$listCount + 1], 8)
+					_GUICtrlListView_AddSubItem($idListview, $listCount, _LevelSwitch($iSplit[1]), 9)
 					EndIf
 					$listCount += 1
 
@@ -758,6 +767,7 @@ Func _SearchSpells($iSearch = 0)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $SpellArray[6][$i], 6)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $SpellArray[7][$i], 7)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $SpellArray[8][$i], 8)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, _LevelSwitch($SpellArray[1][$i]), 9)
 				$listCount += 1
 			EndIf
 		Next
@@ -933,6 +943,15 @@ EndFunc   ;==>Update
 ;~ EndFunc   ;==>_DescGui
 #EndRegion OLD FUNCS FOR SEARCH OPTION GENERATION
 
+Func _LevelSwitch($iLevel)
+	Switch $iLevel
+		Case "Cantrip"
+			Return 0
+		Case Else
+			Return $iLevel
+		EndSwitch
+EndFunc
+
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 
 	; structure to map $ilParam ($tNMHDR - see Help file)
@@ -941,6 +960,10 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $tNMHDR.IDFrom
 		Case $idListview
 			Switch $tNMHDR.Code
+				Case -12 ; User has changed column width
+				If _GUICtrlListView_GetColumnWidth($idlistview, 9) <> 0 Then _
+					_GUICtrlListView_SetColumnWidth($idlistview, 9, 0) ; width of column 10 reset to zero
+; 				############################################################################################
 				Case $LVN_HOTTRACK
 					ListView_HOTTRACK()
 					Return 0

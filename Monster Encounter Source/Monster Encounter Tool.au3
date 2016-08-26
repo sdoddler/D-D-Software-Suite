@@ -292,10 +292,10 @@ if $winTop > -1 Then
 	if $winTop > @DesktopHeight OR $winTop < -1 Then $winLeft = -1
 EndIf
 
-If $winWidth = "n/a" Then $winWidth = 723
+If $winWidth = "n/a" Then $winWidth = 680
 If $winHeight = "n/a" Then $winHeight = 462
 
-If $winWidth < 392 Then $winWidth = 392
+If $winWidth < 680 Then $winWidth = 680
 If $winHeight < 345 Then $winHeight = 345
 $hMainGUI = GUICreate($winTitle, $winWidth, $winHeight, $winLeft, $winTop, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
 
@@ -336,7 +336,7 @@ _GUICtrlMenu_InsertMenuItem($hMenu2, 3, "Edit Custom Item", $idproc3)
 
 #Region Search Gui
 
-GUICtrlCreateGroup("", 5, 1, 510, 39)
+GUICtrlCreateGroup("", 5, 1, 415, 39)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 GUICtrlCreateLabel("Monster Name", 10, 1)
@@ -356,17 +356,22 @@ $cType = GUICtrlCreateCombo("", 250, 15, 78)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, $types, "Any")
 
-GUICtrlCreateLabel("Alignment", 340, 1)
+GUICtrlCreateLabel("Custom Items", 340, 1)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
-$cAlign = GUICtrlCreateCombo("", 345, 15, 60, -1, $CBS_DROPDOWNLIST) ; Yes/no
+$cCustom = GUICtrlCreateCombo("", 345, 15, 70, -1, $CBS_DROPDOWNLIST)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetData(-1, "Any|Only|No", "Any")
+
+;~ GUICtrlCreateLabel("Alignment", 420, 1)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+$cAlign = GUICtrlCreateCombo("", 425, 15, 60, -1, $CBS_DROPDOWNLIST) ; Yes/no
+GUICtrlSetState(-1, $GUI_HIDE)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, $alignments, "Any")
 
-GUICtrlCreateLabel("Custom Items", 420, 1)
-GUICtrlSetResizing(-1, $GUI_DOCKALL)
-$cCustom = GUICtrlCreateCombo("", 425, 15, 70, -1, $CBS_DROPDOWNLIST)
-GUICtrlSetResizing(-1, $GUI_DOCKALL)
-GUICtrlSetData(-1, "Any|Only|No", "Any")
+GUISetFont(14)
+GUICtrlCreateLabel("Alignment:", 430,15)
+GUISetFont(8.5)
 
 GUICtrlCreateGroup("", 5, 40, 345, 39)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
@@ -381,6 +386,31 @@ $bUpdate = GUICtrlCreateButton("Update", 125, 50, 100)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 $bClear = GUICtrlCreateButton("Clear", 245, 50, 100)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbALAny = GUICtrlCreateCheckbox("Any",530,10)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+GUICtrlSetState(-1, $GUI_CHECKED)
+
+$cbUnaligned = GUICtrlCreateCheckbox("Unaligned",590,10)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbFL = GUICtrlCreateCheckbox("L",530,30)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbFN = GUICtrlCreateCheckbox("N",560,30)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbFC = GUICtrlCreateCheckbox("C",590,30)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbSG = GUICtrlCreateCheckbox("G",530,50)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbSN = GUICtrlCreateCheckbox("N",560,50)
+GUICtrlSetResizing(-1, $GUI_DOCKALL)
+
+$cbSE = GUICtrlCreateCheckbox("E",590,50)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 #EndRegion Search Gui
@@ -531,6 +561,17 @@ While 1
 		Case $hMainGUI
 
 			Switch $msg[0]
+				Case $cbALAny
+					GUICtrlSetState($cbFC, $GUI_UNCHECKED)
+					GUICtrlSetState($cbFL, $GUI_UNCHECKED)
+					GUICtrlSetState($cbFN, $GUI_UNCHECKED)
+					GUICtrlSetState($cbSE, $GUI_UNCHECKED)
+					GUICtrlSetState($cbSG, $GUI_UNCHECKED)
+					GUICtrlSetState($cbSN, $GUI_UNCHECKED)
+					GUICtrlSetState($cbUnaligned, $GUI_UNCHECKED)
+
+				Case $cbFC,$cbFL,$cbFN,$cbSE,$cbSG,$cbSN, $cbUnaligned
+					GUICtrlSetState($cbALAny, $GUI_UNCHECKED)
 				Case $GUI_EVENT_CLOSE ; Esc or X window button is pressed
 					Exit
 				Case $Enter_KEY ;; FIx this area - Need to think of how to include the In Lair while letting them have independant global notes..
@@ -610,10 +651,10 @@ While 1
 				Case $fRestart ; FileMenu Restart Program (Calls Restart Func)
 					Restart()
 				Case $fResetWindow
-					Local $x = (@DesktopWidth / 2) - 300
+					Local $x = (@DesktopWidth / 2) - 340
 					Local $y = (@DesktopHeight / 2) - 210
 
-					WinMove($winTitle, "", $x, $y, 600, 420)
+					WinMove($winTitle, "", $x, $y, 680, 420)
 
 					$listColWidth[0] = 120
 					$listColWidth[1] = 60
@@ -1935,9 +1976,21 @@ Func Update()
 		$searchArray[$qCount][0] = GUICtrlRead($cSize)
 		$qCount += 1
 	EndIf
-	If GUICtrlRead($cAlign) <> "Any" Then
+;~ 	If GUICtrlRead($cAlign) <> "Any" Then
+;~ 		$searchArray[$qCount][1] = "Alignment"
+;~ 		$searchArray[$qCount][0] = GUICtrlRead($cAlign)
+;~ 		$qCount += 1
+;~ 	EndIf
+	if GUICtrlRead($cbALAny) = $GUI_UNCHECKED AND (GUICtrlRead($cbFL) = $GUI_CHECKED OR GUICtrlRead($cbFN) = $GUI_CHECKED OR GUICtrlRead($cbFC) = $GUI_CHECKED OR GUICtrlRead($cbSG) = $GUI_CHECKED OR GUICtrlRead($cbSN) = $GUI_CHECKED OR GUICtrlRead($cbSE) = $GUI_CHECKED OR GUICtrlRead($cbUnaligned) = $GUI_CHECKED) Then
 		$searchArray[$qCount][1] = "Alignment"
-		$searchArray[$qCount][0] = GUICtrlRead($cAlign)
+		if GUICtrlRead($cbFL) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "L"
+		if GUICtrlRead($cbFN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
+		if GUICtrlRead($cbFC) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "C"
+		if GUICtrlRead($cbSG) = $GUI_CHECKED OR GUICtrlRead($cbSN) = $GUI_CHECKED OR GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|"
+		if GUICtrlRead($cbSG) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "G"
+		if GUICtrlRead($cbSN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
+		if GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "E"
+		if GUICtrlRead($cbUnaligned) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|U"
 		$qCount += 1
 	EndIf
 	If GUICtrlRead($cCustom) <> "Any" Then
@@ -1999,43 +2052,227 @@ Func SearchMonsters($iSearch = 0)
 						ExitLoop
 					EndIf
 				Case "Alignment"
+					$alignSplit = StringSplit($iSearch[$j][0],"|")
+					Select
+						Case StringInStr($monsterArray[$i][4], "Any")
 
-					If $iSearch[$j][0] = "N" Then ;; -- Possible issues? Test with Custom Monsters
-						For $a = 1 To StringLen($monsterArray[$i][4])
-							If StringMid($monsterArray[$i][4], $a, 1) = "N" Then
-								If $a = 1 Then
-									If StringMid($monsterArray[$i][4], $a + 1, 1) <> " " And Not (StringMid($monsterArray[$i][4], $a + 1, 1) = "") Then
-										$include = False
-									Else
-										$include = True
-										ExitLoop
-									EndIf
-								EndIf
-								If $a > 1 Then
-									If StringMid($monsterArray[$i][4], $a - 1, 1) <> " " Then
-										$include = False
-									Else
-										If StringMid($monsterArray[$i][4], $a + 1, 1) <> "" Then
-											;ConsoleWrite(Stringmid($monsterArray[$i][4],$a+1,1) &@LF)
+							if StringInStr($monsterArray[$i][4], "Non") THen
+								$nonType = StringReplace($monsterArray[$i][4],"Any Non-","")
+								Switch $nonType
+									Case "Chaotic"
+										if $alignSplit[1] = "C" Then
 											$include = False
-										Else
-											$include = True
 											ExitLoop
 										EndIf
+									Case "Neutral"
+										if $alignSplit[1] = "N"  Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Lawful"
+										if $alignSplit[1] = "L" Then
+											$include = False
+											ExitLoop
+										EndIf
+								EndSwitch
+								if $alignSplit[0] > 1 Then
+									Switch $nonType
+									Case "Neutral"
+										if $alignSplit[2] = "N" Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Good"
+										if $alignSplit[2] = "G" Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Evil"
+										if $alignSplit[2] = "E" Then
+											$include = False
+											ExitLoop
+										EndIf
+									EndSwitch
 									EndIf
-								EndIf
+							Else
+							if $monsterArray[$i][4]<> "Any" Then
+								$Type = StringReplace($monsterArray[$i][4],"Any ","")
+								Switch $Type
+									Case "Chaotic"
+										if Not(StringInStr($alignSplit[1],"C")) Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Neutral"
+										if Not(StringInStr($alignSplit[1], "N"))  Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Lawful"
+										if Not(StringInStr($alignSplit[1],"L")) Then
+											$include = False
+											ExitLoop
+										EndIf
+								EndSwitch
+								if $alignSplit[0] > 1 Then
+									Switch $Type
+									Case "Neutral"
+										if Not(StringInStr($alignSplit[2],"N")) Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Good"
+										if Not(StringInStr($alignSplit[2],"G")) Then
+											$include = False
+											ExitLoop
+										EndIf
+									Case "Evil"
+										if Not(StringInStr($alignSplit[2],"E")) Then
+											$include = False
+											ExitLoop
+										EndIf
+									EndSwitch
+									EndIf
+
 							EndIf
-						Next
-						If $include = False Then ExitLoop
-					EndIf
-					If Not (StringInStr($monsterArray[$i][4], $iSearch[$j][0])) Then
-						$include = False
-						ExitLoop
-					EndIf
-					If $monsterArray[$i][4] = "Unaligned" And $iSearch[$j][0] <> "Unaligned" Then
-						$include = False
-						ExitLoop
-					EndIf
+							EndIf
+					Case Else
+					Switch $alignSplit[1]
+						Case "L","LN","LC", "LNC","C", "NC"
+							Switch UBound($alignSplit)
+								Case 2
+									if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) Then
+										$include = False
+										ExitLoop
+									EndIf
+								Case 3
+									Switch $alignSplit[2]
+										Case "U"
+											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) And $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+										EndIf
+										Case "G","GN","GNE","NE","E","N", "GE"
+
+											; If Not("C" in "LN" ) And Not("N" in GE) Then
+											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1))) Then
+											$include = False
+											ExitLoop
+											EndIf
+										EndSwitch
+								Case 4
+										if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR _
+										Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+											EndIf
+							EndSwitch
+						Case "N"
+							Switch UBound($alignSplit)
+								Case 2
+									if $monsterArray[$i][4] <> "N"  AND Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) Then
+										$include = False
+											ExitLoop
+										EndIf
+								Case 3
+									Switch $alignSplit[2]
+										Case "U"
+											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) AND $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+										EndIf
+										Case "G","GN","GNE","NE","E", "GE"
+											if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "N" Then
+											$include = False
+											ExitLoop
+											EndIf
+										Case "N"
+											if $monsterArray[$i][4] <> "N" Then
+												$include = False
+											ExitLoop
+										EndIf
+									EndSwitch
+
+								Case 4
+									if $alignSplit[2] = "N" Then
+									if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "N" AND $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+									EndIf
+									Else
+									if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+									EndIf
+									EndIf
+
+							EndSwitch
+						Case "";"G","GN","GNE","NE","E","GE",""
+							if UBound($alignSplit) > 3 Then
+
+								If Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1))) and $monsterArray[$i][4] <> "Unaligned" Then
+									$include = False
+									ExitLoop
+								EndIf
+							Else
+								if $alignSplit[2] = "U" Then
+									If $monsterArray[$i][4] <> "Unaligned" Then
+								$include = False
+								ExitLoop
+							EndIf
+								Else
+								If Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1)))  Then
+
+									$include = False
+									ExitLoop
+								EndIf
+								EndIf
+
+							EndIf
+;~ 						Case "U"
+;~ 							If $monsterArray[$i][4] <> "Unaligned" Then
+;~ 								$include = False
+;~ 								ExitLoop
+;~ 							EndIf
+					EndSwitch
+					EndSelect
+					;; OLD SORTING METHOD
+;~ 					If $iSearch[$j][0] = "N" Then ;; -- Possible issues? Test with Custom Monsters
+;~ 						For $a = 1 To StringLen($monsterArray[$i][4])
+;~ 							If StringMid($monsterArray[$i][4], $a, 1) = "N" Then
+;~ 								If $a = 1 Then
+;~ 									If StringMid($monsterArray[$i][4], $a + 1, 1) <> " " And Not (StringMid($monsterArray[$i][4], $a + 1, 1) = "") Then
+;~ 										$include = False
+;~ 									Else
+;~ 										$include = True
+;~ 										ExitLoop
+;~ 									EndIf
+;~ 								EndIf
+;~ 								If $a > 1 Then
+;~ 									If StringMid($monsterArray[$i][4], $a - 1, 1) <> " " Then
+;~ 										$include = False
+;~ 									Else
+;~ 										If StringMid($monsterArray[$i][4], $a + 1, 1) <> "" Then
+;~ 											;ConsoleWrite(Stringmid($monsterArray[$i][4],$a+1,1) &@LF)
+;~ 											$include = False
+;~ 										Else
+;~ 											$include = True
+;~ 											ExitLoop
+;~ 										EndIf
+;~ 									EndIf
+;~ 								EndIf
+;~ 							EndIf
+;~ 						Next
+;~ 						If $include = False Then ExitLoop
+;~ 					EndIf
+;~ 					If Not (StringInStr($monsterArray[$i][4], $iSearch[$j][0])) Then
+;~ 						$include = False
+;~ 						ExitLoop
+;~ 					EndIf
+;~ 					If $monsterArray[$i][4] = "Unaligned" And $iSearch[$j][0] <> "Unaligned" Then
+;~ 						$include = False
+;~ 						ExitLoop
+;~ 					EndIf
 
 
 
@@ -4954,22 +5191,28 @@ Func _WM_SIZE($hWnd, $iMsg, $wParam, $lParam)
 	Switch $hWnd
 		Case $hInitiative
 			$aPos = ControlGetPos($hInitiative, "", $idLabel)
+			if IsArray($aPos) Then
 			WinMove($hInitChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
 			$initUB = UBound($initiativeArray)
 			_GUIScrollbars_Scroll_Page($hInitChild, 1, 1)
 			_GUIScrollbars_Generate($hInitChild, 280, 30 + $initUB * 25, 1, 1, False)
+			EndIf
 		Case $hPlayers
 			$aPos = ControlGetPos($hPlayers, "", $playChildSizeLabel)
+			if IsArray($aPos) Then
 			WinMove($hPlayersChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
 			$playUB = UBound($playersArray)
 			_GUIScrollbars_Scroll_Page($hPlayersChild, 1, 1)
 			_GUIScrollbars_Generate($hPlayersChild, 400, 30 + $playUB * 25, 1, 1, False)
+			EndIf
 		Case $hEncounter
 			$aPos = ControlGetPos($hEncounter, "", $encoChildSizeLabel)
+			if IsArray($aPos) Then
 			WinMove($hEncounterChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
 			$encoUB = UBound($encounterArray)
 			_GUIScrollbars_Scroll_Page($hEncounterChild, 1, 1)
 			_GUIScrollbars_Generate($hEncounterChild, 400, 30 + $encoUB * 25, 1, 1, False)
+			Endif
 	EndSwitch
 
 EndFunc   ;==>_WM_SIZE

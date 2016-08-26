@@ -14,6 +14,7 @@
 #include <ComboConstants.au3>
 #include <File.au3>
 #include "..\Resources\_RefreshCache.au3"
+#include "..\Currency Calculator Source\CurrencyConverter.au3"
 
 _RefreshCache()
 
@@ -58,7 +59,7 @@ $hGUI = GUICreate($winTitle, $winWidth, $winHeight, -1, -1, $WS_MAXIMIZEBOX + $W
 
 $Costs = "Any|Less than 1 gp|1 Gp to 25 gp|Greater than 25 gp"
 $Damages = "Any|Bludgeoning|Piercing|Slashing"
-$Weights = "Any|Light (5 lb. or less)|Medium (6 to 25 lb.)|Heavy (Greater than 25 lb.)"
+$Weights = "Any|Light (5  lb. or less)|Medium (6 to 25  lb.)|Heavy (Greater than 25  lb.)"
 $Properties = "Any|Ammunition|Finesse|Heavy|Light|Loading|Reach|Special|Thrown|Two-Handed|Versatile"
 $types = "Any|" & _ArrayToString(IniReadSectionNames($weapIni), "|", 1, 0, "|", 1)
 
@@ -140,6 +141,9 @@ _GUICtrlListView_AddColumn($idListview, "Weight", 45)
 _GUICtrlListView_AddColumn($idListview, "Speed", 100)
 _GUICtrlListView_AddColumn($idListview, "Carrying Capacity", 100)
 _GUICtrlListView_AddColumn($idListview, "Properties", 150)
+_GUICtrlListView_AddColumn($idListview, "7 - Cost Sort", 0)
+_GUICtrlListView_AddColumn($idListview, "8 - Damage Sort", 0)
+_GUICtrlListView_AddColumn($idListview, "9 - Weight Sort", 0)
 
 
 $gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 600, 5, 32, 32)
@@ -261,7 +265,16 @@ While 1
 				Case $GUI_EVENT_CLOSE
 					Exit
 				Case $idListview
+					Switch GUICtrlGetState($idListview)
+						Case 1
+							_GUICtrlListView_SortItems($idListview, 7)
+						Case 2
+							_GUICtrlListView_SortItems($idListview, 8)
+						Case 3
+							_GUICtrlListView_SortItems($idListview, 9)
+						Case Else
 					_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
+					EndSwitch
 				Case $bUpdate
 					Update()
 				Case $bClear
@@ -369,6 +382,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 4)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 5)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $iSplit[4], 6)
+							$cc = CurrencyConverter($iSplit[1])
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $cc[0], 7)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, _DamageSwitch($iSplit[2]), 8)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, StringReplace(StringReplace(StringReplace($iSplit[3]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 						Case "Adventuring Gear"
 							$iSplit = StringSplit($secT[$j][1], "\\", 1)
 							$itArray[$listCount][1] = $iSplit[1]
@@ -384,6 +401,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 4)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 5)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 6)
+							$cc = CurrencyConverter($iSplit[1])
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $cc[0], 7)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, 0, 8)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, StringReplace(StringReplace(StringReplace($iSplit[2]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 						Case "Armour"
 							$iSplit = StringSplit($secT[$j][1], "\\", 1)
 							$itArray[$listCount][1] = $iSplit[1]
@@ -399,6 +420,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 4)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 5)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $itArray[$listCount][6], 6)
+							$cc = CurrencyConverter($iSplit[1])
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $cc[0], 7)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, 0, 8)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, StringReplace(StringReplace(StringReplace($iSplit[5]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 						Case "Mounts" ; Cost Speed Weight Carry Capactiy
 							$iSplit = StringSplit($secT[$j][1], "\\", 1)
 							$itArray[$listCount][1] = $iSplit[1]
@@ -414,6 +439,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $iSplit[2], 4)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $iSplit[4], 5)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $itArray[$listCount][6], 6)
+							$cc = CurrencyConverter($iSplit[1])
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $cc[0], 7)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, 0, 8)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, StringReplace(StringReplace(StringReplace($iSplit[3]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 						Case "Tools" ; Cost Weight
 							$iSplit = StringSplit($secT[$j][1], "\\", 1)
 							$itArray[$listCount][1] = $iSplit[1]
@@ -429,6 +458,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 4)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 5)
 							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, "-", 6)
+							$cc = CurrencyConverter($iSplit[1])
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, $cc[0], 7)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, 0, 8)
+							_GUICtrlListView_AddSubItem($idListview, $listCount - 1, StringReplace(StringReplace(StringReplace($iSplit[2]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 
 
 					EndSwitch
@@ -547,6 +580,10 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $itemArray[$i][4], 4)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $itemArray[$i][5], 5)
 				_GUICtrlListView_AddSubItem($idListview, $listCount, $itemArray[$i][6], 6)
+				$cc = CurrencyConverter($itemArray[$i][1])
+				_GUICtrlListView_AddSubItem($idListview, $listCount, $cc[0], 7)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, _DamageSwitch($itemArray[$i][2]), 8)
+				_GUICtrlListView_AddSubItem($idListview, $listCount, StringReplace(StringReplace(StringReplace($itemArray[$i][3]," lb.",""),"1/4", ".25"), "1/2",".5"), 9)
 				$listCount += 1
 			EndIf
 		Next
@@ -555,6 +592,24 @@ Func _SearchItems($iFiles = "", $iSearch = 0)
 
 EndFunc   ;==>_SearchItems
 ;#CE
+Func _DamageSwitch($iDamage)
+	$iDam = StringSplit($iDamage, " ")
+	Switch $iDam[1]
+		Case "1d4"
+			Return 2
+		Case "1d6"
+			Return 3
+		Case "1d8"
+			Return 4
+		Case "1d10"
+			Return 5
+		Case "1d12"
+			Return 6
+		Case Else
+			Return $iDam[1]
+		EndSwitch
+EndFunc
+
 Func _GUICtrlSetState($state)
 	GUICtrlSetState($idListview, $state)
 	;GUICtrlSetState($cSpeed, $state)
@@ -669,6 +724,14 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 	Switch $tNMHDR.IDFrom
 		Case $idListview
 			Switch $tNMHDR.Code
+				Case -12 ; User has changed column width
+				If _GUICtrlListView_GetColumnWidth($idlistview, 7) <> 0 Then _
+                _GUICtrlListView_SetColumnWidth($idlistview, 7, 0) ; width of column 10 reset to zero
+				If _GUICtrlListView_GetColumnWidth($idlistview, 8) <> 0 Then _
+                _GUICtrlListView_SetColumnWidth($idlistview, 8, 0) ; width of column 10 reset to zero
+				If _GUICtrlListView_GetColumnWidth($idlistview, 9) <> 0 Then _
+                _GUICtrlListView_SetColumnWidth($idlistview, 9, 0) ; width of column 11 reset to zero
+; ############################################################################################
 				Case $NM_DBLCLK
 					$tInfo = DllStructCreate($tagNMLISTVIEW, $ilParam)
 					If $tInfo.Item > -1 Then
