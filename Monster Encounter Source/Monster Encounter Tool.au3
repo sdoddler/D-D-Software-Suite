@@ -1,6 +1,6 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=..\Resources\Monster Encounter\Combat_Icon.ico
-#AutoIt3Wrapper_Outfile=..\Monster & Combat Tool.exe
+#AutoIt3Wrapper_Outfile=..\Monster & Combat Tooltest.exe
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #cs ----------------------------------------------------------------------------
 
@@ -163,9 +163,9 @@
 #include <File.au3>
 #include <StaticConstants.au3>
 #include <GUIScrollbars.au3>
-#include <GUIScrollbars_Ex.au3>
+#include "..\Include\GUIScrollBars_Ex.au3"
 #include <WinAPISys.au3>
-#include <GUIInputSetOnlyNumbers.au3>
+#include "..\Include\GUIInputSetOnlyNumbers.au3"
 #include "..\Resources\_RefreshCache.au3"
 #include "..\Resources\DiceRoll.au3"
 
@@ -268,8 +268,8 @@ Global $cbLoadEncounter, $cbLoadInitiative, $cbLoadPlayers, $bLoadCancel, $bLoad
 Local $winWidth = IniRead($prefIni, "Window Size", "Width", "n/a")
 Local $winHeight = IniRead($prefIni, "Window Size", "Height", "n/a")
 
-Local $winLeft = IniRead($prefIni,"Window Size", "Left", -1)
-Local $winTop = IniRead($prefIni,"Window Size", "Top", -1)
+Local $winLeft = IniRead($prefIni, "Window Size", "Left", -1)
+Local $winTop = IniRead($prefIni, "Window Size", "Top", -1)
 
 Local $listColWidth[10]
 For $i = 0 To 9
@@ -285,11 +285,11 @@ Next
 
 ConsoleWrite(@DesktopHeight & @LF & @DesktopWidth & @LF)
 
-if $winLeft > -1 Then
-	if $winLeft > @DesktopWidth Then $winLeft = -1
+If $winLeft > -1 Then
+	If $winLeft > @DesktopWidth Then $winLeft = -1
 EndIf
-if $winTop > -1 Then
-	if $winTop > @DesktopHeight OR $winTop < -1 Then $winLeft = -1
+If $winTop > -1 Then
+	If $winTop > @DesktopHeight Or $winTop < -1 Then $winLeft = -1
 EndIf
 
 If $winWidth = "n/a" Then $winWidth = 680
@@ -304,9 +304,9 @@ $fResetWindow = GUICtrlCreateMenuItem("Reset Window and Column Size", $fileMenu)
 $fRestart = GUICtrlCreateMenuItem("Restart", $fileMenu)
 
 ;~ $windowsMenu = GUICtrlCreateMenu("Windows")
-$wInitiative = GUICtrlCreateMenuItem("Combat Window", -1);, $windowsMenu)
-$wPlayers = GUICtrlCreateMenuItem("Players Window", -1);, $windowsMenu)
-$wEncounter = GUICtrlCreateMenuItem("NPC Window", -1);, $windowsMenu)
+$wInitiative = GUICtrlCreateMenuItem("Combat Window", -1) ;, $windowsMenu)
+$wPlayers = GUICtrlCreateMenuItem("Players Window", -1) ;, $windowsMenu)
+$wEncounter = GUICtrlCreateMenuItem("NPC Window", -1) ;, $windowsMenu)
 $wLaunchAll = GUICtrlCreateMenuItem("Launch All", -1)
 #EndRegion Main GUI and Menus
 
@@ -370,7 +370,7 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetData(-1, $alignments, "Any")
 
 GUISetFont(14)
-GUICtrlCreateLabel("Alignment:", 430,15)
+GUICtrlCreateLabel("Alignment:", 430, 15)
 GUISetFont(8.5)
 
 GUICtrlCreateGroup("", 5, 40, 345, 39)
@@ -388,29 +388,29 @@ GUICtrlSetResizing(-1, $GUI_DOCKALL)
 $bClear = GUICtrlCreateButton("Clear", 245, 50, 100)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbALAny = GUICtrlCreateCheckbox("Any",530,10)
+$cbALAny = GUICtrlCreateCheckbox("Any", 530, 10)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 GUICtrlSetState(-1, $GUI_CHECKED)
 
-$cbUnaligned = GUICtrlCreateCheckbox("Unaligned",590,10)
+$cbUnaligned = GUICtrlCreateCheckbox("Unaligned", 590, 10)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbFL = GUICtrlCreateCheckbox("L",530,30)
+$cbFL = GUICtrlCreateCheckbox("L", 530, 30)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbFN = GUICtrlCreateCheckbox("N",560,30)
+$cbFN = GUICtrlCreateCheckbox("N", 560, 30)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbFC = GUICtrlCreateCheckbox("C",590,30)
+$cbFC = GUICtrlCreateCheckbox("C", 590, 30)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbSG = GUICtrlCreateCheckbox("G",530,50)
+$cbSG = GUICtrlCreateCheckbox("G", 530, 50)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbSN = GUICtrlCreateCheckbox("N",560,50)
+$cbSN = GUICtrlCreateCheckbox("N", 560, 50)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
-$cbSE = GUICtrlCreateCheckbox("E",590,50)
+$cbSE = GUICtrlCreateCheckbox("E", 590, 50)
 GUICtrlSetResizing(-1, $GUI_DOCKALL)
 
 #EndRegion Search Gui
@@ -431,28 +431,28 @@ GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP + $GUI_DOCKBOTTOM + $GUI_DOC
 ;[ITME][7] = HP
 ;[ITME][8] = Source
 
-If $listColWidth[0] = "n/a" OR  $listColWidth[0] < 5  Then $listColWidth[0] = 120
-If $listColWidth[1] = "n/a" OR  $listColWidth[1] < 5 Then $listColWidth[1] = 60
-If $listColWidth[2] = "n/a" OR  $listColWidth[2] < 5 Then $listColWidth[2] = 75
-If $listColWidth[3] = "n/a" OR  $listColWidth[3] < 5 Then $listColWidth[3] = 45
-If $listColWidth[4] = "n/a" OR  $listColWidth[4] < 5 Then $listColWidth[4] = 50
-If $listColWidth[5] = "n/a" OR  $listColWidth[5] < 5 Then $listColWidth[5] = 30
-If $listColWidth[6] = "n/a" OR  $listColWidth[6] < 5 Then $listColWidth[6] = 45
-If $listColWidth[7] = "n/a" OR  $listColWidth[7] < 5 Then $listColWidth[7] = 80
-If $listColWidth[8] = "n/a" OR  $listColWidth[8] < 5 Then $listColWidth[8] = 50
-If $listColWidth[9] = "n/a" OR  $listColWidth[9] < 5 Then $listColWidth[9] = 50
-_GUICtrlListView_AddColumn($idListview, "Monster Name", $listColWidth[0]);120)
-_GUICtrlListView_AddColumn($idListview, "Size", $listColWidth[1]);60)
-_GUICtrlListView_AddColumn($idListview, "Type", $listColWidth[2]);75)
-_GUICtrlListView_AddColumn($idListview, "Tags", $listColWidth[3]);45)
-_GUICtrlListView_AddColumn($idListview, "Alignment", $listColWidth[4]);50)
-_GUICtrlListView_AddColumn($idListview, "CR", $listColWidth[5]);30)
-_GUICtrlListView_AddColumn($idListview, "XP", $listColWidth[6]);45)
-_GUICtrlListView_AddColumn($idListview, "HP", $listColWidth[7]);80)
+If $listColWidth[0] = "n/a" Or $listColWidth[0] < 5 Then $listColWidth[0] = 120
+If $listColWidth[1] = "n/a" Or $listColWidth[1] < 5 Then $listColWidth[1] = 60
+If $listColWidth[2] = "n/a" Or $listColWidth[2] < 5 Then $listColWidth[2] = 75
+If $listColWidth[3] = "n/a" Or $listColWidth[3] < 5 Then $listColWidth[3] = 45
+If $listColWidth[4] = "n/a" Or $listColWidth[4] < 5 Then $listColWidth[4] = 50
+If $listColWidth[5] = "n/a" Or $listColWidth[5] < 5 Then $listColWidth[5] = 30
+If $listColWidth[6] = "n/a" Or $listColWidth[6] < 5 Then $listColWidth[6] = 45
+If $listColWidth[7] = "n/a" Or $listColWidth[7] < 5 Then $listColWidth[7] = 80
+If $listColWidth[8] = "n/a" Or $listColWidth[8] < 5 Then $listColWidth[8] = 50
+If $listColWidth[9] = "n/a" Or $listColWidth[9] < 5 Then $listColWidth[9] = 50
+_GUICtrlListView_AddColumn($idListview, "Monster Name", $listColWidth[0]) ;120)
+_GUICtrlListView_AddColumn($idListview, "Size", $listColWidth[1]) ;60)
+_GUICtrlListView_AddColumn($idListview, "Type", $listColWidth[2]) ;75)
+_GUICtrlListView_AddColumn($idListview, "Tags", $listColWidth[3]) ;45)
+_GUICtrlListView_AddColumn($idListview, "Alignment", $listColWidth[4]) ;50)
+_GUICtrlListView_AddColumn($idListview, "CR", $listColWidth[5]) ;30)
+_GUICtrlListView_AddColumn($idListview, "XP", $listColWidth[6]) ;45)
+_GUICtrlListView_AddColumn($idListview, "HP", $listColWidth[7]) ;80)
 ;~ _GUICtrlListView_AddColumn($idListview, "Dex", 0);$listColWidth[8],0);50)
-_GUICtrlListView_AddColumn($idListview, "Source", $listColWidth[9]);50)
-_GUICtrlListView_AddColumn($idListview, "",0) ; CR Fake Column
-_GUICtrlListView_AddColumn($idListview, "",0) ; HP Fake Column
+_GUICtrlListView_AddColumn($idListview, "Source", $listColWidth[9]) ;50)
+_GUICtrlListView_AddColumn($idListview, "", 0) ; CR Fake Column
+_GUICtrlListView_AddColumn($idListview, "", 0) ; HP Fake Column
 #EndRegion Listview Creation
 
 #Region Enc Listview Creation + Buttons
@@ -506,7 +506,7 @@ GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKBOTTOM + $GUI_DOCKHEIGHT + $GUI_
 #EndRegion Enc Listview Creation + Buttons
 
 #Region Create Icons
-$gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 360, 45, 32, 32);$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
+$gDiscordIcon = GUICtrlCreateIcon($iconsIcl, 27, 360, 45, 32, 32) ;$appDir & "Steam_Icon.Ico", -1, 360, 45, 32, 32)
 GUICtrlSetTip($gDiscordIcon, " ", "sDoddler's Discord Server")
 GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 GUICtrlSetCursor(-1, 0)
@@ -570,7 +570,7 @@ While 1
 					GUICtrlSetState($cbSN, $GUI_UNCHECKED)
 					GUICtrlSetState($cbUnaligned, $GUI_UNCHECKED)
 
-				Case $cbFC,$cbFL,$cbFN,$cbSE,$cbSG,$cbSN, $cbUnaligned
+				Case $cbFC, $cbFL, $cbFN, $cbSE, $cbSG, $cbSN, $cbUnaligned
 					GUICtrlSetState($cbALAny, $GUI_UNCHECKED)
 				Case $GUI_EVENT_CLOSE ; Esc or X window button is pressed
 					Exit
@@ -631,12 +631,12 @@ While 1
 				Case $idListview ; List View Sort call
 					Switch GUICtrlGetState($idListview)
 						Case 5
-					_GUICtrlListView_SortItems($idListview, 9)
+							_GUICtrlListView_SortItems($idListview, 9)
 						Case 7
 							_GUICtrlListView_SortItems($idListview, 10)
-				Case Else
+						Case Else
 
-					_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
+							_GUICtrlListView_SortItems($idListview, GUICtrlGetState($idListview))
 					EndSwitch
 				Case $encAdd
 					EncModify()
@@ -647,7 +647,7 @@ While 1
 				Case $AddtoEnc
 					EncounterUpdate(1, 0)
 					EncounterAdd()
-					if $initTurnIndex > -1 Then InitNextturn(False)
+					If $initTurnIndex > -1 Then InitNextTurn(False)
 				Case $fRestart ; FileMenu Restart Program (Calls Restart Func)
 					Restart()
 				Case $fResetWindow
@@ -703,13 +703,13 @@ While 1
 ;~ 					_GUIScrollbars_Generate($hInitChild, 250, 30 + $initUB * 25, 1, 1, False)
 ;~
 				Case $hInitShowHP
-					if $initShowHP Then
+					If $initShowHP Then
 						$initShowHP = False
-						GUICtrlSetState($hInitShowHP,$GUI_UNCHECKED)
+						GUICtrlSetState($hInitShowHP, $GUI_UNCHECKED)
 						InitiativeUpdate()
 					Else
-						$initShowHP = TRUE
-						GUICtrlSetState($hInitShowHP,$GUI_CHECKED)
+						$initShowHP = True
+						GUICtrlSetState($hInitShowHP, $GUI_CHECKED)
 						InitiativeUpdate(0)
 					EndIf
 
@@ -741,7 +741,7 @@ While 1
 				Case $hInitDummy
 
 					$focus = ControlGetFocus("")
-					$initFocus = ControlGetHandle($initiativeTitle, "", $focus);ControlGetFocus($initiativeTitle)
+					$initFocus = ControlGetHandle($initiativeTitle, "", $focus) ;ControlGetFocus($initiativeTitle)
 
 					If $initFocus = GUICtrlGetHandle($initName) Or $initFocus = GUICtrlGetHandle($initRollFor) Or $initFocus = GUICtrlGetHandle($initManualInput) _
 							Or $initFocus = GUICtrlGetHandle($initAdd) Or $initFocus = GUICtrlGetHandle($initDexMod) Or $initFocus = GUICtrlGetHandle($initRolled) Then
@@ -798,7 +798,7 @@ While 1
 								EncounterUpdate(0, 0)
 							EndIf
 						Case $hChildGUIArray[5]
-;Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "", $iWidth = 250)
+							;Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "", $iWidth = 250)
 ;~ 	$initiativeArray[$initUB][0] = $localIndex
 ;~ 	$initiativeArray[$initUB][1] = $iName
 ;~ 	;if $nameFound then $initiativeArray[$initUB][1]
@@ -810,21 +810,21 @@ While 1
 ;~ 	;10 = LocalNotes
 							Switch $initiativeArray[$i][2]
 								Case "NPC"
-									$z =  $initiativeArray[$i][3]
-										CreateNotesWindow($encounterArray[$z][2] & " #" & $encounterArray[$z][13] _
-										, $encounterArray[$z][4], $hInitiative, "NPC", $encounterArray[$z][0], $encounterArray[$z][3], True, $encounterArray[$z][7])
+									$z = $initiativeArray[$i][3]
+									CreateNotesWindow($encounterArray[$z][2] & " #" & $encounterArray[$z][13] _
+											, $encounterArray[$z][4], $hInitiative, "NPC", $encounterArray[$z][0], $encounterArray[$z][3], True, $encounterArray[$z][7])
 								Case "Player"
 									$z = $initiativeArray[$i][3]
 									Local $pStatArray = PlayerNotesPrep($z)
 
 									CreateNotesWindow($playersArray[$z][2], $pStatArray[1], $hInitiative, "Player", $playersArray[$z][0], $pStatArray[0], True)
 								Case Else
-									CreateNotesWindow($initiativeArray[$i][1] & " #" & $initiativeArray[$i][8], "Manual Initiative Addition", $hInitiative, "Initiative",$initiativeArray[$i][0],0,True)
+									CreateNotesWindow($initiativeArray[$i][1] & " #" & $initiativeArray[$i][8], "Manual Initiative Addition", $hInitiative, "Initiative", $initiativeArray[$i][0], 0, True)
 
 							EndSwitch
 						Case Else
 							InitCheckChildGUI()
-						EndSwitch
+					EndSwitch
 
 				EndIf
 			Next
@@ -1039,7 +1039,7 @@ While 1
 							GUICtrlSetData($pGUIArray[6], $playersArray[$i][16])
 						Case $pGUIArray[9]
 
-;CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "", $iWidth = 250)
+							;CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "", $iWidth = 250)
 ;~ $playersArray[$playUB][3] = GUICtrlRead($playStr)
 ;~ 		$playersArray[$playUB][4] = GUICtrlRead($playDex)
 ;~ 		$playersArray[$playUB][5] = GUICtrlRead($playCon)
@@ -1056,7 +1056,7 @@ While 1
 
 
 							$z = $playersArray[$i][0]
-									Local $pStatArray = PlayerNotesPrep($z)
+							Local $pStatArray = PlayerNotesPrep($z)
 
 							CreateNotesWindow($playersArray[$z][2], $pStatArray[1], $hPlayers, "Player", $playersArray[$z][0], $pStatArray[0], True)
 						Case $pGUIArray[11]
@@ -1131,7 +1131,7 @@ While 1
 ;~ 					_ArrayDisplay($initiativeArray)
 
 								EncounterUpdate()
-								if $initTurnIndex > -1 Then InitNextturn(False)
+								If $initTurnIndex > -1 Then InitNextTurn(False)
 							EndIf
 							ExitLoop
 						Case $eGUIArray[9]
@@ -1185,57 +1185,57 @@ While 1
 
 					If FileExists($currentSaveLocation) Then
 						$secName = IniReadSectionNames($currentSaveLocation)
-						if IsArray($secName) Then
-						For $i = 1 To $secName[0]
-							$secRead = IniReadSection($currentSaveLocation, $secName[$i])
-							For $j = 1 To $secRead[0][0]
-								If $secRead[$j][0] = "Type" Then
-									Switch $secRead[$j][1]
-										Case "Manual Entry", "Autoroll"
-											If $saveInitiative Then $initDataExists = True
-										Case "Player"
-											If $savePlayers Then $playDataExists = True
-										Case "NPC"
-											If $saveEncounter Then $encDataExists = True
-									EndSwitch
-									ExitLoop
-								EndIf
-							Next
-						Next
-						If $initDataExists Or $playDataExists Or $encDataExists Then
-							$dataExists = ""
-							$iResponse = ""
-							If $initDataExists Then $dataExists &= " - Initiative Data" & @LF
-							If $playDataExists Then $dataExists &= " - Players Data" & @LF
-							If $encDataExists Then $dataExists &= " - NPC Data" & @LF
-							$iResponse = MsgBox(36, "Data Already Exists", "Data of the following formats already exists in this file:" & @LF & $dataExists & "Do you wish to overwrite this data?")
-
-							If $iResponse = 6 Then
-								$iSave = True
-;~ 								;;; 03/08 USE BELOW FOR OVERWRITING DATA - JUST do IF $saveXX then IniDeleteSection
-								For $i = 1 To $secName[0]
-									$secRead = IniReadSection($currentSaveLocation, $secName[$i])
-									For $j = 1 To $secRead[0][0]
-										If $secRead[$j][0] = "Type" Then
-											Switch $secRead[$j][1]
-												Case "Manual Entry", "Autoroll"
-													If $saveInitiative Then IniDelete($currentSaveLocation, $secName[$i])
-												Case "Player"
-													If $savePlayers Then IniDelete($currentSaveLocation, $secName[$i])
-												Case "NPC"
-													If $saveEncounter Then IniDelete($currentSaveLocation, $secName[$i])
-											EndSwitch
-											ExitLoop
-										EndIf
-									Next
+						If IsArray($secName) Then
+							For $i = 1 To $secName[0]
+								$secRead = IniReadSection($currentSaveLocation, $secName[$i])
+								For $j = 1 To $secRead[0][0]
+									If $secRead[$j][0] = "Type" Then
+										Switch $secRead[$j][1]
+											Case "Manual Entry", "Autoroll"
+												If $saveInitiative Then $initDataExists = True
+											Case "Player"
+												If $savePlayers Then $playDataExists = True
+											Case "NPC"
+												If $saveEncounter Then $encDataExists = True
+										EndSwitch
+										ExitLoop
+									EndIf
 								Next
-								ConsoleWrite("overwrite Data here" & @LF)
+							Next
+							If $initDataExists Or $playDataExists Or $encDataExists Then
+								$dataExists = ""
+								$iResponse = ""
+								If $initDataExists Then $dataExists &= " - Initiative Data" & @LF
+								If $playDataExists Then $dataExists &= " - Players Data" & @LF
+								If $encDataExists Then $dataExists &= " - NPC Data" & @LF
+								$iResponse = MsgBox(36, "Data Already Exists", "Data of the following formats already exists in this file:" & @LF & $dataExists & "Do you wish to overwrite this data?")
+
+								If $iResponse = 6 Then
+									$iSave = True
+;~ 								;;; 03/08 USE BELOW FOR OVERWRITING DATA - JUST do IF $saveXX then IniDeleteSection
+									For $i = 1 To $secName[0]
+										$secRead = IniReadSection($currentSaveLocation, $secName[$i])
+										For $j = 1 To $secRead[0][0]
+											If $secRead[$j][0] = "Type" Then
+												Switch $secRead[$j][1]
+													Case "Manual Entry", "Autoroll"
+														If $saveInitiative Then IniDelete($currentSaveLocation, $secName[$i])
+													Case "Player"
+														If $savePlayers Then IniDelete($currentSaveLocation, $secName[$i])
+													Case "NPC"
+														If $saveEncounter Then IniDelete($currentSaveLocation, $secName[$i])
+												EndSwitch
+												ExitLoop
+											EndIf
+										Next
+									Next
+									ConsoleWrite("overwrite Data here" & @LF)
+								EndIf
+							Else
+								$iSave = True
 							EndIf
 						Else
 							$iSave = True
-						EndIf
-						Else
-						$iSave = True
 						EndIf
 					Else
 						$iSave = True
@@ -1274,24 +1274,24 @@ While 1
 						Local $initDataExists = False, $playDataExists = False, $encDataExists = False
 						$currentLoadLocation = $loadTempFile
 						$secName = IniReadSectionNames($currentLoadLocation)
-						if IsArray($secName) Then
-						For $i = 1 To $secName[0]
-							ConsoleWrite($secName[$i] & @LF)
-							$secRead = IniReadSection($currentLoadLocation, $secName[$i])
-							For $j = 1 To $secRead[0][0]
-								If $secRead[$j][0] = "Type" Then
-									Switch $secRead[$j][1]
-										Case "Manual Entry", "Autoroll"
-											$initDataExists = True
-										Case "Player"
-											$playDataExists = True
-										Case "NPC"
-											$encDataExists = True
-									EndSwitch
-									ExitLoop
-								EndIf
+						If IsArray($secName) Then
+							For $i = 1 To $secName[0]
+								ConsoleWrite($secName[$i] & @LF)
+								$secRead = IniReadSection($currentLoadLocation, $secName[$i])
+								For $j = 1 To $secRead[0][0]
+									If $secRead[$j][0] = "Type" Then
+										Switch $secRead[$j][1]
+											Case "Manual Entry", "Autoroll"
+												$initDataExists = True
+											Case "Player"
+												$playDataExists = True
+											Case "NPC"
+												$encDataExists = True
+										EndSwitch
+										ExitLoop
+									EndIf
+								Next
 							Next
-						Next
 						EndIf
 						If $playDataExists Then
 							GUICtrlSetState($cbLoadPlayers, $GUI_CHECKED)
@@ -1496,12 +1496,12 @@ While 1
 			Switch $msg[0]
 				Case $GUI_EVENT_CLOSE
 					Local $nResponse = 0
-					if GUICtrlRead($hNotes[$i][5]) <> $hNotes[$i][20] OR GUICtrlRead($hNotes[$i][6]) <> $hNotes[$i][21] Then
-						$nResponse = MsgBox(51	,"Would you like to Save Changes?","Changes have been made to the Local or Global Notes" &@LF& "Would you like to save changes?")
+					If GUICtrlRead($hNotes[$i][5]) <> $hNotes[$i][20] Or GUICtrlRead($hNotes[$i][6]) <> $hNotes[$i][21] Then
+						$nResponse = MsgBox(51, "Would you like to Save Changes?", "Changes have been made to the Local or Global Notes" & @LF & "Would you like to save changes?")
 						Switch $nResponse
-							Case 6;Yes Save Changes
-								SaveGlobalNotes($hNotes[$i][19],$i)
-								SaveLocalNotes($hNotes[$i][2], $hNotes[$i][3],GUICtrlRead($hNotes[$i][6]),$i)
+							Case 6 ;Yes Save Changes
+								SaveGlobalNotes($hNotes[$i][19], $i)
+								SaveLocalNotes($hNotes[$i][2], $hNotes[$i][3], GUICtrlRead($hNotes[$i][6]), $i)
 								GUIDelete($hNotes[$i][0])
 								_ArrayDelete($hNotes, $i)
 								$notesWindows -= 1
@@ -1522,102 +1522,102 @@ While 1
 					EndIf
 
 				Case $hNotes[$i][18]
-					SaveGlobalNotes($hNotes[$i][19],$i)
-					SaveLocalNotes($hNotes[$i][2], $hNotes[$i][3],GUICtrlRead($hNotes[$i][6]),$i)
-				Case $hNotes[$i][15],$hNotes[$i][16]
-					GUICtrlSetData($hNotes[$i][8],2)
-					GUICtrlSetState($hNotes[$i][8],$GUI_DISABLE)
+					SaveGlobalNotes($hNotes[$i][19], $i)
+					SaveLocalNotes($hNotes[$i][2], $hNotes[$i][3], GUICtrlRead($hNotes[$i][6]), $i)
+				Case $hNotes[$i][15], $hNotes[$i][16]
+					GUICtrlSetData($hNotes[$i][8], 2)
+					GUICtrlSetState($hNotes[$i][8], $GUI_DISABLE)
 				Case $hNotes[$i][14]
-					GUICtrlSetState($hNotes[$i][8],$GUI_ENABLE)
+					GUICtrlSetState($hNotes[$i][8], $GUI_ENABLE)
 				Case $hNotes[$i][12]
-					if GUICtrlRead($hNotes[$i][10]) <> "Other" Then GUICtrlSetData($hNotes[$i][11],SkillMatrix(GUICtrlRead($hNotes[$i][10]), "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
+					If GUICtrlRead($hNotes[$i][10]) <> "Other" Then GUICtrlSetData($hNotes[$i][11], SkillMatrix(GUICtrlRead($hNotes[$i][10]), "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
 				Case $hNotes[$i][13]
-					if GUICtrlRead($hNotes[$i][10]) <> "Other" Then
+					If GUICtrlRead($hNotes[$i][10]) <> "Other" Then
 						Local $statType = GUICtrlRead($hNotes[$i][10])
-						if SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]) = 0 Then
-										GUICtrlSetData($hNotes[$i][11],SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
-										Else
-									GUICtrlSetData($hNotes[$i][11],SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]))
-										EndIf
-									EndIf
+						If SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]) = 0 Then
+							GUICtrlSetData($hNotes[$i][11], SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
+						Else
+							GUICtrlSetData($hNotes[$i][11], SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]))
+						EndIf
+					EndIf
 				Case $hNotes[$i][10]
-					if IsArray($hNotes[$i][7]) Then
+					If IsArray($hNotes[$i][7]) Then
 						Local $statType = GUICtrlRead($hNotes[$i][10])
 						Switch $statType
 							Case "Other"
-								GUICtrlSetData($hNotes[$i][11],0)
+								GUICtrlSetData($hNotes[$i][11], 0)
 							Case Else
-								if GUICtrlRead($hNotes[$i][12]) = $GUI_CHECKED Then
-									GUICtrlSetData($hNotes[$i][11],SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
+								If GUICtrlRead($hNotes[$i][12]) = $GUI_CHECKED Then
+									GUICtrlSetData($hNotes[$i][11], SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
 								Else
-									if SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]) = 0 Then
-										GUICtrlSetData($hNotes[$i][11],SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
-										Else
-									GUICtrlSetData($hNotes[$i][11],SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]))
+									If SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]) = 0 Then
+										GUICtrlSetData($hNotes[$i][11], SkillMatrix($statType, "NotNeeded", "Mod", "Int", $hNotes[$i][7]))
+									Else
+										GUICtrlSetData($hNotes[$i][11], SkillMatrix($statType, "NotNeeded", "Saving Throw", "Int", $hNotes[$i][7]))
 									EndIf
 								EndIf
 						EndSwitch
 					EndIf
 				Case $hNotes[$i][17]
 					Local $advType = ""
-					If GUICtrlread($hNotes[$i][14]) = $GUI_CHECKED THen $advType = "None"
-					If GUICtrlread($hNotes[$i][15]) = $GUI_CHECKED THen $advType = "Adv"
-					If GUICtrlread($hNotes[$i][16]) = $GUI_CHECKED THen $advType = "Disadv"
+					If GUICtrlRead($hNotes[$i][14]) = $GUI_CHECKED Then $advType = "None"
+					If GUICtrlRead($hNotes[$i][15]) = $GUI_CHECKED Then $advType = "Adv"
+					If GUICtrlRead($hNotes[$i][16]) = $GUI_CHECKED Then $advType = "Disadv"
 					Switch $advType
 						Case "None"
-						Local $notesRoll = DiceRoll(GUICtrlRead($hNotes[$i][9]), GUICtrlRead($hNotes[$i][8]))
-						Local $notesAdd = Int(GUICtrlRead($hNotes[$i][11]))
-						Local $notesMod = ""
-						Local $notesIndivRolls = ""
-						if $notesAdd >= 0 Then $notesMod = "+"
-						For $j = 0 to UBound($notesRoll)-2
-							$notesIndivRolls &= "(" & $notesRoll[$j] & ") "
-						Next
-						MsgBox(64,$hNotes[$i][4] & " Dice Roll", "You Rolled a " & GUICtrlRead($hNotes[$i][8]) &"d"& GUICtrlRead($hNotes[$i][9]) & $notesMod & $notesAdd & @LF _
-						& "The Results were: " & $notesIndivRolls & $notesMod &$notesAdd & " Total: " & ($notesRoll[UBound($notesRoll)-1]+$notesAdd))
+							Local $notesRoll = DiceRoll(GUICtrlRead($hNotes[$i][9]), GUICtrlRead($hNotes[$i][8]))
+							Local $notesAdd = Int(GUICtrlRead($hNotes[$i][11]))
+							Local $notesMod = ""
+							Local $notesIndivRolls = ""
+							If $notesAdd >= 0 Then $notesMod = "+"
+							For $j = 0 To UBound($notesRoll) - 2
+								$notesIndivRolls &= "(" & $notesRoll[$j] & ") "
+							Next
+							MsgBox(64, $hNotes[$i][4] & " Dice Roll", "You Rolled a " & GUICtrlRead($hNotes[$i][8]) & "d" & GUICtrlRead($hNotes[$i][9]) & $notesMod & $notesAdd & @LF _
+									 & "The Results were: " & $notesIndivRolls & $notesMod & $notesAdd & " Total: " & ($notesRoll[UBound($notesRoll) - 1] + $notesAdd))
 						Case "Adv"
 							Local $notesRoll = DiceRoll(GUICtrlRead($hNotes[$i][9]), GUICtrlRead($hNotes[$i][8]))
 							Local $notesAdd = Int(GUICtrlRead($hNotes[$i][11]))
 							Local $notesIndivRolls = ""
 							Local $advRoll = 0
-							if $notesAdd >= 0 Then $notesMod = "+"
-							For $j = 0 to UBound($notesRoll)-2
-								if $notesRoll[$j] > $advRoll Then $advRoll = $notesRoll[$j]
+							If $notesAdd >= 0 Then $notesMod = "+"
+							For $j = 0 To UBound($notesRoll) - 2
+								If $notesRoll[$j] > $advRoll Then $advRoll = $notesRoll[$j]
 								$notesIndivRolls &= "(" & $notesRoll[$j] & ") "
 							Next
-							MsgBox(64,$hNotes[$i][4] & " Dice Roll", "You Rolled a " &"d"& GUICtrlRead($hNotes[$i][9])  & $notesMod & $notesAdd & " with Advantage" &@LF _
-							& "The Results were: " & $notesIndivRolls & " the highest roll being: " & $advRoll &@LF _
-							& "Total: " & $advRoll+$notesAdd)
+							MsgBox(64, $hNotes[$i][4] & " Dice Roll", "You Rolled a " & "d" & GUICtrlRead($hNotes[$i][9]) & $notesMod & $notesAdd & " with Advantage" & @LF _
+									 & "The Results were: " & $notesIndivRolls & " the highest roll being: " & $advRoll & @LF _
+									 & "Total: " & $advRoll + $notesAdd)
 						Case "Disadv"
 							Local $notesRoll = DiceRoll(GUICtrlRead($hNotes[$i][9]), GUICtrlRead($hNotes[$i][8]))
 							Local $notesAdd = Int(GUICtrlRead($hNotes[$i][11]))
 							Local $notesIndivRolls = ""
 							Local $disadvRoll = 100
-							if $notesAdd >= 0 Then $notesMod = "+"
-							For $j = 0 to UBound($notesRoll)-2
-								if $notesRoll[$j] < $disadvRoll Then $disadvRoll = $notesRoll[$j]
+							If $notesAdd >= 0 Then $notesMod = "+"
+							For $j = 0 To UBound($notesRoll) - 2
+								If $notesRoll[$j] < $disadvRoll Then $disadvRoll = $notesRoll[$j]
 								$notesIndivRolls &= "(" & $notesRoll[$j] & ") "
 							Next
-							MsgBox(64,$hNotes[$i][4] & " Dice Roll", "You Rolled a " &"d"& GUICtrlRead($hNotes[$i][9])  & $notesMod & $notesAdd & " with Disdvantage" &@LF _
-							& "The Results were: " & $notesIndivRolls & " the lowest roll being: " & $disadvRoll &@LF _
-							& "Total: " & $disadvRoll+$notesAdd)
+							MsgBox(64, $hNotes[$i][4] & " Dice Roll", "You Rolled a " & "d" & GUICtrlRead($hNotes[$i][9]) & $notesMod & $notesAdd & " with Disdvantage" & @LF _
+									 & "The Results were: " & $notesIndivRolls & " the lowest roll being: " & $disadvRoll & @LF _
+									 & "Total: " & $disadvRoll + $notesAdd)
 					EndSwitch
-				Case $hNotes[$i][22];Change Image
+				Case $hNotes[$i][22] ;Change Image
 					$currImage = GUICtrlRead($hNotes[$i][23])
-					if FileExists($currImage) Then
+					If FileExists($currImage) Then
 
 						$firstSlash = StringInStr($currImage, "\", 0, -1)
 						$loadTempImage = FileOpenDialog("Change Monster image", StringLeft($currImage, $firstSlash), "Image Files (*.jpg;*.png;*.gif;*.jpeg;*.bmp)|All Files (*.*)", 0, StringRight($currImage, StringLen($currImage) - $firstSlash))
 					Else
 						$loadTempImage = FileOpenDialog("Change Monster image", @ScriptDir, "Image Files (*.jpg;*.png;*.gif;*.jpeg;*.bmp)|All Files (*.*)", 0)
 					EndIf
-					if FileExists($loadTempImage) Then
-						GUICtrlSetData($hNotes[$i][23],$loadTempImage,"")
-						IniWrite($globalNotesIni,$hNotes[$i][19],"Image",$loadTempImage)
+					If FileExists($loadTempImage) Then
+						GUICtrlSetData($hNotes[$i][23], $loadTempImage, "")
+						IniWrite($globalNotesIni, $hNotes[$i][19], "Image", $loadTempImage)
 					EndIf
 				Case $hNotes[$i][24]
 					$currImage = GUICtrlRead($hNotes[$i][23])
-					if FileExists($currImage) Then ShellExecute($currImage)
+					If FileExists($currImage) Then ShellExecute($currImage)
 			EndSwitch
 
 		EndIf
@@ -1782,14 +1782,14 @@ Func SavePreferences()
 	Local $winApiLeft = DllStructGetData($winApiInfo, 'rWindow', 1)
 	Local $winApiTop = DllStructGetData($winApiInfo, 'rWindow', 2)
 
-	ConsoleWrite("Window Width = "& $winApiWidth & @LF & "Window Height = " & $winApiHeight &@LF _
-	& "Window Left = "& $winApiLeft & @LF & "Window Top = " & $winApiTop &@LF)
+	ConsoleWrite("Window Width = " & $winApiWidth & @LF & "Window Height = " & $winApiHeight & @LF _
+			 & "Window Left = " & $winApiLeft & @LF & "Window Top = " & $winApiTop & @LF)
 
-	IniWrite($prefIni, "Window Size", "Width", $winApiWidth-14);$windowSize[2])
-	IniWrite($prefIni, "Window Size", "Height", $winApiHeight-14);$windowSize[3])
+	IniWrite($prefIni, "Window Size", "Width", $winApiWidth - 14) ;$windowSize[2])
+	IniWrite($prefIni, "Window Size", "Height", $winApiHeight - 14) ;$windowSize[3])
 
-	if $winApiLeft > -1 Then IniWrite($prefIni, "Window Size", "Left", $winApiLeft);$windowSize[3])
-	if $winApiTop > -1 Then IniWrite($prefIni, "Window Size", "Top", $winApiTop);$windowSize[3])
+	If $winApiLeft > -1 Then IniWrite($prefIni, "Window Size", "Left", $winApiLeft) ;$windowSize[3])
+	If $winApiTop > -1 Then IniWrite($prefIni, "Window Size", "Top", $winApiTop) ;$windowSize[3])
 
 	Local $listviewColOrder = _GUICtrlListView_GetColumnOrderArray($idListview)
 
@@ -1848,7 +1848,6 @@ Func _GUICtrlSetState($state)
 			GUISetAccelerators($encoArr, $hEncounter)
 		Case $GUI_DISABLE
 			GUISetAccelerators(0, $hMainGUI)
-			GUISetAccelerators(0, $hInitiative)
 			GUISetAccelerators(0, $hPlayers)
 			GUISetAccelerators(0, $hEncounter)
 	EndSwitch
@@ -1875,7 +1874,7 @@ Func _Titilise($iString)
 EndFunc   ;==>_Titilise
 
 Func AlignmentSwitch($shortForm)
-	if StringInStr($shortForm, "Any") Then Return $shortForm
+	If StringInStr($shortForm, "Any") Then Return $shortForm
 	Switch $shortForm
 		Case "N"
 			Return "Neutral"
@@ -1903,7 +1902,7 @@ Func AlignmentSwitch($shortForm)
 EndFunc   ;==>AlignmentSwitch
 
 Func SkillMatrix($iSkill, $iIndex, $iType = "Mod", $iOutput = "Int", $ArrayType = "Enc")
-	if $ArrayType = "Enc" Then
+	If $ArrayType = "Enc" Then
 		Local $skillMatrix = $encounterArray[$iIndex][3]
 	Else
 		Local $skillMatrix = $ArrayType
@@ -1981,16 +1980,16 @@ Func Update()
 ;~ 		$searchArray[$qCount][0] = GUICtrlRead($cAlign)
 ;~ 		$qCount += 1
 ;~ 	EndIf
-	if GUICtrlRead($cbALAny) = $GUI_UNCHECKED AND (GUICtrlRead($cbFL) = $GUI_CHECKED OR GUICtrlRead($cbFN) = $GUI_CHECKED OR GUICtrlRead($cbFC) = $GUI_CHECKED OR GUICtrlRead($cbSG) = $GUI_CHECKED OR GUICtrlRead($cbSN) = $GUI_CHECKED OR GUICtrlRead($cbSE) = $GUI_CHECKED OR GUICtrlRead($cbUnaligned) = $GUI_CHECKED) Then
+	If GUICtrlRead($cbALAny) = $GUI_UNCHECKED And (GUICtrlRead($cbFL) = $GUI_CHECKED Or GUICtrlRead($cbFN) = $GUI_CHECKED Or GUICtrlRead($cbFC) = $GUI_CHECKED Or GUICtrlRead($cbSG) = $GUI_CHECKED Or GUICtrlRead($cbSN) = $GUI_CHECKED Or GUICtrlRead($cbSE) = $GUI_CHECKED Or GUICtrlRead($cbUnaligned) = $GUI_CHECKED) Then
 		$searchArray[$qCount][1] = "Alignment"
-		if GUICtrlRead($cbFL) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "L"
-		if GUICtrlRead($cbFN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
-		if GUICtrlRead($cbFC) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "C"
-		if GUICtrlRead($cbSG) = $GUI_CHECKED OR GUICtrlRead($cbSN) = $GUI_CHECKED OR GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|"
-		if GUICtrlRead($cbSG) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "G"
-		if GUICtrlRead($cbSN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
-		if GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "E"
-		if GUICtrlRead($cbUnaligned) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|U"
+		If GUICtrlRead($cbFL) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "L"
+		If GUICtrlRead($cbFN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
+		If GUICtrlRead($cbFC) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "C"
+		If GUICtrlRead($cbSG) = $GUI_CHECKED Or GUICtrlRead($cbSN) = $GUI_CHECKED Or GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|"
+		If GUICtrlRead($cbSG) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "G"
+		If GUICtrlRead($cbSN) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "N"
+		If GUICtrlRead($cbSE) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "E"
+		If GUICtrlRead($cbUnaligned) = $GUI_CHECKED Then $searchArray[$qCount][0] &= "|U"
 		$qCount += 1
 	EndIf
 	If GUICtrlRead($cCustom) <> "Any" Then
@@ -2052,189 +2051,189 @@ Func SearchMonsters($iSearch = 0)
 						ExitLoop
 					EndIf
 				Case "Alignment"
-					$alignSplit = StringSplit($iSearch[$j][0],"|")
+					$alignSplit = StringSplit($iSearch[$j][0], "|")
 					Select
 						Case StringInStr($monsterArray[$i][4], "Any")
 
-							if StringInStr($monsterArray[$i][4], "Non") THen
-								$nonType = StringReplace($monsterArray[$i][4],"Any Non-","")
+							If StringInStr($monsterArray[$i][4], "Non") Then
+								$nonType = StringReplace($monsterArray[$i][4], "Any Non-", "")
 								Switch $nonType
 									Case "Chaotic"
-										if $alignSplit[1] = "C" Then
+										If $alignSplit[1] = "C" Then
 											$include = False
 											ExitLoop
 										EndIf
 									Case "Neutral"
-										if $alignSplit[1] = "N"  Then
+										If $alignSplit[1] = "N" Then
 											$include = False
 											ExitLoop
 										EndIf
 									Case "Lawful"
-										if $alignSplit[1] = "L" Then
+										If $alignSplit[1] = "L" Then
 											$include = False
 											ExitLoop
 										EndIf
 								EndSwitch
-								if $alignSplit[0] > 1 Then
+								If $alignSplit[0] > 1 Then
 									Switch $nonType
-									Case "Neutral"
-										if $alignSplit[2] = "N" Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Good"
-										if $alignSplit[2] = "G" Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Evil"
-										if $alignSplit[2] = "E" Then
-											$include = False
-											ExitLoop
-										EndIf
-									EndSwitch
-									EndIf
-							Else
-							if $monsterArray[$i][4]<> "Any" Then
-								$Type = StringReplace($monsterArray[$i][4],"Any ","")
-								Switch $Type
-									Case "Chaotic"
-										if Not(StringInStr($alignSplit[1],"C")) Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Neutral"
-										if Not(StringInStr($alignSplit[1], "N"))  Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Lawful"
-										if Not(StringInStr($alignSplit[1],"L")) Then
-											$include = False
-											ExitLoop
-										EndIf
-								EndSwitch
-								if $alignSplit[0] > 1 Then
-									Switch $Type
-									Case "Neutral"
-										if Not(StringInStr($alignSplit[2],"N")) Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Good"
-										if Not(StringInStr($alignSplit[2],"G")) Then
-											$include = False
-											ExitLoop
-										EndIf
-									Case "Evil"
-										if Not(StringInStr($alignSplit[2],"E")) Then
-											$include = False
-											ExitLoop
-										EndIf
-									EndSwitch
-									EndIf
-
-							EndIf
-							EndIf
-					Case Else
-					Switch $alignSplit[1]
-						Case "L","LN","LC", "LNC","C", "NC"
-							Switch UBound($alignSplit)
-								Case 2
-									if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) Then
-										$include = False
-										ExitLoop
-									EndIf
-								Case 3
-									Switch $alignSplit[2]
-										Case "U"
-											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) And $monsterArray[$i][4] <> "Unaligned" Then
-											$include = False
-											ExitLoop
-										EndIf
-										Case "G","GN","GNE","NE","E","N", "GE"
-
-											; If Not("C" in "LN" ) And Not("N" in GE) Then
-											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1))) Then
-											$include = False
-											ExitLoop
-											EndIf
-										EndSwitch
-								Case 4
-										if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR _
-										Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "Unaligned" Then
-											$include = False
-											ExitLoop
-											EndIf
-							EndSwitch
-						Case "N"
-							Switch UBound($alignSplit)
-								Case 2
-									if $monsterArray[$i][4] <> "N"  AND Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) Then
-										$include = False
-											ExitLoop
-										EndIf
-								Case 3
-									Switch $alignSplit[2]
-										Case "U"
-											if Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) AND $monsterArray[$i][4] <> "Unaligned" Then
-											$include = False
-											ExitLoop
-										EndIf
-										Case "G","GN","GNE","NE","E", "GE"
-											if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "N" Then
-											$include = False
-											ExitLoop
-											EndIf
-										Case "N"
-											if $monsterArray[$i][4] <> "N" Then
+										Case "Neutral"
+											If $alignSplit[2] = "N" Then
 												$include = False
-											ExitLoop
-										EndIf
+												ExitLoop
+											EndIf
+										Case "Good"
+											If $alignSplit[2] = "G" Then
+												$include = False
+												ExitLoop
+											EndIf
+										Case "Evil"
+											If $alignSplit[2] = "E" Then
+												$include = False
+												ExitLoop
+											EndIf
 									EndSwitch
-
-								Case 4
-									if $alignSplit[2] = "N" Then
-									if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "N" AND $monsterArray[$i][4] <> "Unaligned" Then
-											$include = False
-											ExitLoop
-									EndIf
-									Else
-									if (Not(StringInStr($alignSplit[1],StringLeft($monsterArray[$i][4],1))) OR Not(StringInStr($alignSplit[2],StringRight($monsterArray[$i][4],1)))) AND $monsterArray[$i][4] <> "Unaligned" Then
-											$include = False
-											ExitLoop
-									EndIf
-									EndIf
-
-							EndSwitch
-						Case "";"G","GN","GNE","NE","E","GE",""
-							if UBound($alignSplit) > 3 Then
-
-								If Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1))) and $monsterArray[$i][4] <> "Unaligned" Then
-									$include = False
-									ExitLoop
 								EndIf
 							Else
-								if $alignSplit[2] = "U" Then
-									If $monsterArray[$i][4] <> "Unaligned" Then
-								$include = False
-								ExitLoop
-							EndIf
-								Else
-								If Not(StringInStr($alignSplit[2],StringRIGHT($monsterArray[$i][4],1)))  Then
+								If $monsterArray[$i][4] <> "Any" Then
+									$Type = StringReplace($monsterArray[$i][4], "Any ", "")
+									Switch $Type
+										Case "Chaotic"
+											If Not (StringInStr($alignSplit[1], "C")) Then
+												$include = False
+												ExitLoop
+											EndIf
+										Case "Neutral"
+											If Not (StringInStr($alignSplit[1], "N")) Then
+												$include = False
+												ExitLoop
+											EndIf
+										Case "Lawful"
+											If Not (StringInStr($alignSplit[1], "L")) Then
+												$include = False
+												ExitLoop
+											EndIf
+									EndSwitch
+									If $alignSplit[0] > 1 Then
+										Switch $Type
+											Case "Neutral"
+												If Not (StringInStr($alignSplit[2], "N")) Then
+													$include = False
+													ExitLoop
+												EndIf
+											Case "Good"
+												If Not (StringInStr($alignSplit[2], "G")) Then
+													$include = False
+													ExitLoop
+												EndIf
+											Case "Evil"
+												If Not (StringInStr($alignSplit[2], "E")) Then
+													$include = False
+													ExitLoop
+												EndIf
+										EndSwitch
+									EndIf
 
-									$include = False
-									ExitLoop
 								EndIf
-								EndIf
-
 							EndIf
+						Case Else
+							Switch $alignSplit[1]
+								Case "L", "LN", "LC", "LNC", "C", "NC"
+									Switch UBound($alignSplit)
+										Case 2
+											If Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Then
+												$include = False
+												ExitLoop
+											EndIf
+										Case 3
+											Switch $alignSplit[2]
+												Case "U"
+													If Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) And $monsterArray[$i][4] <> "Unaligned" Then
+														$include = False
+														ExitLoop
+													EndIf
+												Case "G", "GN", "GNE", "NE", "E", "N", "GE"
+
+													; If Not("C" in "LN" ) And Not("N" in GE) Then
+													If Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Or Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1))) Then
+														$include = False
+														ExitLoop
+													EndIf
+											EndSwitch
+										Case 4
+											If (Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Or _
+													Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1)))) And $monsterArray[$i][4] <> "Unaligned" Then
+												$include = False
+												ExitLoop
+											EndIf
+									EndSwitch
+								Case "N"
+									Switch UBound($alignSplit)
+										Case 2
+											If $monsterArray[$i][4] <> "N" And Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Then
+												$include = False
+												ExitLoop
+											EndIf
+										Case 3
+											Switch $alignSplit[2]
+												Case "U"
+													If Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) And $monsterArray[$i][4] <> "Unaligned" Then
+														$include = False
+														ExitLoop
+													EndIf
+												Case "G", "GN", "GNE", "NE", "E", "GE"
+													If (Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Or Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1)))) And $monsterArray[$i][4] <> "N" Then
+														$include = False
+														ExitLoop
+													EndIf
+												Case "N"
+													If $monsterArray[$i][4] <> "N" Then
+														$include = False
+														ExitLoop
+													EndIf
+											EndSwitch
+
+										Case 4
+											If $alignSplit[2] = "N" Then
+												If (Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Or Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1)))) And $monsterArray[$i][4] <> "N" And $monsterArray[$i][4] <> "Unaligned" Then
+													$include = False
+													ExitLoop
+												EndIf
+											Else
+												If (Not (StringInStr($alignSplit[1], StringLeft($monsterArray[$i][4], 1))) Or Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1)))) And $monsterArray[$i][4] <> "Unaligned" Then
+													$include = False
+													ExitLoop
+												EndIf
+											EndIf
+
+									EndSwitch
+								Case "" ;"G","GN","GNE","NE","E","GE",""
+									If UBound($alignSplit) > 3 Then
+
+										If Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1))) And $monsterArray[$i][4] <> "Unaligned" Then
+											$include = False
+											ExitLoop
+										EndIf
+									Else
+										If $alignSplit[2] = "U" Then
+											If $monsterArray[$i][4] <> "Unaligned" Then
+												$include = False
+												ExitLoop
+											EndIf
+										Else
+											If Not (StringInStr($alignSplit[2], StringRight($monsterArray[$i][4], 1))) Then
+
+												$include = False
+												ExitLoop
+											EndIf
+										EndIf
+
+									EndIf
 ;~ 						Case "U"
 ;~ 							If $monsterArray[$i][4] <> "Unaligned" Then
 ;~ 								$include = False
 ;~ 								ExitLoop
 ;~ 							EndIf
-					EndSwitch
+							EndSwitch
 					EndSelect
 					;; OLD SORTING METHOD
 ;~ 					If $iSearch[$j][0] = "N" Then ;; -- Possible issues? Test with Custom Monsters
@@ -2307,8 +2306,8 @@ Func SearchMonsters($iSearch = 0)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][8], 8)
 ;~ 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monsterArray[$i][10], 8)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($monsterArray[$i][5]), 9)
-			Local $jSplit = StringSplit($monsterArray[$i][7],"(")
-			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
+			Local $jSplit = StringSplit($monsterArray[$i][7], "(")
+			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1], 2), 10)
 			$listCount += 1
 		EndIf
 	Next
@@ -2367,8 +2366,8 @@ Func CreateMonsterArray($redoList = True)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 8)
 ;~ 			_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
 			_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($iSplit[5]), 9)
-			Local $jSplit = StringSplit($monArray[$listCount][7],"(")
-			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
+			Local $jSplit = StringSplit($monArray[$listCount][7], "(")
+			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1], 2), 10)
 		EndIf
 		$listCount += 1
 
@@ -2416,8 +2415,8 @@ Func CreateMonsterArray($redoList = True)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, $iSplit[8], 8)
 ;~ 					_GUICtrlListView_AddSubItem($idListview, $listCount, $monArray[$listCount][10], 8)
 					_GUICtrlListView_AddSubItem($idListview, $listCount, CRSwitch($iSplit[5]), 9)
-					Local $jSplit = StringSplit($monArray[$listCount][7],"(")
-			_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1],2), 10)
+					Local $jSplit = StringSplit($monArray[$listCount][7], "(")
+					_GUICtrlListView_AddSubItem($idListview, $listCount, StringStripWS($jSplit[1], 2), 10)
 				EndIf
 				$listCount += 1
 
@@ -2432,16 +2431,16 @@ EndFunc   ;==>CreateMonsterArray
 Func CRSwitch($iCR)
 	Switch $iCR
 		Case "1/8"
-		Return 0.125
+			Return 0.125
 		Case "1/4"
 			Return 0.25
 		Case "1/2"
-		Return 0.5
+			Return 0.5
 		Case Else
 			Return $iCR
 
 	EndSwitch
-	EndFunc
+EndFunc   ;==>CRSwitch
 #EndRegion Search and Listview Funcs
 
 Func CreateSubWindow($iTitle, $iData, $iWidth = 250, $iReadOnly = True)
@@ -2465,18 +2464,18 @@ Func CreateSubWindow($iTitle, $iData, $iWidth = 250, $iReadOnly = True)
 
 	$hSubs[$subWindows][1] = $iData
 
-	$hSubs[$subWindows][2] = GUICtrlCreateIcon($iconsIcl, 3, 10, 230);;Lock\Unlock
+	$hSubs[$subWindows][2] = GUICtrlCreateIcon($iconsIcl, 3, 10, 230) ;;Lock\Unlock
 	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip(-1, "Unlock the workspace for editing" & @LF & "Useful for Picking and choosing loot or releasing over time", "Unlock\Lock Workspace")
 
-	$hSubs[$subWindows][3] = GUICtrlCreateIcon($iconsIcl, 4, 40, 230);Reset WorkSpace
+	$hSubs[$subWindows][3] = GUICtrlCreateIcon($iconsIcl, 4, 40, 230) ;Reset WorkSpace
 	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip(-1, "Reset the text to it's default state" & @LF _
 			 & "(How it was generated)", "Reset Workspace")
 
-	$hSubs[$subWindows][4] = GUICtrlCreateIcon($iconsIcl, 1, 70, 230);Save
+	$hSubs[$subWindows][4] = GUICtrlCreateIcon($iconsIcl, 1, 70, 230) ;Save
 	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKSIZE)
 	GUICtrlSetCursor(-1, 0)
 	GUICtrlSetTip(-1, "Save current text to a text file for later viewing", "Save")
@@ -2504,7 +2503,7 @@ EndFunc   ;==>CreateSubWindow
 
 
 #Region Notes Window and related Funcs
-Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "");, $iImage = "");, $iWidth = 250); (if required)
+Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC", $iIndex = -1, $iStatArray = 0, $iLocal = False, $iMonRef = "") ;, $iImage = "");, $iWidth = 250); (if required)
 ;~ 	Use $iType to determine if It's NPC\Player
 ;~ 		--  Should I Allow the Initiative Manual Adds to have Notes?
 
@@ -2513,13 +2512,13 @@ Func CreateNotesWindow($iTitle, $iStatsData, $iParent = $hMainGUI, $iType = "NPC
 ;~ 	Use $statsData for the "Stats" part that is uneditable
 
 ;~ 	Use $iIndex to give focus if Window already active
-Local $iWidth = 250
+	Local $iWidth = 250
 
 	For $i = 0 To UBound($hNotes) - 1
 		If $hNotes[$i][2] = $iType And $hNotes[$i][3] = $iIndex Then
-			ConsoleWrite("Type - " & $iType &@LF& "Index - " &$iIndex &@LF& "Title - " &$iTitle &@LF& "Title to Match - " & $hNotes[$i][4]&@LF)
-			WinActivate($hNotes[$i][4],$hNotes[$i][4] & " - Stats:")
-			ConsoleWrite(@extended &@LF)
+			ConsoleWrite("Type - " & $iType & @LF & "Index - " & $iIndex & @LF & "Title - " & $iTitle & @LF & "Title to Match - " & $hNotes[$i][4] & @LF)
+			WinActivate($hNotes[$i][4], $hNotes[$i][4] & " - Stats:")
+			ConsoleWrite(@extended & @LF)
 			Return 0
 		EndIf
 	Next
@@ -2560,9 +2559,9 @@ Local $iWidth = 250
 ;~ 		- Initiative[$XX][10] = Local Notes
 ;~ 		- Encounter[$XX][17] = Local Notes
 ;~ 		- Players[$XX][17] = Local Notes
-;	22 = Change Image
-;	23 = Image Edit (Disabled) For Filename
-;	24 = View Image
+	;	22 = Change Image
+	;	23 = Image Edit (Disabled) For Filename
+	;	24 = View Image
 
 	GUICtrlCreateLabel($iTitle & " - Stats:", 5, 5)
 	GUICtrlSetResizing(-1, $GUI_DOCKTOP + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
@@ -2573,10 +2572,10 @@ Local $iWidth = 250
 
 	$styles = BitOR($ES_MULTILINE, $WS_VSCROLL, $ES_WANTRETURN)
 
-	If ($iType = "NPC" OR $iType = "Monster") And $iMonRef <> "" Then
+	If ($iType = "NPC" Or $iType = "Monster") And $iMonRef <> "" Then
 		GUICtrlCreateLabel($iMonRef & " - Global Notes", 5, 130)
 		GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
-		$hNotes[$notesWindows][20] = StringReplace(IniRead($globalNotesIni,$iMonRef,"Notes",""),"#CRLF#",@CRLF)
+		$hNotes[$notesWindows][20] = StringReplace(IniRead($globalNotesIni, $iMonRef, "Notes", ""), "#CRLF#", @CRLF)
 		$hNotes[$notesWindows][5] = GUICtrlCreateEdit($hNotes[$notesWindows][20], 5, 145, $iWidth - 10, 105, $styles) ;;; GLOBAL NOTES --- ADD Logic here to load in Global Notes if required
 		GUICtrlSetResizing(-1, $GUI_DOCKHEIGHT + $GUI_DOCKBOTTOM)
 		GUICtrlSetFont(-1, 9, 400, -1, "Consolas")
@@ -2584,7 +2583,7 @@ Local $iWidth = 250
 		If $iLocal Then
 			GUICtrlCreateLabel($iTitle & " - Local Notes", 5, 255)
 			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
-			if $iType = "NPC" Then $hNotes[$notesWindows][21] = $encounterArray[$iIndex][17]
+			If $iType = "NPC" Then $hNotes[$notesWindows][21] = $encounterArray[$iIndex][17]
 			$hNotes[$notesWindows][6] = GUICtrlCreateEdit($hNotes[$notesWindows][21], 5, 270, $iWidth - 10, 105, $styles) ;;; Local Notes
 			GUICtrlSetResizing(-1, $GUI_DOCKHEIGHT + $GUI_DOCKBOTTOM)
 			GUICtrlSetFont(-1, 9, 400, -1, "Consolas")
@@ -2594,7 +2593,7 @@ Local $iWidth = 250
 			GUICtrlSetImage(-1, $iconsIcl, 29, 0)
 			GUICtrlSetTip(-1, "Edit Image")
 
-			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni,$iMonRef,"Image",""), 75, 382, 105,20,$ES_READONLY + $ES_AUTOHSCROLL)
+			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni, $iMonRef, "Image", ""), 75, 382, 105, 20, $ES_READONLY + $ES_AUTOHSCROLL)
 			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 
 			$hNotes[$notesWindows][24] = GUICtrlCreateButton("", 190, 380, 24, 24, $BS_ICON)
@@ -2612,7 +2611,7 @@ Local $iWidth = 250
 			GUICtrlSetImage(-1, $iconsIcl, 29, 0)
 			GUICtrlSetTip(-1, "Edit Image")
 
-			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni,$iMonRef,"Image",""), 75, 257, 105,20,$ES_READONLY + $ES_AUTOHSCROLL)
+			$hNotes[$notesWindows][23] = GUICtrlCreateInput(IniRead($globalNotesIni, $iMonRef, "Image", ""), 75, 257, 105, 20, $ES_READONLY + $ES_AUTOHSCROLL)
 			GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 
 			$hNotes[$notesWindows][24] = GUICtrlCreateButton("", 190, 255, 24, 24, $BS_ICON)
@@ -2670,7 +2669,7 @@ Local $iWidth = 250
 	GUICtrlSetFont(-1, 14)
 	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 
-	$hNotes[$notesWindows][10] = GUICtrlCreateCombo("Other", 103, $height - 100, 60,-1,$CBS_DROPDOWNLIST)
+	$hNotes[$notesWindows][10] = GUICtrlCreateCombo("Other", 103, $height - 100, 60, -1, $CBS_DROPDOWNLIST)
 	GUICtrlSetResizing(-1, $GUI_DOCKBOTTOM + $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKWIDTH)
 	_GuiInputSetOnlyNumbers($hNotes[$notesWindows][9], False)
 	If IsArray($hNotes[$notesWindows][7]) Then GUICtrlSetData($hNotes[$notesWindows][10], "STR|DEX|CON|WIS|INT|CHA", "Other")
@@ -2707,9 +2706,9 @@ EndFunc   ;==>CreateNotesWindow
 
 Func SaveGlobalNotes($iMonRef, $iNotesRef)
 ;~ 	20 = Original Global Notes
-	$hNotes[$iNotesRef][20] = GUIctrlread($hNotes[$iNotesRef][5])
-	IniWrite($globalNotesIni,$iMonRef,"Notes",StringReplace($hNotes[$iNotesRef][20],@CRLF,"#CRLF#"))
-EndFunc
+	$hNotes[$iNotesRef][20] = GUICtrlRead($hNotes[$iNotesRef][5])
+	IniWrite($globalNotesIni, $iMonRef, "Notes", StringReplace($hNotes[$iNotesRef][20], @CRLF, "#CRLF#"))
+EndFunc   ;==>SaveGlobalNotes
 
 Func SaveLocalNotes($iType, $iIndex, $iData, $iNotesRef)
 	Switch $iType
@@ -2721,8 +2720,8 @@ Func SaveLocalNotes($iType, $iIndex, $iData, $iNotesRef)
 			$initiativeArray[$iIndex][10] = $iData
 	EndSwitch
 	$hNotes[$iNotesRef][21] = $iData
-EndFunc
-#EndRegion
+EndFunc   ;==>SaveLocalNotes
+#EndRegion Notes Window and related Funcs
 
 #Region Initiative Window and Related Funcs
 Func InitiativeWindow()
@@ -2742,8 +2741,8 @@ Func InitiativeWindow()
 		$hInitiative = GUICreate($initiativeTitle, 400, 330, -1, -1, $WS_MAXIMIZEBOX + $WS_MINIMIZEBOX + $WS_SIZEBOX)
 
 		$hInitFile = GUICtrlCreateMenu("Options")
-		$hInitShowHP = GUICtrlCreateMenuItem("Show HP",$hInitFile)
-		if $initShowHP Then GUICtrlSetState(-1, $GUI_CHECKED)
+		$hInitShowHP = GUICtrlCreateMenuItem("Show HP", $hInitFile)
+		If $initShowHP Then GUICtrlSetState(-1, $GUI_CHECKED)
 
 		GUISetFont(12, 700)
 		GUICtrlCreateLabel("Manual Entry", 5, 200)
@@ -2940,7 +2939,7 @@ Func InitiativeUpdate($readFromChild = 1, $destroyGUI = 1, $debug = 0) ;; FIX SO
 				If $initiativeArray[$i][2] = "Manual Entry" Or $initiativeArray[$i][2] = "Autoroll" Then
 					$split = StringSplit(GUICtrlRead($initGUIArray[1]), " #", 1)
 					If $split[0] = 1 Then $split = StringSplit(GUICtrlRead($initGUIArray[1]), "#", 1)
-					$initiativeArray[$i][1] = StringStripWS($split[1],2)
+					$initiativeArray[$i][1] = StringStripWS($split[1], 2)
 				EndIf
 
 				$initiativeArray[$i][4] = Int(GUICtrlRead($initGUIArray[2]))
@@ -2977,9 +2976,9 @@ Func InitiativeUpdate($readFromChild = 1, $destroyGUI = 1, $debug = 0) ;; FIX SO
 					$currAbove += 1 ; Its initiative roll is higher than the $i item, there fore it is above $i in the order
 				EndIf
 				If $initiativeArray[$j][4] = $initiativeArray[$i][4] Then ; if the two have th same initiative
-					Switch $initiativeArray[$j][2]; Check type
+					Switch $initiativeArray[$j][2] ; Check type
 						Case "Manual Entry", "Player" ; If its a manual entry or a Player
-							If $initiativeArray[$i][2] = "Autoroll" Then $currAbove += 1;if current is an Autoroll add one (put below players and manual entries)
+							If $initiativeArray[$i][2] = "Autoroll" Then $currAbove += 1 ;if current is an Autoroll add one (put below players and manual entries)
 							;;___ DO STUFF FOR NPCS Here LATER
 ;~ 					Case "Autoroll"
 ;~ 						if $initiativeArray[$i][2] = "Manual Entry" Then $currAbove -= 1
@@ -3064,9 +3063,9 @@ Func InitiativeUpdate($readFromChild = 1, $destroyGUI = 1, $debug = 0) ;; FIX SO
 				GUICtrlSetResizing(-1, $GUI_DOCKALL)
 				If $initiativeArray[$initSort[$i]][7] = True Then GUICtrlSetBkColor(-1, $COLOR_RED)
 
-				if $initShowHP Then
-				$initGUIArray[4] = GUICtrlCreateInput($initiativeArray[$initSort[$i]][9], 150, 23 + $i * 25, 30)
-				GUICtrlSetResizing(-1, $GUI_DOCKALL)
+				If $initShowHP Then
+					$initGUIArray[4] = GUICtrlCreateInput($initiativeArray[$initSort[$i]][9], 150, 23 + $i * 25, 30)
+					GUICtrlSetResizing(-1, $GUI_DOCKALL)
 				EndIf
 
 
@@ -3203,7 +3202,7 @@ Func InitNextTurn($increment = True)
 						ExitLoop
 					EndIf
 				Next
-				If Not ($initValFound) Then;; If it was the one with Turn Focus but has been deelted.;
+				If Not ($initValFound) Then ;; If it was the one with Turn Focus but has been deelted.;
 					If $initUB - 1 >= $initTurnIndex Then
 						If $initiativeArray[$initTurnSort[$initTurnIndex]][7] Then Return InitNextTurn()
 						Local $initGUIArray = $initiativeArray[$initTurnSort[$initTurnIndex]][6]
@@ -3295,7 +3294,7 @@ Func InitCheckChildGUI($manualRefresh = 0)
 			If $iReadHP <> $initiativeArray[$i][9] Then
 				InitiativeUpdate(1, 0)
 
-				EndIf
+			EndIf
 			If $iReadInit <> $initiativeArray[$i][4] Then
 				InitiativeUpdate(1, 1)
 				If $initTurnIndex > -1 Then InitNextTurn(False)
@@ -3318,7 +3317,7 @@ Func InitSave()
 	Local $playerTypeFound = False, $initUB = UBound($initiativeArray)
 	Local $savePlayersAlso = False, $secName = ""
 
-	Local $initSaveLocation = $currentSaveLocation;"Init Test Save.ini"
+	Local $initSaveLocation = $currentSaveLocation ;"Init Test Save.ini"
 
 ;~ 	For $i = 0 To $initUB - 1;; Check if there are players in the initiative array and ask if they are to be saved to the same file
 ;~ 		If $initiativeArray[$i][2] = "Player" Then
@@ -3346,13 +3345,13 @@ Func InitSave()
 		Else
 			IniWrite($initSaveLocation, $secName, "MyTurn", "False")
 		EndIf
-		IniWrite($initSaveLocation,$secName, "LocalNotes",$initiativeArray[$i][10])
+		IniWrite($initSaveLocation, $secName, "LocalNotes", $initiativeArray[$i][10])
 	Next
 ;~ 	if $savePlayersAlso Then PlayersSave()
 EndFunc   ;==>InitSave
 
 Func InitLoad($iOverwrite = False) ;; If you have #2, #3, #4 and you delete #3 then #4 will become #3 - Fix this somehow.
-	Local $initLoadLocation = $currentLoadLocation;"Init Test Save.ini"
+	Local $initLoadLocation = $currentLoadLocation ;"Init Test Save.ini"
 	Local $initLoadSecs, $initLoadSection, $initAlsoLoadPlayers = False, $loadPlayersChecked
 
 
@@ -3393,13 +3392,13 @@ Func InitLoad($iOverwrite = False) ;; If you have #2, #3, #4 and you delete #3 t
 			If $initLoadSection[4][1] = "False" Then $initLoadSection[4][1] = False
 			If $initLoadSection[4][1] = "True" Then $initLoadSection[4][1] = True
 			$initLoadIndex = InitiativeAdd($initCurrSecName, $initLoadSection[1][1], -1, False, $initLoadSection[3][1], _
-			$initLoadSection[2][1], $initLoadSection[5][1], $initLoadSection[4][1], False)
+					$initLoadSection[2][1], $initLoadSection[5][1], $initLoadSection[4][1], False)
 			If $initLoadSection[6][1] = "True" Then
 				$initTurnValue = $initLoadIndex
 				$initTurnIndex = 0
 
 			EndIf
-			if $initLoadSection[0][0] >= 7 Then $initiativeArray[$initLoadIndex][10] = $initLoadSection[7][1]
+			If $initLoadSection[0][0] >= 7 Then $initiativeArray[$initLoadIndex][10] = $initLoadSection[7][1]
 
 		Next
 		InitiativeUpdate()
@@ -3961,13 +3960,13 @@ Func PlayersSave()
 				EndIf
 			Next
 		EndIf
-		IniWrite($playSaveLocation, $secName, "LocalNotes", StringReplace($playersArray[$i][17],@CRLF,"#CRLF#"))
+		IniWrite($playSaveLocation, $secName, "LocalNotes", StringReplace($playersArray[$i][17], @CRLF, "#CRLF#"))
 	Next
 EndFunc   ;==>PlayersSave
 
 Func PlayersLoad($iOverwrite = False)
 
-	Local $playLoadLocation = $currentLoadLocation;"Init Test Save.ini"
+	Local $playLoadLocation = $currentLoadLocation ;"Init Test Save.ini"
 	Local $playLoadSecs, $playLoadSection, $initUpdated
 
 
@@ -4038,7 +4037,7 @@ Func PlayersLoad($iOverwrite = False)
 			EndIf
 			$playAddArray[16] = $playLoadSection[16][1]
 			$playAddArray[17] = $playLoadSection[17][1]
-			if $playLoadSection[0][0] >= 18 Then $playAddArray[18] = $playLoadSection[18][1]
+			If $playLoadSection[0][0] >= 18 Then $playAddArray[18] = $playLoadSection[18][1]
 
 
 			$playLoadIndex = PlayerAdd($playAddArray, False)
@@ -4087,18 +4086,18 @@ Func PlayerNotesPrep($i)
 	$pStatArray[4][0] = "WIS"
 	$pStatArray[5][0] = "CHA"
 	Local $pStatData = "Level " & $playersArray[$i][14] & " - " & $playersArray[$i][13] & @CRLF _
-	& "AC = " & $playersArray[$i][10] & @CRLF & "Max HP = " & $playersArray[$i][12] & @CRLF _
-	& "Speed = " & $playersArray[$i][9] & @CRLF
-	For $j = 0 To UBound($pStatArray)-1
-		$pStatArray[$j][1] = $playersArray[$i][$j+3]
-		$pStatArray[$j][2] = CalcStatMod($pStatArray[$j][1],0,0)
-		$pStatData &= $pStatArray[$j][0] & " = " & $pStatArray[$j][1] & " " & CalcStatMod($pStatArray[$j][1]) &@CRLF
+			 & "AC = " & $playersArray[$i][10] & @CRLF & "Max HP = " & $playersArray[$i][12] & @CRLF _
+			 & "Speed = " & $playersArray[$i][9] & @CRLF
+	For $j = 0 To UBound($pStatArray) - 1
+		$pStatArray[$j][1] = $playersArray[$i][$j + 3]
+		$pStatArray[$j][2] = CalcStatMod($pStatArray[$j][1], 0, 0)
+		$pStatData &= $pStatArray[$j][0] & " = " & $pStatArray[$j][1] & " " & CalcStatMod($pStatArray[$j][1]) & @CRLF
 	Next
 	Local $array[2]
 	$array[0] = $pStatArray
 	$array[1] = $pStatData
 	Return $array
-EndFunc
+EndFunc   ;==>PlayerNotesPrep
 #EndRegion Player Window and Related Funcs
 
 #Region Encounter Window and Related Funcs
@@ -4565,13 +4564,13 @@ Func EncounterUpdate($readFromChild = 1, $destroyGUI = 1, $updateXP = 1)
 				$encoTipTitle = $encounterArray[$i][2] & " #" & $encounterArray[$i][13] & " Stats"
 
 				$eGUIArray[1] = GUICtrlCreateInput($encounterArray[$i][2] & " #" & $encounterArray[$i][13], 5, 23 + $i * 25, 100, 20)
-				GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKTOP + $GUI_DOCKRIGHT); $GUI_DOCKALL)
+				GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKHEIGHT + $GUI_DOCKTOP + $GUI_DOCKRIGHT) ; $GUI_DOCKALL)
 				GUICtrlSetTip(-1, $encoTooltip, $encoTipTitle)
 				If $encounterArray[$i][15] = True Then GUICtrlSetBkColor(-1, $COLOR_RED)
 
 				$eGUIArray[2] = GUICtrlCreateInput($encounterArray[$i][11], 110, 23 + $i * 25, 30, 20)
 				_GuiInputSetOnlyNumbers($eGUIArray[2], False)
-				GUICtrlSetResizing(-1, 804);)$GUI_DOCKALL)
+				GUICtrlSetResizing(-1, 804) ;)$GUI_DOCKALL)
 
 				$eGUIArray[3] = GUICtrlCreateLabel($encounterArray[$i][12], 145, 26 + $i * 25, 30, 23)
 ;~ 			_GuiInputSetOnlyNumbers($pGUIArray[2],False)
@@ -4771,7 +4770,7 @@ Func EncounterSave()
 ;~ 	$encounterArray[$encoUB][14] = ;;; Titilised name for Notes. -- Can Redo While Loading
 ;~ 	$encounterArray[$encoUB][15] =;Skip Boolean on 15
 ;~ 	$encounterArray[$encoUB][16] = ;Initiative
-;17 = Local Notes
+	;17 = Local Notes
 
 	Local $encSaveLocation = $currentSaveLocation
 
@@ -4806,12 +4805,12 @@ Func EncounterSave()
 				EndIf
 			Next
 		EndIf
-		IniWrite($encSaveLocation, $secName, "LocalNotes", StringReplace($encounterArray[$i][17],@CRLF,"#CRLF#"))
+		IniWrite($encSaveLocation, $secName, "LocalNotes", StringReplace($encounterArray[$i][17], @CRLF, "#CRLF#"))
 	Next
 EndFunc   ;==>EncounterSave
 
 Func EncounterLoad($iOverwrite = False)
-	Local $encoLoadLocation = $currentLoadLocation;"Init Test Save.ini"
+	Local $encoLoadLocation = $currentLoadLocation ;"Init Test Save.ini"
 	Local $encoLoadSecs, $encoLoadSection, $initUpdated = False
 
 
@@ -4924,17 +4923,18 @@ Func EncounterLoad($iOverwrite = False)
 			; I think it does this?
 
 
-
+			Local $monsterBasic
 			$monsterBasic = StringSplit($monsterBasic, "\\", 1)
 ;~ Aarakocra=Medium\\Humanoid\\aarakocra\\NG\\1/4\\50\\13 (3d8)\\mm 12
 ;~ 			Size	Type		Tags	Align CR	XP	HP		Source
-
 			Local $statArray[6][4]
 			Local $statCount = 0
-			For $i = 1 To $monsterRead[0][0]
+			Dim $monsterRead
+			For $i = 1 to $monsterRead
+				Local $monsterRead[0][0]
 				Switch $monsterRead[$i][0]
 					Case "STR", "DEX", "CON", "INT", "WIS", "CHA" ;; Stats as 14 (+2)
-						$statSplit = StringSplit($monsterRead[$i][1], " (", 1)
+						$statSplit = StringSplit($monsterRead[$i][1], "", 1)
 						If IsArray($statSplit) Then
 							$statSplit[2] = StringReplace($statSplit[2], ")", "")
 							$statArray[$statCount][0] = $monsterRead[$i][0]
@@ -4975,7 +4975,7 @@ Func EncounterLoad($iOverwrite = False)
 						Next
 				EndSwitch
 			Next
-
+			local $monsterIndex
 			$encounterArray[$encoUB][0] = $localIndex ; Unique ID
 ;~ 	$encounterArray[$encoUB][1] -- GUI Array here.
 			$encounterArray[$encoUB][3] = $statArray
@@ -5011,7 +5011,7 @@ Func EncounterLoad($iOverwrite = False)
 					$initTurnIndex = 0
 				EndIf
 			EndIf
-			if $encoLoadSection[0][0] >= 10 Then $encounterArray[$encoUB][17] = StringReplace($encoLoadSection[10][1],"#CRLF#",@CRLF)
+			If $encoLoadSection[0][0] >= 10 Then $encounterArray[$encoUB][17] = StringReplace($encoLoadSection[10][1], "#CRLF#", @CRLF)
 		Next
 
 	EndIf
@@ -5082,30 +5082,30 @@ Func LoadClicked()
 		EndIf
 	Else
 		Local $firstSlash = StringInStr($currentLoadLocation, "\", 0, -1)
-		Local $tempLoad = $currentLoadLocation;FileOpenDialog("Load Encounter File..",StringLeft($currentLoadLocation,$firstSlash),"Ini Files (*.ini)",0,StringRight($currentLoadLocation,StringLen($currentSaveLocation)-$firstSlash))
+		Local $tempLoad = $currentLoadLocation ;FileOpenDialog("Load Encounter File..",StringLeft($currentLoadLocation,$firstSlash),"Ini Files (*.ini)",0,StringRight($currentLoadLocation,StringLen($currentSaveLocation)-$firstSlash))
 	EndIf
 
 	If FileExists($tempLoad) Then
 		$currentLoadLocation = $tempLoad
 		$secName = IniReadSectionNames($currentLoadLocation)
-		if IsArray($secName) Then
-		For $i = 1 To $secName[0]
-			ConsoleWrite($secName[$i] & @LF)
-			$secRead = IniReadSection($currentLoadLocation, $secName[$i])
-			For $j = 1 To $secRead[0][0]
-				If $secRead[$j][0] = "Type" Then
-					Switch $secRead[$j][1]
-						Case "Manual Entry", "Autoroll"
-							$initDataExists = True
-						Case "Player"
-							$playDataExists = True
-						Case "NPC"
-							$encDataExists = True
-					EndSwitch
-					ExitLoop
-				EndIf
+		If IsArray($secName) Then
+			For $i = 1 To $secName[0]
+				ConsoleWrite($secName[$i] & @LF)
+				$secRead = IniReadSection($currentLoadLocation, $secName[$i])
+				For $j = 1 To $secRead[0][0]
+					If $secRead[$j][0] = "Type" Then
+						Switch $secRead[$j][1]
+							Case "Manual Entry", "Autoroll"
+								$initDataExists = True
+							Case "Player"
+								$playDataExists = True
+							Case "NPC"
+								$encDataExists = True
+						EndSwitch
+						ExitLoop
+					EndIf
+				Next
 			Next
-		Next
 		EndIf
 		CreateLoadWindow($initDataExists, $playDataExists, $encDataExists)
 
@@ -5191,28 +5191,28 @@ Func _WM_SIZE($hWnd, $iMsg, $wParam, $lParam)
 	Switch $hWnd
 		Case $hInitiative
 			$aPos = ControlGetPos($hInitiative, "", $idLabel)
-			if IsArray($aPos) Then
-			WinMove($hInitChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
-			$initUB = UBound($initiativeArray)
-			_GUIScrollbars_Scroll_Page($hInitChild, 1, 1)
-			_GUIScrollbars_Generate($hInitChild, 280, 30 + $initUB * 25, 1, 1, False)
+			If IsArray($aPos) Then
+				WinMove($hInitChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
+				$initUB = UBound($initiativeArray)
+				_GUIScrollbars_Scroll_Page($hInitChild, 1, 1)
+				_GUIScrollbars_Generate($hInitChild, 280, 30 + $initUB * 25, 1, 1, False)
 			EndIf
 		Case $hPlayers
 			$aPos = ControlGetPos($hPlayers, "", $playChildSizeLabel)
-			if IsArray($aPos) Then
-			WinMove($hPlayersChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
-			$playUB = UBound($playersArray)
-			_GUIScrollbars_Scroll_Page($hPlayersChild, 1, 1)
-			_GUIScrollbars_Generate($hPlayersChild, 400, 30 + $playUB * 25, 1, 1, False)
+			If IsArray($aPos) Then
+				WinMove($hPlayersChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
+				$playUB = UBound($playersArray)
+				_GUIScrollbars_Scroll_Page($hPlayersChild, 1, 1)
+				_GUIScrollbars_Generate($hPlayersChild, 400, 30 + $playUB * 25, 1, 1, False)
 			EndIf
 		Case $hEncounter
 			$aPos = ControlGetPos($hEncounter, "", $encoChildSizeLabel)
-			if IsArray($aPos) Then
-			WinMove($hEncounterChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
-			$encoUB = UBound($encounterArray)
-			_GUIScrollbars_Scroll_Page($hEncounterChild, 1, 1)
-			_GUIScrollbars_Generate($hEncounterChild, 400, 30 + $encoUB * 25, 1, 1, False)
-			Endif
+			If IsArray($aPos) Then
+				WinMove($hEncounterChild, "", $aPos[0], $aPos[1], $aPos[2], $aPos[3])
+				$encoUB = UBound($encounterArray)
+				_GUIScrollbars_Scroll_Page($hEncounterChild, 1, 1)
+				_GUIScrollbars_Generate($hEncounterChild, 400, 30 + $encoUB * 25, 1, 1, False)
+			EndIf
 	EndSwitch
 
 EndFunc   ;==>_WM_SIZE
@@ -5220,17 +5220,17 @@ EndFunc   ;==>_WM_SIZE
 Func _WM_NCHITTEST($hWnd, $iMsg, $iwParam, $ilParam)
 	#forceref $iMsg, $iwParam, $ilParam
 	Switch Number($hWnd) ;;; THIS STOPS YOU FROM BEING ABLE TO DRAG the CHILD GUIS
-		Case Number($hInitChild);, Number($Frm_Child_2) - WINDOW HANDLE?
+		Case Number($hInitChild) ;, Number($Frm_Child_2) - WINDOW HANDLE?
 			Local $iCode = _WinAPI_DefWindowProc($hWnd, $iMsg, $iwParam, $ilParam)
 			If $iCode = 2 Then Return 1
 			Return $iCode
 ;~             Return 1  ;; Leave commented.
-		Case Number($hPlayersChild);, Number($Frm_Child_2) - WINDOW HANDLE?
+		Case Number($hPlayersChild) ;, Number($Frm_Child_2) - WINDOW HANDLE?
 			Local $iCode = _WinAPI_DefWindowProc($hWnd, $iMsg, $iwParam, $ilParam)
 			If $iCode = 2 Then Return 1
 			Return $iCode
 ;~             Return 1
-		Case Number($hEncounterChild);, Number($Frm_Child_2) - WINDOW HANDLE?
+		Case Number($hEncounterChild) ;, Number($Frm_Child_2) - WINDOW HANDLE?
 			Local $iCode = _WinAPI_DefWindowProc($hWnd, $iMsg, $iwParam, $ilParam)
 			If $iCode = 2 Then Return 1
 			Return $iCode
@@ -5242,7 +5242,7 @@ EndFunc   ;==>_WM_NCHITTEST
 Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 
 	; structure to map $ilParam ($tNMHDR - see Help file)
-	Local $tNMHDR = DllStructCreate($tagNMHDR, $ilParam);, $tagNMLISTVIEW
+	Local $tNMHDR = DllStructCreate($tagNMHDR, $ilParam) ;, $tagNMLISTVIEW
 	Local Const $h_lv = GUICtrlGetHandle($idListview)
 
 	Switch $tNMHDR.IDFrom
@@ -5256,11 +5256,11 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 			Switch $tNMHDR.Code
 				; ####### build in this part #################################################################
 				Case -12 ; User has changed column width
-				If _GUICtrlListView_GetColumnWidth($idlistview, 9) <> 0 Then _
-                _GUICtrlListView_SetColumnWidth($idlistview, 9, 0) ; width of column 10 reset to zero
-				If _GUICtrlListView_GetColumnWidth($idlistview, 10) <> 0 Then _
-                _GUICtrlListView_SetColumnWidth($idlistview, 10, 0) ; width of column 11 reset to zero
-; ############################################################################################
+					If _GUICtrlListView_GetColumnWidth($idListview, 9) <> 0 Then _
+							_GUICtrlListView_SetColumnWidth($idListview, 9, 0) ; width of column 10 reset to zero
+					If _GUICtrlListView_GetColumnWidth($idListview, 10) <> 0 Then _
+							_GUICtrlListView_SetColumnWidth($idListview, 10, 0) ; width of column 11 reset to zero
+					; ############################################################################################
 				Case $NM_KILLFOCUS
 					$cLastFocus = $tNMHDR.IDFrom
 					;ConsoleWrite("Idlistview Kill focus" &@LF)
@@ -5283,51 +5283,51 @@ Func WM_NOTIFY($hWnd, $iMsg, $iwParam, $ilParam)
 						Next
 						Local $monIndex = $j
 						Local $statArray[6][4]
-							Local $statCount = 0
-							For $i = 1 To $monsterRead[0][0]
-								Switch $monsterRead[$i][0]
-									Case "STR", "DEX", "CON", "INT", "WIS", "CHA" ;; Stats as 14 (+2)
-										$statSplit = StringSplit($monsterRead[$i][1], " (", 1)
-										If IsArray($statSplit) Then
-											$statSplit[2] = StringReplace($statSplit[2], ")", "")
-											$statArray[$statCount][0] = $monsterRead[$i][0]
-											$statArray[$statCount][1] = $statSplit[1]
-											$statArray[$statCount][2] = $statSplit[2]
-											$statCount += 1
-										EndIf
+						Local $statCount = 0
+						For $i = 1 To $monsterRead[0][0]
+							Switch $monsterRead[$i][0]
+								Case "STR", "DEX", "CON", "INT", "WIS", "CHA" ;; Stats as 14 (+2)
+									$statSplit = StringSplit($monsterRead[$i][1], " (", 1)
+									If IsArray($statSplit) Then
+										$statSplit[2] = StringReplace($statSplit[2], ")", "")
+										$statArray[$statCount][0] = $monsterRead[$i][0]
+										$statArray[$statCount][1] = $statSplit[1]
+										$statArray[$statCount][2] = $statSplit[2]
+										$statCount += 1
+									EndIf
 ;~ 									Case "AC"
 ;~ 										$encounterArray[$encoUB][10] = $monsterRead[$i][1] ;AC)
 ;~ 									Case "Speed"
 ;~ 										$encounterArray[$encoUB][9] = $monsterRead[$i][1] ; Speed
-									Case "Saving Throws"
-										$saveSplit = StringSplit($monsterRead[$i][1], ",")
-										For $j = 1 To $saveSplit[0]
-											$saveSplit[$j] = StringReplace($saveSplit[$j], " ", "")
-											Select
-												Case StringInStr($saveSplit[$j], "STR")
-													$eSaveType = "STR"
-												Case StringInStr($saveSplit[$j], "DEX")
-													$eSaveType = "DEX"
-												Case StringInStr($saveSplit[$j], "CON")
-													$eSaveType = "CON"
-												Case StringInStr($saveSplit[$j], "INT")
-													$eSaveType = "INT"
-												Case StringInStr($saveSplit[$j], "WIS")
-													$eSaveType = "WIS"
-												Case StringInStr($saveSplit[$j], "CHA")
-													$eSaveType = "CHA"
-											EndSelect
+								Case "Saving Throws"
+									$saveSplit = StringSplit($monsterRead[$i][1], ",")
+									For $j = 1 To $saveSplit[0]
+										$saveSplit[$j] = StringReplace($saveSplit[$j], " ", "")
+										Select
+											Case StringInStr($saveSplit[$j], "STR")
+												$eSaveType = "STR"
+											Case StringInStr($saveSplit[$j], "DEX")
+												$eSaveType = "DEX"
+											Case StringInStr($saveSplit[$j], "CON")
+												$eSaveType = "CON"
+											Case StringInStr($saveSplit[$j], "INT")
+												$eSaveType = "INT"
+											Case StringInStr($saveSplit[$j], "WIS")
+												$eSaveType = "WIS"
+											Case StringInStr($saveSplit[$j], "CHA")
+												$eSaveType = "CHA"
+										EndSelect
 
-											$saveSplit[$j] = StringReplace($saveSplit[$j], $eSaveType, "")
-											For $f = 0 To 5
-												If $statArray[$f][0] = $eSaveType Then
-													$statArray[$f][3] = $saveSplit[$j]
-												EndIf
-											Next
-
+										$saveSplit[$j] = StringReplace($saveSplit[$j], $eSaveType, "")
+										For $f = 0 To 5
+											If $statArray[$f][0] = $eSaveType Then
+												$statArray[$f][3] = $saveSplit[$j]
+											EndIf
 										Next
-								EndSwitch
-							Next
+
+									Next
+							EndSwitch
+						Next
 						$split = StringSplit($monsterBasic, "\\", 1)
 						If $monsterArray[$monIndex][9] <> "CUSTOMMONSTER" Then ;; If NOT Custom Monster Then
 
